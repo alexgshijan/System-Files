@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SolarPortal - Login</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+
+    <link href="../../assets/style/style.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="register register-with-news-feed">
+        <div class="news-feed">
+            <div class="news-image" style="background-image: url(/assets/img/bg.png)"></div>
+            <div class="news-caption">
+                <h4 class="caption-title"><b>Solar</b>Portal</h4>
+                <p>
+                    SolarPortal is a ButeEnergy commission, designed to promote a greener future for Wales.
+                    This is the portal page for the installations of consumer-grade solar panels.
+                </p>
+            </div>
+        </div>
+
+        <div class="right-content">
+            <h1 class="register-header">
+                <div class="brand">
+                    <b>Solar</b>Portal
+                </div>
+            </h1>
+
+            <div class="register-content">
+                <form id="loginForm" class="margin-bottom-0">
+                    <label class="control-label">Email Address</label>
+                    <div class="form-group">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" required />
+                    </div>
+                    <label class="control-label">Password</label>
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Password" required />
+                    </div>
+
+                    <!-- Account Type Dropdown -->
+                    <label class="control-label">Account Type</label>
+                    <div class="form-group">
+                        <select class="form-control" name="account_type" id="account_type" required>
+                            <option value="">Select Account Type</option>
+                            <option value="client">Client</option>
+                            <option value="employee">Employee</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block btn-lg">Login</button>
+                    </div>
+                </form>
+
+                <div style="margin-top: 20px;">
+                    <h5>Want To Get Registered?</h5>
+                    <div>
+                        <a class="btn btn-success btn-block btn-lg" href="register.html">Register</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript to handle the form submission -->
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();  // Prevent default form submission
+
+            // Collect the form data
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const accountType = document.getElementById('account_type').value;
+
+            // Send the data to the backend server using Fetch API
+            fetch('http://localhost:3000/login', {  // Backend API endpoint for login
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    email: email, 
+                    password: password, 
+                    account_type: accountType
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Login successful! Redirecting to dashboard...');
+                    // Redirect to dashboard or another page
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert('Login failed: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while logging in. Please try again later.');
+            });
+        });
+    </script>
+</body>
+</html>

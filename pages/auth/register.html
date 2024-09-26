@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>SolarPortal - Register</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <meta content="" name="SolarPortal Register Page">
+    <meta content="" name="Alex G Shijan">
+
+    <!-- ================== BEGIN BASE CSS STYLE ================== -->
+    <link href="/assets/style/style.css" rel="stylesheet">
+    <link href="/assets/style/auth.css" rel="stylesheet">
+    <!-- ================== END BASE CSS STYLE ================== -->
+
+</head>
+
+<body>
+
+    <!-- begin register -->
+    <div class="register register-with-news-feed">
+        <!-- begin news-feed -->
+        <div class="news-feed">
+            <div class="news-image" style="background-image: url(/assets/img/bg.png)"></div>
+            <div class="news-caption">
+                <h4 class="caption-title"><b>Solar</b>Portal</h4>
+                <p>
+                    SolarPortal is a ButeEnergy commission, designed to promote a greener future for Wales.
+                    This is the portal page for the installations of consumer-grade solar panels.
+                </p>
+            </div>
+        </div>
+        <!-- begin right-content -->
+        <div class="right-content">
+            <!-- begin register-header -->
+            <h1 class="register-header">
+                <div class="brand">
+                    <b>Solar</b>Portal
+                </div>
+            </h1>
+            <!-- end register-header -->
+            <!-- begin register-content -->
+            <div class="register-content">
+                <form id="register-form">
+                    <div>
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div>
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div>
+                        <label for="account_type">Account Type:</label>
+                        <select id="account_type" name="account_type" required>
+                            <option value="client">Client</option>
+                            <option value="employee">Employee</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block btn-lg">Register</button>
+                </form>
+                <div id="message"></div>
+                <div style="margin-top: 20px;">
+                    <h5>Already Registered?</h5>
+                    <div>
+                        <a class="btn btn-success btn-block btn-lg" href="login.html">Login</a>
+                    </div>
+                </div>
+            </div>
+            <!-- end register-content -->
+        </div>
+        <!-- end right-content -->
+    </div>
+    <!-- end register -->
+
+    <script>
+        document.getElementById('register-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const account_type = document.getElementById('account_type').value;
+
+            const response = await fetch('http://localhost:3000/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password, account_type })
+            });
+
+            const data = await response.json();
+            document.getElementById('message').innerText = data.message;
+        });
+    </script>
+
+</body>
+</html>
