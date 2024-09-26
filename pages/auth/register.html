@@ -11,6 +11,7 @@
     <!-- ================== BEGIN BASE CSS STYLE ================== -->
     <link href="/assets/style/style.css" rel="stylesheet">
     <link href="/assets/style/auth.css" rel="stylesheet">
+    <link href="/assets/style/form.css" rel="stylesheet"> <!-- New CSS file for form styling -->
     <!-- ================== END BASE CSS STYLE ================== -->
 
 </head>
@@ -42,15 +43,19 @@
             <!-- begin register-content -->
             <div class="register-content">
                 <form id="register-form">
-                    <div>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
                         <label for="email">Email:</label>
                         <input type="email" id="email" name="email" required>
                     </div>
-                    <div>
+                    <div class="form-group">
                         <label for="password">Password:</label>
                         <input type="password" id="password" name="password" required>
                     </div>
-                    <div>
+                    <div class="form-group">
                         <label for="account_type">Account Type:</label>
                         <select id="account_type" name="account_type" required>
                             <option value="client">Client</option>
@@ -77,6 +82,7 @@
         document.getElementById('register-form').addEventListener('submit', async (event) => {
             event.preventDefault();
 
+            const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const account_type = document.getElementById('account_type').value;
@@ -86,7 +92,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email, password, account_type })
+                body: JSON.stringify({ name, email, password, account_type })
             });
 
             const data = await response.json();
