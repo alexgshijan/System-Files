@@ -68,7 +68,7 @@
             const password = document.getElementById('password').value;
 
             // Send the data to the backend server using Fetch API
-            fetch('http://localhost:3000/login', {  // Backend API endpoint for login
+            fetch('https://solarportal.alexgshijan.workers.dev/login', {  // Backend API endpoint for login
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -83,7 +83,7 @@
                 if (data.success) {
                     alert('Login successful! Redirecting to dashboard...');
                     // Redirect to dashboard or another page
-                    window.location.href = 'dashboard.html';
+                    window.location.href = '.html';
                 } else {
                     alert('Login failed: ' + data.message);
                 }
