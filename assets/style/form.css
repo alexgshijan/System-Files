@@ -1,0 +1,52 @@
+/* form.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f9fc; /* Light background for better contrast */
+}
+
+.register-content {
+    padding: 20px;
+    background-color: #ffffff; /* White background for form area */
+    border-radius: 8px; /* Rounded corners for the form */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.form-group {
+    margin-bottom: 15px; /* Spacing between fields */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px; /* Space between label and input */
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%; /* Full width for inputs */
+    padding: 10px; /* Padding for better usability */
+    border: 1px solid #ccc; /* Light border for inputs */
+    border-radius: 5px; /* Rounded corners for inputs */
+    font-size: 16px; /* Increase font size for readability */
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #007bff; /* Highlight border on focus */
+    outline: none; /* Remove default outline */
+}
+
+.btn {
+    background-color: #28a745; /* Green button */
+    color: #ffffff; /* White text */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Padding */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.btn:hover {
+    background-color: #218838; /* Darker green on hover */
+}
