@@ -50,3 +50,25 @@ body {
 .btn:hover {
     background-color: #218838; /* Darker green on hover */
 }
+/* Additional styles for the title */
+
+.register-header {
+    text-align: center; /* Center align the title */
+    margin-bottom: 20px; /* Space below the title */
+}
+
+.brand {
+    font-size: 2.5rem; /* Larger font size for prominence */
+    letter-spacing: 1px; /* Slightly increased spacing between letters */
+}
+
+.solar-title {
+    color: #f39c12; /* Bright color for "Solar" */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+.portal-title {
+    color: #3498db; /* Blue color for "Portal" */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    margin-left: 5px; /* Space between "Solar" and "Portal" */
+}
