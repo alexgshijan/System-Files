@@ -46,11 +46,11 @@
                 <form id="register-form">
                     <div class="form-group">
                         <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" placeholder="Full Name"  required>
+                        <input type="text" id="full_name" name="name" placeholder="Full Name"  required>
                     </div>
                     <div class="form-group">
                         <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" placeholder="Email Address" required>
+                        <input type="email" id="email_id" name="email" placeholder="Email Address" required>
                     </div>
                     <div class="form-group">
                         <label for="password">Password:</label>
@@ -83,17 +83,17 @@
         document.getElementById('register-form').addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
+            const name = document.getElementById('full_name').value;
+            const email = document.getElementById('email_id').value;
             const password = document.getElementById('password').value;
             const account_type = document.getElementById('account_type').value;
 
-            const response = await fetch('https://solarportal.alexgshijan.workers.dev/register', {
+            const response = await fetch('https://solarportal.alexgshijan.workers.dev/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ name, email, password, account_type })
+                body: JSON.stringify({ full_name, email_id, password, account_type })
             });
 
             const data = await response.json();
