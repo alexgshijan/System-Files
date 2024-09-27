@@ -114,7 +114,12 @@
                 // Check for error or success message
                 if (response.ok) {
                     messageDiv.style.color = 'green';
-                    messageDiv.innerText = data.message || "Registration successful!";
+                    messageDiv.innerText = data.message || "Registration successful! Redirecting to login page...";
+
+                    // Redirect to login page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
                 } else {
                     messageDiv.style.color = 'red';
                     messageDiv.innerText = data.error || "Registration failed. Please try again.";
