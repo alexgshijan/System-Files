@@ -82,9 +82,9 @@
 
                     // Redirect based on account type
                     if (data.account_type === 'client') {
-                        window.location.href = 'client_dashboard.html';
+                        window.location.href = './client/client-landing.html';
                     } else if (data.account_type === 'employee') {
-                        window.location.href = 'employee_dashboard.html';
+                        window.location.href = './employee/employee-landing.html';
                     } else {
                         alert('Unknown account type. Please contact support.');
                     }
