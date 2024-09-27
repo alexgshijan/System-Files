@@ -82,22 +82,33 @@
     <script>
         document.getElementById('register-form').addEventListener('submit', async (event) => {
             event.preventDefault();
-
-            const name = document.getElementById('full_name').value;
-            const email = document.getElementById('email_id').value;
+    
+            const full_name = document.getElementById('full_name').value;
+            const email_id = document.getElementById('email_id').value;
             const password = document.getElementById('password').value;
             const account_type = document.getElementById('account_type').value;
-
-            const response = await fetch('https://solarportal-server.alexgs.co.uk/auth/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ full_name, email_id, password, account_type })
-            });
-
-            const data = await response.json();
-            document.getElementById('message').innerText = data.message;
+    
+            try {
+                const response = await fetch('https://solarportal-server.alexgs.co.uk/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // Optional: Add custom headers if needed, like 'Authorization' or 'X-Requested-With'
+                    },
+                    body: JSON.stringify({ full_name, email_id, password, account_type })
+                });
+    
+                if (!response.ok) {
+                    // If the response is not OK, handle the error (e.g., CORS error, server error)
+                    throw new Error('Registration failed. Please try again.');
+                }
+    
+                const data = await response.json();
+                document.getElementById('message').innerText = data.message;
+            } catch (error) {
+                // Handle fetch or CORS errors
+                document.getElementById('message').innerText = `Error: ${error.message}`;
+            }
         });
     </script>
 
