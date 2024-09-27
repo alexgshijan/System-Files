@@ -89,6 +89,16 @@
             const account_type = document.getElementById('account_type').value;
 
             const messageDiv = document.getElementById('message');
+            messageDiv.innerText = ''; // Clear previous message
+
+            // Simple email validation regex
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            // Check if email is valid
+            if (!emailPattern.test(email_id)) {
+                messageDiv.innerText = "Please enter a valid email address.";
+                return;
+            }
 
             try {
                 const response = await fetch('https://solarportal-server.alexgs.co.uk/auth/register', {
