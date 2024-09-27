@@ -36,7 +36,7 @@
         <!-- begin register-header -->
         <h1 class="register-header">
             <div class="brand">
-                Solar<b>Portal</b>
+                <span class="solar-title"><b>Solar</b></span><span class="portal-title"><b>Portal</b></span>
             </div>
         </h1>
         <!-- end register-header -->
@@ -116,10 +116,10 @@
                     messageDiv.style.color = 'green';
                     messageDiv.innerText = data.message || "Registration successful! Redirecting to login page...";
 
-                    // Redirect to login page after 2 seconds
+                    // Redirect to login page after 0.8 seconds
                     setTimeout(() => {
                         window.location.href = 'login.html';
-                    }, 2000);
+                    }, 800);
                 } else {
                     messageDiv.style.color = 'red';
                     messageDiv.innerText = data.error || "Registration failed. Please try again.";
