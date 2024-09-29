@@ -13,14 +13,60 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     
-    <!-- Your custom CSS -->
-    <link type="text/css" rel="stylesheet" href="/assets/css/site-dark.css">
-
+    <!-- Custom CSS for color and styles -->
     <style>
-        /* Restrict logo size */
+        /* Primary color */
+        :root {
+            --main-color: #00261a; /* Dark jade green */
+            --text-color: #ffffff; /* White for text contrast */
+        }
+
+        /* Body and background styling */
+        body {
+            background-color: var(--main-color);
+            color: var(--text-color);
+        }
+
+        /* Header styling */
+        .page-header-top {
+            background-color: var(--main-color);
+        }
+
+        /* Navbar links */
+        .top-menu .nav-link, .hor-menu .nav-link {
+            color: var(--text-color);
+        }
+
+        /* Dropdowns background and link colors */
+        .dropdown-menu {
+            background-color: var(--main-color);
+        }
+
+        .dropdown-menu a {
+            color: var(--text-color);
+        }
+
+        /* Dropdown hover and active states */
+        .dropdown-menu a:hover, .dropdown-menu a:active {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Logo size restriction */
         .logo-default {
-            max-width: 200px; /* Adjust this size to your preference */
+            max-width: 200px;
             height: auto;
+        }
+
+        /* Button styling in the dropdown */
+        .dropdown-menu form button {
+            color: var(--text-color);
+            background-color: transparent;
+            border: none;
+        }
+
+        /* Links hover */
+        .nav-link:hover, .dropdown-toggle:hover {
+            color: rgba(255, 255, 255, 0.8);
         }
     </style>
 </head>
