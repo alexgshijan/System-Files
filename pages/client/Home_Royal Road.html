@@ -23,15 +23,18 @@
         body {
             background-color: var(--main-color);
             color: var(--text-color);
+            display: flex; /* Use flexbox for centering */
+            align-items: center; /* Center vertically */
+            justify-content: center; /* Center horizontally */
+            height: 100vh; /* Full viewport height */
+            margin: 0; /* Remove default margin */
+            text-align: center; /* Center text alignment */
         }
 
         .welcome-message {
             font-size: 72px; /* Bigger text for h1 */
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
             animation: pulseShadow 2s ease-in-out infinite;
-            text-align: center;
-            align-self: center;
-        
         }
 
         .logo-default {
@@ -61,6 +64,7 @@
             background-color: #a3e0c6;
             color: #000;
         }
+
         h1 {
             font-size: 72px; /* Bigger text for h1 */
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
@@ -86,7 +90,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container text-center">
         <div class="page-header">
             <!-- Navbar -->
             <nav class="navbar navbar-expand-lg navbar-dark">
