@@ -109,7 +109,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="https://solarportal.alexgs.co.uk/pages/client/client-landing">Home</a>
                         </li>
-                        <li class="nav-item"></li>
+                        <li class="nav-item">
                             <a class="nav-link" href="manage-installation.html">Manage Installations</a>
                         </li>
                         <li class="nav-item dropdown">
@@ -146,7 +146,7 @@
             const fullName = sessionStorage.getItem('full_name');
             const accountType = sessionStorage.getItem('account_type');
 
-            // If no session or account type isn't client, redirect to solar portal
+            // If no session or account type isn't 'employee', redirect to the main portal
             if (!fullName || accountType !== 'employee') {
                 window.location.href = 'https://solarportal.alexgs.co.uk';
             } else {
@@ -154,6 +154,7 @@
                 document.getElementById('welcome-message').textContent = `Welcome back, ${fullName}`;
             }
         }
+        
         function logout() {
             sessionStorage.clear();
             window.location.href = "https://solarportal.alexgs.co.uk";

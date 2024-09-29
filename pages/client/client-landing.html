@@ -23,19 +23,19 @@
         body {
             background-color: var(--main-color);
             color: var(--text-color);
-            margin: 0; /* Remove default margin */
-            text-align: center; /* Center text alignment for the welcome message */
+            margin: 0;
+            text-align: center;
         }
 
         .welcome-container {
-            display: flex; /* Use flexbox for centering */
-            align-items: center; /* Center vertically */
-            justify-content: center; /* Center horizontally */
-            height: calc(100vh - 100px); /* Full viewport height minus navbar height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: calc(100vh - 100px);
         }
 
         .welcome-message {
-            font-size: 72px; /* Bigger text for h1 */
+            font-size: 72px;
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
             animation: pulseShadow 2s ease-in-out infinite;
         }
@@ -69,16 +69,16 @@
         }
 
         h1 {
-            font-size: 72px; /* Bigger text for h1 */
+            font-size: 72px;
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
             animation: pulseShadow 2s ease-in-out infinite;
         }
 
         p {
-            font-size: 32px; /* Bigger text for p */
+            font-size: 32px;
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
             animation: pulseShadow 2s ease-in-out infinite;
-            animation-delay: 2s; /* Delay animation for the paragraph */
+            animation-delay: 2s;
         }
 
         @keyframes pulseShadow {
@@ -109,7 +109,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="https://solarportal.alexgs.co.uk/pages/client/client-landing">Home</a>
                         </li>
-                        <li class="nav-item dropdown"></li>
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="manageInstallationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Manage Installations
                             </a>
@@ -149,7 +149,6 @@
     <script>
         // Check session details and display welcome message or redirect
         function checkSession() {
-            // Get session details from localStorage (or sessionStorage)
             const fullName = sessionStorage.getItem('full_name');
             const accountType = sessionStorage.getItem('account_type');
 
@@ -161,6 +160,7 @@
                 document.getElementById('welcome-message').textContent = `Welcome back, ${fullName}`;
             }
         }
+
         function logout() {
             sessionStorage.clear();
             window.location.href = "https://solarportal.alexgs.co.uk";
