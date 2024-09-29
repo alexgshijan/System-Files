@@ -108,8 +108,8 @@
         // Check session details and display welcome message or redirect
         function checkSession() {
             // Get session details from localStorage (or sessionStorage)
-            const fullName = localStorage.getItem('full_name');
-            const accountType = localStorage.getItem('account_type');
+            const fullName = sessionStorage.getItem('full_name');
+            const accountType = sessionStorage.getItem('account_type');
 
             // If no session or account type isn't client, redirect to solar portal
             if (!fullName || accountType !== 'client') {
