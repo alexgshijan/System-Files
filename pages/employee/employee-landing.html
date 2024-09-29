@@ -112,8 +112,15 @@
                         <li class="nav-item"></li>
                             <a class="nav-link" href="manage-installation.html">Manage Installations</a>
                         </li>
-                        <li class="nav-item"></li>
-                            <a class="nav-link" href="employee-settings.html">Employee Settings</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Account
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="employee-settings.html">Settings</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" id="logoutButton">Log Out</a>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -147,6 +154,13 @@
                 document.getElementById('welcome-message').textContent = `Welcome back, ${fullName}`;
             }
         }
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = "https://solarportal.alexgs.co.uk";
+        }
+
+        // Attach the logout function to the logout button
+        document.getElementById('logoutButton').addEventListener('click', logout);
 
         // Run the session check on page load
         checkSession();
