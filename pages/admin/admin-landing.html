@@ -106,23 +106,28 @@
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
+                        <!-- Home -->
                         <li class="nav-item">
                             <a class="nav-link" href="https://solarportal.alexgs.co.uk/pages/admin/admin-landing">Home</a>
                         </li>
-                        <li class="nav-item dropdown"></li>
+
+                        <!-- Admin Controls Dropdown -->
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="manageInstallationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Admin Controls
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="manageInstallationsDropdown">
+                            <div class="dropdown-menu dropdown-menu-left" aria-labelledby="manageInstallationsDropdown">
                                 <a class="dropdown-item" href="manage-employee.html">Manage Employee</a>
                                 <a class="dropdown-item" href="manage-records.html">Manage Records</a>
                             </div>
                         </li>
-                        <li class="nav-item dropdown"></li>
+
+                        <!-- Account Dropdown -->
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Account
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="#" id="logoutButton">Log Out</a>
                             </div>
                         </li>
@@ -158,6 +163,8 @@
                 document.getElementById('welcome-message').textContent = `Welcome back, ${fullName}`;
             }
         }
+
+        // Logout function
         function logout() {
             sessionStorage.clear();
             window.location.href = "https://solarportal.alexgs.co.uk";
