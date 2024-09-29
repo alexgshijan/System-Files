@@ -64,6 +64,7 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
+            // Send login request to the server
             fetch('https://solarportal-server.alexgs.co.uk/auth/login', {
                 method: 'POST',
                 headers: {

@@ -15,159 +15,114 @@
     
     <!-- Custom CSS for color and styles -->
     <style>
-        /* Primary color */
         :root {
             --main-color: #00261a; /* Dark jade green */
             --text-color: #ffffff; /* White for text contrast */
         }
 
-        /* Body and background styling */
         body {
             background-color: var(--main-color);
             color: var(--text-color);
         }
 
-        /* Header styling */
-        .page-header-top {
-            background-color: var(--main-color);
+        .welcome-message {
+            font-size: 24px;
+            margin-top: 20px;
+            text-align: center;
         }
 
-        /* Navbar links */
-        .top-menu .nav-link, .hor-menu .nav-link {
-            color: var(--text-color);
-        }
-
-        /* Dropdowns background and link colors */
-        .dropdown-menu {
-            background-color: var(--main-color);
-        }
-
-        .dropdown-menu a {
-            color: var(--text-color);
-        }
-
-        /* Dropdown hover and active states */
-        .dropdown-menu a:hover, .dropdown-menu a:active {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        /* Logo size restriction */
         .logo-default {
             max-width: 200px;
             height: auto;
         }
 
-        /* Button styling in the dropdown */
-        .dropdown-menu form button {
+        /* Navbar customization */
+        .navbar-nav .nav-link {
             color: var(--text-color);
-            background-color: transparent;
-            border: none;
         }
 
-        /* Links hover */
-        .nav-link:hover, .dropdown-toggle:hover {
-            color: rgba(255, 255, 255, 0.8);
+        .navbar-nav .nav-link:hover {
+            color: #a3e0c6; /* Lighter jade green */
+        }
+
+        .dropdown-menu {
+            background-color: var(--main-color);
+            color: var(--text-color);
+        }
+
+        .dropdown-item {
+            color: var(--text-color);
+        }
+
+        .dropdown-item:hover {
+            background-color: #a3e0c6;
+            color: #000;
         }
     </style>
 </head>
 
 <body>
-    <div class="background-overlay"></div>
-    
     <div class="container">
         <div class="page-header">
-            <!-- BEGIN HEADER TOP -->
-            <div class="page-header-top d-flex justify-content-between align-items-center py-3">
-                <!-- BEGIN LOGO -->
-                <div class="page-logo">
-                    <a href="https://solarportal.alexgs.co.uk">
-                        <img src="/assets/img/title.png" alt="solarportal" title="solarportal" class="logo-default">
-                    </a>
-                </div>
-                <!-- END LOGO -->
-                <!-- BEGIN TOP NAVIGATION MENU -->
-                <div class="top-menu">
-                    <ul class="nav navbar-nav">
-                        <!-- BEGIN USER LOGIN DROPDOWN -->
-                        <li class="nav-item dropdown">
-                            <a href="javascript:;" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                                <span class="username username-hide-mobile bold">username</span>
-                                <i class="fa fa-angle-down"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="register-installation">
-                                        <i class="fas fa-pencil-alt"></i> Register Installation
-                                    </a>
-                                </li>
-                                <li class="dropdown-divider"></li>
-                                <li>
-                                    <a href="view-installation.html">
-                                        <i class="fas fa-bookmark"></i> View Installations
-                                    </a>
-                                </li>
-                                <li class="dropdown-divider"></li>
-                                <li>
-                                    <a href="client-settings.html">
-                                        <i class="fas fa-cogs"></i> Profile Settings
-                                    </a>
-                                </li>
-                                <li class="dropdown-divider"></li>
-                                <li>
-                                    <form method="post" action="/account/logout" class="inline">
-                                        <button type="submit" class="btn btn-link">
-                                            <i class="fas fa-sign-out-alt"></i> Log Out
-                                        </button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-                        <!-- END USER LOGIN DROPDOWN -->
-                    </ul>
-                </div>
-                <!-- END TOP NAVIGATION MENU -->
-            </div>
-            <!-- END HEADER TOP -->
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="https://solarportal.alexgs.co.uk">
+                    <img src="/assets/img/title.png" alt="solarportal" title="solarportal" class="logo-default">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <!-- Page Navigation -->
-            <div class="page-header-menu">
-                <div class="hor-menu">
-                    <ul class="nav navbar-nav">
-                        <!-- View Installation Dropdown -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Home</a>
+                        </li>
                         <li class="nav-item dropdown">
-                            <a href="javascript:;" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-book"></i> View Installation <i class="fas fa-chevron-down"></i>
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Settings
                             </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="linkd"><i class="fa fa-trophy"></i> Pending Applications</a></li>
-                                <li><a href="link"><i class="fa fa-ban"></i> Rejected Applications</a></li>
-                                <li><a href="link"><i class="fa fa-check"></i> Surveyed Applications</a></li>
-                                <li><a href="link"><i class="fa fa-flag-checkered"></i> Completed Applications</a></li>
-                                <li><a href="link"><i class="fa fa-chart-line"></i> Installed Units</a></li>
-                            </ul>
-                        </li>
-                        <!-- Register Installation -->
-                        <li class="nav-item">
-                            <a href="register-installation" class="nav-link">
-                                <i class="fa fa-pencil-alt"></i> Register Installation
-                            </a>
-                        </li>
-                        <!-- Support -->
-                        <li class="nav-item">
-                            <a href="mailto:admin@alexgs.co.uk" class="nav-link">
-                                <i class="fa fa-envelope"></i> Support
-                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Profile</a>
+                                <a class="dropdown-item" href="#">Register</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Log Out</a>
+                            </div>
                         </li>
                     </ul>
                 </div>
+            </nav>
+
+            <!-- Welcome message -->
+            <div id="welcome-message" class="welcome-message">
+                <!-- Welcome message will be populated here -->
             </div>
-            <!-- End of Page Navigation -->
         </div>
     </div>
 
     <!-- Bootstrap and jQuery JS (for dropdown functionality) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Check session details and display welcome message or redirect
+        function checkSession() {
+            // Get session details from localStorage (or sessionStorage)
+            const fullName = localStorage.getItem('full_name');
+            const accountType = localStorage.getItem('account_type');
+
+            // If no session or account type isn't client, redirect to solar portal
+            if (!fullName || accountType !== 'client') {
+                window.location.href = 'https://solarportal.alexgs.co.uk';
+            } else {
+                // If session is valid, display the welcome message
+                document.getElementById('welcome-message').textContent = `Welcome back, ${fullName}`;
+            }
+        }
+
+        // Run the session check on page load
+        checkSession();
+    </script>
 </body>
 
 </html>
