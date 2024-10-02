@@ -7,14 +7,19 @@
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
     <meta content="" name="SolarPortal Register Page">
     <meta content="" name="Alex G Shijan">
-    <link rel="icon" type="image/x-icon" href="/assets/img/bute-energy_logo.png">
 
     <!-- ================== BEGIN BASE CSS STYLE ================== -->
     <link href="/assets/style/style.css" rel="stylesheet">
     <link href="/assets/style/auth.css" rel="stylesheet">
     <link href="/assets/style/form.css" rel="stylesheet">
     <!-- ================== END BASE CSS STYLE ================== -->
-
+    <style>
+        .logo {
+            position : absolute;
+            right: 10px;
+            bottom: 10px;
+        }
+        </style>
 </head>
 
 <body>
@@ -132,7 +137,7 @@
                 console.error("Error during registration:", error);
             }
         });
-    </script>
+    </script><div id="logo" class="logo" ><img height="75" src = '/assets/img/bute-energy_logo.png'></img></div>
 
 </body>
 </html>
