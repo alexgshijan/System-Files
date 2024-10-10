@@ -3,7 +3,6 @@ export default {
     const { pathname } = new URL(request.url);
 
     const crypto = require('crypto');
-    crypto.createHmac("sha256","asd").update('GeeksforGeeks').digest("asd")
 
     // Handle CORS preflight request (OPTIONS)
     if (request.method === 'OPTIONS') {
