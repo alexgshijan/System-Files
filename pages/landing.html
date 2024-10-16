@@ -1,11 +1,14 @@
 <script>
-    if (data.account_type === 'client') {
-                        window.location.href = '/pages/client/client-landing.html';
-                    } else if (data.account_type === 'employee') {
-                        window.location.href = '/pages/employee/employee-landing.html';
-                    } else if (data.account_type === 'admin') {
-                        window.location.href = '/pages/admin/admin-landing.html';
-                    } else {
-                        alert('Unknown account type. Please contact support.');
+    if (sessionStorage.getItem('account_type') === 'client') {
+        window.location.href = '/pages/client/client-landing.html';
+
+    } else if (sessionStorage.getItem('account_type') === 'employee') {
+        window.location.href = '/pages/employee/employee-landing.html';
+
+    } else if (sessionStorage.getItem('account_type') === 'admin') {
+        window.location.href = '/pages/admin/admin-landing.html';
+        
+    } else {
+        alert('Unknown account type. Please contact support.');
                     }
 </script>
