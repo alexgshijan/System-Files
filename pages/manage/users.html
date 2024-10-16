@@ -117,8 +117,8 @@
             const fullName = sessionStorage.getItem('full_name');
             const accountType = sessionStorage.getItem('account_type');
 
-            // If no session or account type isn't client, redirect to solar portal
-            if (!fullName || accountType !== 'client') {
+            // If no session or account type isn't admin or employee, redirect to solar portal
+            if (!fullName || (accountType !== 'admin' && accountType !== 'employee')) {
                 window.location.href = 'https://solarportal.alexgs.co.uk';
             } else {
                 // If session is valid, display the welcome message
