@@ -86,44 +86,46 @@
             fetch('https://solar-portal.alexgs.co.uk/manage/logins')
                 .then(response => response.json())
                 .then(data => {
+                    const verifiedUsers = data.verified;
+                    const unverifiedUsers = data.unverified;
+
                     const verifiedTableBody = document.getElementById('verifiedTable').getElementsByTagName('tbody')[0];
                     const nonVerifiedTableBody = document.getElementById('nonVerifiedTable').getElementsByTagName('tbody')[0];
-                    
-                    verifiedTableBody.innerHTML = ''; // Clear loading row
-                    nonVerifiedTableBody.innerHTML = ''; // Clear loading row
 
-                    data.forEach(user => {
+                    // Clear the loading row
+                    verifiedTableBody.innerHTML = '';
+                    nonVerifiedTableBody.innerHTML = '';
+
+                    // Populate verified users table
+                    verifiedUsers.forEach(user => {
                         const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${user.UID}</td>
+                            <td>${user.full_name}</td>
+                            <td>${user.email_id}</td>
+                            <td>${user.account_type}</td>
+                        `;
+                        verifiedTableBody.appendChild(row);
+                    });
 
-                        const uidCell = document.createElement('td');
-                        uidCell.textContent = user.uid;
-                        row.appendChild(uidCell);
-
-                        const nameCell = document.createElement('td');
-                        nameCell.textContent = user.full_name;
-                        row.appendChild(nameCell);
-
-                        const emailCell = document.createElement('td');
-                        emailCell.textContent = user.email_id;
-                        row.appendChild(emailCell);
-
-                        const accountTypeCell = document.createElement('td');
-                        accountTypeCell.textContent = user.account_type;
-                        row.appendChild(accountTypeCell);
-
-                        if (user.verified === 1) {
-                            verifiedTableBody.appendChild(row); // Append to verified table
-                        } else {
-                            nonVerifiedTableBody.appendChild(row); // Append to non-verified table
-                        }
+                    // Populate unverified users table
+                    unverifiedUsers.forEach(user => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${user.UID}</td>
+                            <td>${user.full_name}</td>
+                            <td>${user.email_id}</td>
+                            <td>${user.account_type}</td>
+                        `;
+                        nonVerifiedTableBody.appendChild(row);
                     });
                 })
                 .catch(error => {
                     const verifiedTableBody = document.getElementById('verifiedTable').getElementsByTagName('tbody')[0];
                     const nonVerifiedTableBody = document.getElementById('nonVerifiedTable').getElementsByTagName('tbody')[0];
 
-                    verifiedTableBody.innerHTML = '<tr><td colspan="4">Error loading data</td></tr>';
-                    nonVerifiedTableBody.innerHTML = '<tr><td colspan="4">Error loading data</td></tr>';
+                    verifiedTableBody.innerHTML = '<tr><td colspan="4">Error loading verified users data</td></tr>';
+                    nonVerifiedTableBody.innerHTML = '<tr><td colspan="4">Error loading non-verified users data</td></tr>';
                     console.error('Error fetching data:', error);
                 });
         });
