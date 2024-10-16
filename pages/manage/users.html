@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SolarPortal - Logins</title>
+    <!-- Bootstrap CSS (for layout and dropdown functionality) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -54,6 +59,34 @@
         .verify-btn:hover {
             background-color: #218838;
         }
+        .logo-default {
+            max-width: 200px;
+            height: auto;
+        }
+
+        /* Navbar customization */
+        .navbar-nav .nav-link {
+            color: var(--text-color);
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #a3e0c6; /* Lighter jade green */
+        }
+
+        .dropdown-menu {
+            background-color: var(--main-color);
+            color: var(--text-color);
+        }
+
+        .dropdown-item {
+            color: var(--text-color);
+        }
+
+        .dropdown-item:hover {
+            background-color: #a3e0c6;
+            color: #000;
+        }
+
     </style>
 </head>
 <body>
@@ -98,13 +131,6 @@
                 </div>
             </nav>
         </div>
-
-        <!-- Welcome message -->
-        <div class="welcome-container">
-            <div id="welcome-message" class="welcome-message">
-                <!-- Welcome message will be populated here -->
-            </div>
-        </div>
     </div>
 
     <!-- Bootstrap and jQuery JS (for dropdown functionality) -->
@@ -119,10 +145,7 @@
 
             // If no session or account type isn't admin or employee, redirect to solar portal
             if (!fullName || (accountType !== 'admin' && accountType !== 'employee')) {
-                window.location.href = 'https://solarportal.alexgs.co.uk';
-            } else {
-                // If session is valid, display the welcome message
-                document.getElementById('welcome-message').textContent = `Welcome back, ${fullName}`;
+                window.location.href = 'https://solarportal.alexgs.co.uk/pages/landing';
             }
         }
 
