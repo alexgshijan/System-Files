@@ -266,9 +266,8 @@
                 })
                 .then(response => response.json())
                 .then(result => {
-                    if (result.success) {
+                    if (result.message) {
                         alert(`User with UID ${uid} verified successfully.`);
-                        // Optionally, refresh the table or remove the row from the unverified table
                         location.reload(); // This will reload the page to reflect changes
                     } else {
                         alert('Verification failed.');
