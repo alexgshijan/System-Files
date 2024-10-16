@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolarPortal - Logins</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 5%; /* Adjusted for better spacing */
+            background-color: #00261a; /* Dark jade green */
+            color: white;
+        }
+
+        h1 {
+            font-size: 48px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+        }
+
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+            background-color: white;
+            color: black;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #004d40; /* Darker green for headers */
+            color: white;
+        }
+
+        .verified-title, .non-verified-title {
+            margin-top: 40px;
+            font-size: 36px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <h1>Login Details</h1>
+
+    <h2 class="verified-title">Verified Users</h2>
+    <table id="verifiedTable">
+        <thead>
+            <tr>
+                <th>UID</th>
+                <th>Full Name</th>
+                <th>Email ID</th>
+                <th>Account Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="4">Loading data...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 class="non-verified-title">Non-Verified Users</h2>
+    <table id="nonVerifiedTable">
+        <thead>
+            <tr>
+                <th>UID</th>
+                <th>Full Name</th>
+                <th>Email ID</th>
+                <th>Account Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="4">Loading data...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('https://solar-portal.alexgs.co.uk/manage/logins')
+                .then(response => response.json())
+                .then(data => {
+                    const verifiedTableBody = document.getElementById('verifiedTable').getElementsByTagName('tbody')[0];
+                    const nonVerifiedTableBody = document.getElementById('nonVerifiedTable').getElementsByTagName('tbody')[0];
+                    
+                    verifiedTableBody.innerHTML = ''; // Clear loading row
+                    nonVerifiedTableBody.innerHTML = ''; // Clear loading row
+
+                    data.forEach(user => {
+                        const row = document.createElement('tr');
+
+                        const uidCell = document.createElement('td');
+                        uidCell.textContent = user.uid;
+                        row.appendChild(uidCell);
+
+                        const nameCell = document.createElement('td');
+                        nameCell.textContent = user.full_name;
+                        row.appendChild(nameCell);
+
+                        const emailCell = document.createElement('td');
+                        emailCell.textContent = user.email_id;
+                        row.appendChild(emailCell);
+
+                        const accountTypeCell = document.createElement('td');
+                        accountTypeCell.textContent = user.account_type;
+                        row.appendChild(accountTypeCell);
+
+                        if (user.verified === 1) {
+                            verifiedTableBody.appendChild(row); // Append to verified table
+                        } else {
+                            nonVerifiedTableBody.appendChild(row); // Append to non-verified table
+                        }
+                    });
+                })
+                .catch(error => {
+                    const verifiedTableBody = document.getElementById('verifiedTable').getElementsByTagName('tbody')[0];
+                    const nonVerifiedTableBody = document.getElementById('nonVerifiedTable').getElementsByTagName('tbody')[0];
+
+                    verifiedTableBody.innerHTML = '<tr><td colspan="4">Error loading data</td></tr>';
+                    nonVerifiedTableBody.innerHTML = '<tr><td colspan="4">Error loading data</td></tr>';
+                    console.error('Error fetching data:', error);
+                });
+        });
+    </script>
+</body>
+</html>
