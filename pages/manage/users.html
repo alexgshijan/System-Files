@@ -42,9 +42,103 @@
             font-size: 36px;
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
         }
+
+        .verify-btn {
+            padding: 5px 10px;
+            background-color: #28a745; /* Green button */
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .verify-btn:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
+
+    <div class="container">
+        <div class="page-header">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="https://solarportal.alexgs.co.uk">
+                    <img src="/assets/img/SolarPortalLogo-Banner.png" alt="solarportal" title="solarportal" class="logo-default">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://solarportal.alexgs.co.uk/pages/landing">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="manageInstallationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Manage Installations
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="manageInstallationsDropdown">
+                                <a class="dropdown-item" href="register-installation.html">Register</a>
+                                <a class="dropdown-item" href="view-installation.html">View Status</a>
+                                <a class="dropdown-item" href="withdraw-installation.html">Withdraw Application</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Account
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/pages/manage/settings.html">Settings</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" id="logoutButton">Log Out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Welcome message -->
+        <div class="welcome-container">
+            <div id="welcome-message" class="welcome-message">
+                <!-- Welcome message will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap and jQuery JS (for dropdown functionality) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Check session details and display welcome message or redirect
+        function checkSession() {
+            const fullName = sessionStorage.getItem('full_name');
+            const accountType = sessionStorage.getItem('account_type');
+
+            // If no session or account type isn't client, redirect to solar portal
+            if (!fullName || accountType !== 'client') {
+                window.location.href = 'https://solarportal.alexgs.co.uk';
+            } else {
+                // If session is valid, display the welcome message
+                document.getElementById('welcome-message').textContent = `Welcome back, ${fullName}`;
+            }
+        }
+
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = "https://solarportal.alexgs.co.uk";
+        }
+
+        // Attach the logout function to the logout button
+        document.getElementById('logoutButton').addEventListener('click', logout);
+
+        // Run the session check on page load
+        checkSession();
+    </script>
+
+
     <h1>Login Details</h1>
 
     <h2 class="verified-title">Verified Users</h2>
@@ -72,18 +166,19 @@
                 <th>Full Name</th>
                 <th>Email ID</th>
                 <th>Account Type</th>
+                <th>Actions</th> <!-- Added actions column -->
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td colspan="4">Loading data...</td>
+                <td colspan="5">Loading data...</td>
             </tr>
         </tbody>
     </table>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('https://solar-portal.alexgs.co.uk/manage/logins')
+            fetch('https://solarportal-server.alexgs.co.uk/manage/logins')
                 .then(response => response.json())
                 .then(data => {
                     const verifiedUsers = data.verified;
@@ -108,7 +203,7 @@
                         verifiedTableBody.appendChild(row);
                     });
 
-                    // Populate unverified users table
+                    // Populate unverified users table with "Verify" button
                     unverifiedUsers.forEach(user => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
@@ -116,8 +211,17 @@
                             <td>${user.full_name}</td>
                             <td>${user.email_id}</td>
                             <td>${user.account_type}</td>
+                            <td><button class="verify-btn" data-uid="${user.UID}">Verify</button></td>
                         `;
                         nonVerifiedTableBody.appendChild(row);
+                    });
+
+                    // Add event listeners to all "Verify" buttons
+                    document.querySelectorAll('.verify-btn').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const uid = this.getAttribute('data-uid');
+                            verifyUser(uid);
+                        });
                     });
                 })
                 .catch(error => {
@@ -125,9 +229,33 @@
                     const nonVerifiedTableBody = document.getElementById('nonVerifiedTable').getElementsByTagName('tbody')[0];
 
                     verifiedTableBody.innerHTML = '<tr><td colspan="4">Error loading verified users data</td></tr>';
-                    nonVerifiedTableBody.innerHTML = '<tr><td colspan="4">Error loading non-verified users data</td></tr>';
+                    nonVerifiedTableBody.innerHTML = '<tr><td colspan="5">Error loading non-verified users data</td></tr>';
                     console.error('Error fetching data:', error);
                 });
+
+            function verifyUser(uid) {
+                fetch(`https://solarportal-server.alexgs.co.uk/manage/verify`, {
+                    method: 'POST', // or 'PUT' depending on your server
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ UID: uid })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        alert(`User with UID ${uid} verified successfully.`);
+                        // Optionally, refresh the table or remove the row from the unverified table
+                        location.reload(); // This will reload the page to reflect changes
+                    } else {
+                        alert('Verification failed.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error verifying user:', error);
+                    alert('Error verifying user.');
+                });
+            }
         });
     </script>
 </body>
