@@ -258,7 +258,7 @@
 
             function verifyUser(uid) {
                 fetch(`https://solarportal-server.alexgs.co.uk/manage/verify`, {
-                    method: 'POST', // or 'PUT' depending on your server
+                    method: 'POST', 
                     headers: {
                         'Content-Type': 'application/json'
                     },
@@ -276,6 +276,29 @@
                 .catch(error => {
                     console.error('Error verifying user:', error);
                     alert('Error verifying user.');
+                });
+            }
+
+            function removeUser(uid) {
+                fetch(`https://solarportal-server.alexgs.co.uk/manage/removeuser`, {
+                    method: 'POST', 
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ UID: uid })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.message) {
+                        alert(`User with UID ${uid} deleted successfully.`);
+                        location.reload(); // This will reload the page to reflect changes
+                    } else {
+                        alert('Deletion failed.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting user:', error);
+                    alert('Error deleting user.');
                 });
             }
         });
