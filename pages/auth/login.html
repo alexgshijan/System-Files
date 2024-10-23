@@ -1,73 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>SolarPortal - Login</title>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-    <link href="/assets/style/style.css" rel="stylesheet">
-    <link href="/assets/style/auth.css" rel="stylesheet">
-    <link href="/assets/style/form.css" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="/assets/img/SolarPortalLogo.png">
-    <style>
-    .logo {
-        position : fixed;
-        right: 30px;
-        bottom: 10px;
-    }
-    </style>
-</head>
-<body>
-    
 
-    <div class="register register-with-news-feed">
-        <div class="news-feed">
-            <div class="news-image" style="background-image: url(/assets/img/bg.png)"></div>
-            <div class="news-caption">
-                <h4 class="caption-title"><b>Solar</b>Portal</h4>
-                <p>
-                    SolarPortal is a ButeEnergy commission, designed to promote a greener future for Wales.
-                    This is the portal page for the installations of consumer-grade solar panels.
-                </p>
-            </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/assets/style/form.css">
+    <title>Login Page | SolarPortal</title>
+</head>
+
+<body>
+
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form id="register-form">
+                <h1>Create Account</h1>
+                <input type="text" id="first_name" placeholder="First Name">
+                <input type="text" id="last_name" placeholder="Last Name">
+                <input type="email" id="email_id" placeholder="Email">
+                <input type="password" id="password" placeholder="Password">
+                <select id="account_type" name="account_type" required>
+                    <option value="client">Client</option>
+                    <option value="employee">Employee</option>
+                </select>
+                <button type="submit">Sign Up</button>
+                <div id="message"></div>
+            </form>
         </div>
 
-        <div class="right-content">
-            <h1 class="register-header">
-                <div class="brand">
-                    <span class="solar-title"><b>Solar</b></span><span class="portal-title"><b>Portal</b></span>
+        <div class="form-container sign-in">
+            <form id="loginForm">
+                <h1>Sign In</h1>
+                <input type="email" id="email" placeholder="Email">
+                <input type="password" id="password" placeholder="Password">
+                <a href="#">Forgot Your Password?</a>
+                <button type="submit">Sign In</button>
+            </form>
+        </div>
+
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                    <p>Enter your personal details to use all of site features</p>
+                    <button class="hidden" id="login">Sign In</button>
                 </div>
-            </h1>
-
-            <div class="register-content">
-                <form id="loginForm" class="margin-bottom-0">
-                    <label class="control-label">Email Address</label>
-                    <div class="form-group">
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" required />
-                    </div>
-                    
-                    <label class="control-label">Password</label>
-                    <div class="form-group">
-                        <input type="password" class="form-control" name="password" id="password" placeholder="Password" required />
-                    </div>
-
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block btn-lg">Login</button>
-                    </div>
-                </form>
-
-                <div style="margin-top: 20px;">
-                    <h5>Want To Get Registered?</h5>
-                    <div>
-                        <a class="btn btn-success btn-block btn-lg" href="register.html">Register</a>
-                    </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Hi there!</h1>
+                    <p>Register with us on SolarPortal to help make our homes greener</p>
+                    <button class="hidden" id="register">Sign Up</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript to handle the form submission -->
+    <!-- Login Script -->
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
             event.preventDefault();  // Prevent default form submission
 
             const email = document.getElementById('email').value;
@@ -80,26 +69,88 @@
                 },
                 body: JSON.stringify({ email_id: email, password: password })
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message === 'Login successful.') {
-                    alert('Login successful! Redirecting...');
-                    
-                    // Store full_name and account_type in sessionStorage
-                    sessionStorage.setItem('full_name', data.full_name);
-                    sessionStorage.setItem('account_type', data.account_type);
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message === 'Login successful.') {
+                        alert('Login successful! Redirecting...');
 
-                    // Redirect based on account type
-                    window.location.href = '/pages/landing.html';
-                } else {
-                    alert('Login failed: ' + data.error);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while logging in. Please try again later.');
-            });
+                        // Store full_name and account_type in sessionStorage
+                        sessionStorage.setItem('full_name', data.full_name);
+                        sessionStorage.setItem('account_type', data.account_type);
+
+                        // Redirect based on account type
+                        window.location.href = '/pages/landing.html';
+                    } else {
+                        alert('Login failed: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while logging in. Please try again later.');
+                });
         });
-    </script><div id="logo" class="logo" ><img height="75" src = '/assets/img/bute-energy_logo.png'></img></div>
+    </script>
+
+    <!-- Registration Script -->
+    <script>
+        document.getElementById('register-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const first_name = document.getElementById('first_name').value;
+            const last_name = document.getElementById('last_name').value;
+            const email_id = document.getElementById('email_id').value;
+            const password = document.getElementById('password').value;
+            const account_type = document.getElementById('account_type').value;
+
+            const messageDiv = document.getElementById('message');
+            messageDiv.innerText = ''; // Clear previous message
+
+            // Simple email validation regex
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            // Check if email is valid
+            if (!emailPattern.test(email_id)) {
+                messageDiv.innerText = "Please enter a valid email address.";
+                return;
+            }
+
+            try {
+                const response = await fetch('https://solarportal-server.alexgs.co.uk/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        first_name,
+                        last_name,
+                        email_id,
+                        password,
+                        account_type
+                    })
+                });
+
+                const data = await response.json();
+
+                // Check for error or success message
+                if (response.ok) {
+                    messageDiv.style.color = 'green';
+                    messageDiv.innerText = data.message || "Registration successful! Redirecting to login page...";
+
+                    // Redirect to login page after 0.8 seconds
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 800);
+                } else {
+                    messageDiv.style.color = 'red';
+                    messageDiv.innerText = data.error || "Registration failed. Please try again.";
+                }
+            } catch (error) {
+                messageDiv.style.color = 'red';
+                messageDiv.innerText = "An error occurred. Please try again.";
+                console.error("Error during registration:", error);
+            }
+        });
+    </script>
+
 </body>
 </html>
