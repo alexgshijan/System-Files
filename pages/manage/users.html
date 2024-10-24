@@ -231,7 +231,7 @@
                         const row = document.createElement('tr');
                         row.innerHTML = `
                             <td>${user.UID}</td>
-                            <td>${user.full_name}</td>
+                            <td>${user.first_name + " " + user.last_name }</td>
                             <td>${user.email_id}</td>
                             <td>${user.account_type}</td>
                             <td><button class="verify-btn" data-uid="${user.UID}">Verify</button></td>
