@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="assets/style/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/assets/style/form.css">
     <link rel="icon" type="image/x-icon" href="/assets/img/SolarPortalLogo.png">
     <title>SolarPortal</title>
 
@@ -81,7 +83,7 @@
                 <div class="top-right links">
                         <a href="https://solarportal.alexgs.co.uk">Home</a>
                         <a href="pages/auth/login.html">Login</a>
-                        <a href="pages/auth/login.html#signup">Register</a>
+                        <a href="pages/support.html">Support</a>
                                 </div>
         
         <div class="content">
@@ -92,12 +94,134 @@
             <div class="links">
                                 <a href="https://solarportal.alexgs.co.uk">Home</a>
                                 <a href="pages/auth/login.html">Login</a>
-                                <a href="pages/auth/login.html#signup">Register</a>
+                                <a href="pages/support.html">Support</a>
                                             </div>
         </div>
+
+
+        <div class = "modal-content">
+            <span class="close" id="closeModal">&times;</span>
+
+
+            </divdiv>
 
     </div><div id="logo" class="logo" ><img height="75" src = 'assets/img/bute-energy_logo.png'></img></div>
     
 
+    <!-- Login Script -->
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
+            event.preventDefault();  // Prevent default form submission
 
+            const email = document.getElementById('logemail').value;
+            const password = document.getElementById('logpassword').value;
+
+            fetch('https://solarportal-server.alexgs.co.uk/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email_id: email, password: password })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message === 'Login successful.') {
+                        alert('Login successful! Redirecting...');
+
+                        // Store full_name and account_type in sessionStorage
+                        sessionStorage.setItem('full_name', data.full_name);
+                        sessionStorage.setItem('account_type', data.account_type);
+
+                        // Redirect based on account type
+                        window.location.href = '/pages/landing.html';
+                    } else {
+                        alert('Login failed: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while logging in. Please try again later.');
+                });
+        });
+    </script>
+
+    <!-- Registration Script -->
+    <script>
+        document.getElementById('register-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const first_name = document.getElementById('first_name').value;
+            const last_name = document.getElementById('last_name').value;
+            const email_id = document.getElementById('regemail_id').value;
+            const password = document.getElementById('regpassword').value;
+            const account_type = document.getElementById('account_type').value;
+
+            const messageDiv = document.getElementById('message');
+            messageDiv.innerText = ''; // Clear previous message
+
+            // Simple email validation regex
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            // Check if email is valid
+            if (!emailPattern.test(email_id)) {
+                messageDiv.innerText = "Please enter a valid email address.";
+                return;
+            }
+
+            try {
+                const response = await fetch('https://solarportal-server.alexgs.co.uk/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        first_name,
+                        last_name,
+                        email_id,
+                        password,
+                        account_type
+                    })
+                });
+
+                const data = await response.json();
+
+                // Check for error or success message
+                if (response.ok) {
+                    messageDiv.style.color = 'green';
+                    messageDiv.innerText = data.message || "Registration successful! Redirecting to login page...";
+
+                    // Redirect to login page after 0.8 seconds
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 800);
+                } else {
+                    messageDiv.style.color = 'red';
+                    messageDiv.innerText = data.error || "Registration failed. Please try again.";
+                }
+            } catch (error) {
+                messageDiv.style.color = 'red';
+                messageDiv.innerText = "An error occurred. Please try again.";
+                console.error("Error during registration:", error);
+            }
+        });
+    </script>
+
+    <!-- Toggle between Sign In and Sign Up -->
+    <script>
+        const container = document.getElementById('container');
+        const registerBtn = document.getElementById('register');
+        const loginBtn = document.getElementById('login');
+
+        registerBtn.addEventListener('click', () => {
+            container.classList.add("active");
+        });
+
+        loginBtn.addEventListener('click', () => {
+            container.classList.remove("active");
+        });
+        
+        if (window.location.hash === '#signup') {
+        container.classList.add("active");
+    }
+    </script>
 </body></html>
