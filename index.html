@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="assets/style/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="/assets/style/form.css">
-    <link rel="icon" type="image/x-icon" href="/assets/img/SolarPortalLogo.png">
+    <link rel="stylesheet" href="assets/style/form.css">
+    <link rel="icon" type="image/x-icon" href="assets/img/SolarPortalLogo.png">
     <title>SolarPortal</title>
 
     <!-- Styles -->
@@ -76,16 +76,46 @@
         }
 
     </style>
+
+<style>
+    /* Modal initially hidden */
+    .modal-content {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        z-index: 1000;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Full-screen overlay */
+    #modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999; /* Just below the modal */
+    }
+
+    /* Display overlay and modal */
+    .show-modal {
+        display: block;
+    }
+
+    /* Hide background content when modal is active */
+    body.modal-active {
+        overflow: hidden;
+    }
+</style>
 </head>
 
-<body>
-    <div class="flex-center position-ref full-height">
-                <div class="top-right links">
-                        <a href="https://solarportal.alexgs.co.uk">Home</a>
-                        <a href="pages/auth/login.html">Login</a>
-                        <a href="pages/support.html">Support</a>
-                                </div>
-        
+<body>        
         <div class="content">
             <div class="title m-b-md">
                 <b>Solar</b>Portal
@@ -100,13 +130,88 @@
 
 
         <div class = "modal-content">
-            <span class="close" id="closeModal">&times;</span>
-
-
+            <div class="container" id="container">
+                <div class="form-container sign-up">
+                    <form id="register-form">
+                        <h1>Create Account</h1>
+                        <input type="text" id="first_name" placeholder="First Name">
+                        <input type="text" id="last_name" placeholder="Last Name">
+                        <input type="email" id="regemail_id" placeholder="Email">
+                        <input type="password" id="regpassword" placeholder="Password">
+                        <select id="account_type" name="account_type" required>
+                            <option value="client">Client</option>
+                            <option value="employee">Employee</option>
+                        </select>
+                        <button type="submit">Sign Up</button>
+                        <div id="message"></div>
+                    </form>
+                </div>
+        
+                <div class="form-container sign-in">
+                    <form id="loginForm">
+                        <h1>Sign In</h1>
+                        <input type="email" id="logemail" placeholder="Email">
+                        <input type="password" id="logpassword" placeholder="Password">
+                        <a href="#">Forgot Your Password?</a>
+                        <button type="submit">Sign In</button>
+                    </form>
+                </div>
+        
+                <div class="toggle-container">
+                    <div class="toggle">
+                        <div class="toggle-panel toggle-left">
+                            <h1>Welcome Back!</h1>
+                            <p>To Sign In, click the button below</p>
+                            <button class="hidden" id="login">Sign In</button>
+                        </div>
+                        <div class="toggle-panel toggle-right">
+                            <h1>Hi there!</h1>
+                            <p>To Get Started with us, click the button below</p>
+                            <button class="hidden" id="register">Sign Up</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             </divdiv>
 
     </div><div id="logo" class="logo" ><img height="75" src = 'assets/img/bute-energy_logo.png'></img></div>
-    
+    <!-- Add an overlay for background dimming -->
+<div id="modal-overlay"></div>
+
+<script>
+    const modal = document.querySelector('.modal-content');
+    const modalOverlay = document.getElementById('modal-overlay');
+    const loginLink = document.querySelector('a[href="pages/auth/login.html"]');
+    const closeModal = document.getElementById('closeModal');
+
+    // Function to show the modal
+    function showModal() {
+        modal.style.display = 'block'; // Show modal
+        modalOverlay.classList.add('show-modal'); // Show background overlay
+    }
+
+    // Function to hide the modal
+    function hideModal() {
+        modal.style.display = 'none'; // Hide modal
+        modalOverlay.classList.remove('show-modal'); // Hide background overlay
+    }
+
+    // Show modal on login link click
+    loginLink.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the default link behavior
+        showModal();
+    });
+
+    // Close modal on clicking the close button
+    closeModal.addEventListener('click', function() {
+        hideModal();
+    });
+
+    // Close modal if clicking on the overlay
+    modalOverlay.addEventListener('click', function() {
+        hideModal();
+    });
+</script>
 
     <!-- Login Script -->
     <script>
