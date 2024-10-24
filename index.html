@@ -78,40 +78,28 @@
     </style>
 
 <style>
-    /* Modal initially hidden */
-    .modal-content {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 20px;
-        z-index: 1000;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    }
+/* Modal initially hidden with opacity */
+.modal-content {
+    display: none;
+    opacity: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 100%;
+    z-index: 1000;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.5s ease; /* Transition for opacity change */
+}
 
-    /* Full-screen overlay */
-    #modal-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 999; /* Just below the modal */
-    }
 
-    /* Display overlay and modal */
-    .show-modal {
-        display: block;
-    }
 
-    /* Hide background content when modal is active */
-    body.modal-active {
-        overflow: hidden;
-    }
+/* When modal is shown, set opacity to 1 */
+.show-modal {
+    display: block;
+    opacity: 1;
+}
 </style>
 </head>
 
@@ -182,19 +170,18 @@
     const modal = document.querySelector('.modal-content');
     const modalOverlay = document.getElementById('modal-overlay');
     const loginLink = document.querySelector('a[href="pages/auth/login.html"]');
-    const closeModal = document.getElementById('closeModal');
 
-    // Function to show the modal
-    function showModal() {
-        modal.style.display = 'block'; // Show modal
-        modalOverlay.classList.add('show-modal'); // Show background overlay
-    }
+// Function to show the modal with fade-in
+function showModal() {
+    modal.style.display = 'block'; // Show modal
 
-    // Function to hide the modal
-    function hideModal() {
-        modal.style.display = 'none'; // Hide modal
-        modalOverlay.classList.remove('show-modal'); // Hide background overlay
-    }
+    // Trigger opacity change after display is set
+    setTimeout(() => {
+        modal.classList.add('show-modal'); 
+        modalOverlay.classList.add('show-modal');
+    }, 10); // Small delay to ensure the transition applies
+}
+
 
     // Show modal on login link click
     loginLink.addEventListener('click', function(event) {
@@ -202,15 +189,6 @@
         showModal();
     });
 
-    // Close modal on clicking the close button
-    closeModal.addEventListener('click', function() {
-        hideModal();
-    });
-
-    // Close modal if clicking on the overlay
-    modalOverlay.addEventListener('click', function() {
-        hideModal();
-    });
 </script>
 
     <!-- Login Script -->
