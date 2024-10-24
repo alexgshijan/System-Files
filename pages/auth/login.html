@@ -166,6 +166,10 @@
         loginBtn.addEventListener('click', () => {
             container.classList.remove("active");
         });
+        
+        if (window.location.hash === '#signup') {
+        container.classList.add("active");
+    }
     </script>
 
 </body>
