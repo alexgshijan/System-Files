@@ -201,10 +201,23 @@ function showModal() {
 
                         // Store full_name and account_type in sessionStorage
                         sessionStorage.setItem('full_name', data.full_name);
+                        console.log(data.account_type)
                         sessionStorage.setItem('account_type', data.account_type);
 
                         // Redirect based on account type
-                        window.location.href = '/pages/landing.html';
+                        if (sessionStorage.getItem('account_type') === 'client') {
+                            window.location.href = '/pages/client/client-landing.html';
+
+                        } else if (sessionStorage.getItem('account_type') === 'employee') {
+                            window.location.href = '/pages/employee/employee-landing.html';
+
+                        } else if (sessionStorage.getItem('account_type') === 'admin') {
+                            window.location.href = '/pages/admin/admin-landing.html';
+                            
+                        } else {
+                            alert('Unknown account type. Please contact support.');
+                            window.location.href = 'solarportal.alexgs.co.uk';
+                    }
                     } else {
                         alert('Login failed: ' + data.error);
                     }
