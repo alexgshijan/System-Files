@@ -1,57 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <title>SolarPortal - Verify Account</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="/assets/img/SolarPortalLogo.png">
-
-    <!-- Base CSS Styles -->
-    <link href="/assets/style/style.css" rel="stylesheet">
-    <link href="/assets/style/auth.css" rel="stylesheet">
-    <link href="/assets/style/form.css" rel="stylesheet">
-
+    <title>SolarPortal - Verify Account</title>
     <style>
-        .logo {
-            position: fixed;
-            right: 30px;
-            bottom: 10px;
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #00261a, #004d40); /* Dark jade green gradient */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0 20px;
+        }
+
+        /* Text Styles */
+        h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: pulseShadow 2s ease-in-out infinite;
+        }
+
+        p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            color: #e0e0e0;
+        }
+
+        /* Form Container */
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        /* Form Group */
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        label {
+            font-size: 16px;
+            display: block;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+
+        /* Input Field */
+        input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            color: #333;
+            border: 1px solid #bbb;
+            border-radius: 4px;
+            background-color: #ffffff;
+            box-sizing: border-box;
+        }
+
+        /* Button */
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            color: white;
+            background-color: #00695c; /* Teal */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #00796b; /* Slightly lighter teal on hover */
+        }
+
+        /* Message Styling */
+        .message {
+            margin-top: 15px;
+            color: #ff5252; /* Red error message */
+            font-size: 14px;
+        }
+
+        /* Pulsating Shadow Animation */
+        @keyframes pulseShadow {
+            0%, 100% {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 1);
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Verify Section -->
-    <div class="verify verify-with-news-feed">
-        <div class="news-feed">
-            <div class="news-image" style="background-image: url(/assets/img/bg.png)"></div>
-            <div class="news-caption">
-                <h4 class="caption-title"><b>Solar</b>Portal</h4>
-                <p>Confirm your email to complete the verification process.</p>
-            </div>
-        </div>
+    <div class="form-container">
+        <h1>SolarPortal</h1>
+        <p>Confirm your email to complete the verification process</p>
 
-        <!-- Right Content -->
-        <div class="right-content">
-            <h1 class="verify-header">
-                <div class="brand">
-                    <span class="solar-title"><b>Solar</b></span><span class="portal-title"><b>Portal</b></span>
-                </div>
-            </h1>
-
-            <!-- Verify Content -->
-            <div class="verify-content">
-                <form id="verify-form">
-                    <div class="form-group">
-                        <label for="email">Confirm Email:</label>
-                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
-                    </div>
-                    <button type="submit" class="btn btn-success btn-block btn-lg">Verify Account</button>
-                </form>
-                <div id="message" style="color: red; margin-top: 10px;"></div> <!-- Error message div -->
+        <form id="verify-form">
+            <div class="form-group">
+                <label for="email">Confirm Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
             </div>
-        </div>
+            <button type="submit">Verify Account</button>
+            <div id="message" class="message"></div> <!-- Error message div -->
+        </form>
     </div>
 
     <script>
@@ -85,18 +153,16 @@
                         window.location.href = 'login.html';
                     }, 800);
                 } else {
-                    messageDiv.style.color = 'red';
+                    messageDiv.style.color = '#ff5252';
                     messageDiv.innerText = data.error || "Verification failed. Please try again.";
                 }
             } catch (error) {
-                messageDiv.style.color = 'red';
+                messageDiv.style.color = '#ff5252';
                 messageDiv.innerText = "An error occurred during verification.";
                 console.error("Verification error:", error);
             }
         });
     </script>
-
-    <div id="logo" class="logo"><img height="75" src='/assets/img/bute-energy_logo.png'></img></div>
-
 </body>
+
 </html>
