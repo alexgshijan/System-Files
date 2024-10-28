@@ -276,7 +276,7 @@ function showModal() {
 
                     // Redirect to login page after 0.8 seconds
                     setTimeout(() => {
-                        window.location.href = 'login.html';
+                        window.location.href = '#login';
                     }, 800);
                 } else {
                     messageDiv.style.color = 'red';
@@ -306,6 +306,9 @@ function showModal() {
         
         if (window.location.hash === '#signup') {
         container.classList.add("active");
+    }
+        if (window.location.hash === '#login') {
+            container.classList.remove("active");
     }
     </script>
 </body></html>
