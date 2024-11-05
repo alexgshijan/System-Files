@@ -297,18 +297,21 @@ function showModal() {
         const loginBtn = document.getElementById('login');
 
         registerBtn.addEventListener('click', () => {
-            container.classList.add("active");
+            window.location.hash = "#signup";
         });
 
         loginBtn.addEventListener('click', () => {
-            container.classList.remove("active");
+            window.location.hash = "#login";
         });
         
+    window.onhashchange = function () {
         if (window.location.hash === '#signup') {
-        container.classList.add("active");
-    }
+            container.classList.add("active");
+        }
+
         if (window.location.hash === '#login') {
             container.classList.remove("active");
+        }
     }
     </script>
 </body></html>
