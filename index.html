@@ -303,15 +303,26 @@ function showModal() {
         loginBtn.addEventListener('click', () => {
             window.location.hash = "#login";
         });
-        
-    window.onload = function () {
-        if (window.location.hash === '#signup') {
-            container.classList.add("active");
+
+                // Function to handle view changes based on the hash
+                function handleHashChange() {
+            if (window.location.hash === '#signup') {
+                container.classList.add('active'); // Show signup form
+                showModal()
+                
+            } else if (window.location.hash === '#login') {
+                container.classList.remove('active'); // Show login form
+                showModal()
+            }
         }
 
-        if (window.location.hash === '#login') {
-            container.classList.remove("active");
-        }
-    }
+        // Initial check when the page loads
+        handleHashChange();
+
+        // Listen for hash changes and call the function
+        window.onhashchange = handleHashChange;
     </script>
+
+
 </body></html>
+
