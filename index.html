@@ -304,7 +304,7 @@ function showModal() {
             window.location.hash = "#login";
         });
         
-    window.onhashchange = function () {
+    window.onload = function () {
         if (window.location.hash === '#signup') {
             container.classList.add("active");
         }
