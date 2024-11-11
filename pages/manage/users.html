@@ -4,12 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SolarPortal - Logins</title>
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <style>
-        /* Add your styling here */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 5%; /* Adjusted for better spacing */
+            background-color: #00261a; /* Dark jade green */
+            color: white;
+        }
+        h1 {
+            font-size: 48px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+            background-color: white;
+            color: black;
+            text-align: left;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #004d40; /* Darker green for headers */
+            color: white;
+        }
+        .verified-title, .non-verified-title {
+            margin-top: 40px;
+            font-size: 36px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+        }
+        .verify-btn {
+            padding: 5px 10px;
+            background-color: #28a745; /* Green button */
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .verify-btn:hover {
+            background-color: #218838;
+        }
+        .logo-default {
+            max-width: 200px;
+            height: auto;
+        }
+        /* Navbar customization */
+        .navbar-nav .nav-link {
+            color: var(--text-color);
+        }
+        .navbar-nav .nav-link:hover {
+            color: #a3e0c6; /* Lighter jade green */
+        }
+        .dropdown-menu {
+            background-color: var(--main-color);
+            color: var(--text-color);
+        }
+        .dropdown-item {
+            color: var(--text-color);
+        }
+        .dropdown-item:hover {
+            background-color: #a3e0c6;
+            color: #000;
+        }
     </style>
 </head>
 <body>
