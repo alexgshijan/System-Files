@@ -35,15 +35,14 @@
     </div>
 
     <script>
+        const fullName = sessionStorage.getItem('full_name');
         fetch('/assets/html/admin/menubar.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('navbarContainer').innerHTML = data;
+                document.getElementById('welcome-message').textContent = `Welcome back, ${fullName}`;
             })
             .catch(error => console.error('Error loading menubar:', error));
-
-            const fullName = sessionStorage.getItem('full_name');
-            document.getElementById('welcome-message').textContent = `Welcome back, ${fullName}`;
     </script>
 </body>
 </html>
