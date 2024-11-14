@@ -44,13 +44,6 @@
                 document.getElementById('welcome-message').textContent = `Welcome back, ${fullName}`;
             })
             .catch(error => console.error('Error loading menubar:', error));
-
-        function logout() {
-            sessionStorage.clear();
-            window.location.href = "https://solarportal.alexgs.co.uk";
-        }
-
-        document.getElementById('logoutButton').addEventListener('click', logout);
     </script>
 </body>
 </html>
