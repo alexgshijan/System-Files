@@ -8,13 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 5%; /* Adjusted for better spacing */
-            background-color: #00261a; /* Dark jade green */
-            color: white;
-        }
         h1 {
             font-size: 48px;
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
@@ -50,63 +43,9 @@
         .verify-btn:hover {
             background-color: #218838;
         }
-        .logo-default {
-            max-width: 200px;
-            height: auto;
-        }
-        /* Navbar customization */
-        .navbar-nav .nav-link {
-            color: var(--text-color);
-        }
-        .navbar-nav .nav-link:hover {
-            color: #a3e0c6; /* Lighter jade green */
-        }
-        .dropdown-menu {
-            background-color: var(--main-color);
-            color: var(--text-color);
-        }
-        .dropdown-item {
-            color: var(--text-color);
-        }
-        .dropdown-item:hover {
-            background-color: #a3e0c6;
-            color: #000;
-        }
     </style>
 </head>
 <body>
-
-    <div class="container">
-        <div class="page-header">
-            <nav class="navbar navbar-expand-lg navbar-dark">
-                <a class="navbar-brand" href="https://solarportal.alexgs.co.uk">
-                    <img src="/assets/img/SolarPortalLogo-Banner.png" alt="solarportal" title="solarportal" class="logo-default">
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://solarportal.alexgs.co.uk/pages/landing">Home</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Account
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="/pages/manage/settings.html">Settings</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" id="logoutButton">Log Out</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
-
     <h1>Login Verification</h1>
 
     <h2 class="verified-title">Verified Users</h2>
@@ -141,29 +80,20 @@
             </tr>
         </tbody>
     </table>
-
-    <!-- Bootstrap and jQuery JS -->
+    <div id="navbarContainer"></div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const fullName = sessionStorage.getItem('full_name');
+        fetch('/assets/html/admin/menubar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbarContainer').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading menubar:', error));
+    </script>
 
     <script>
-        function checkSession() {
-            const fullName = sessionStorage.getItem('full_name');
-            const accountType = sessionStorage.getItem('account_type');
-
-            if (!fullName || (accountType !== 'admin' && accountType !== 'employee')) {
-                window.location.href = 'https://solarportal.alexgs.co.uk/pages/landing';
-            }
-        }
-
-        function logout() {
-            sessionStorage.clear();
-            window.location.href = "https://solarportal.alexgs.co.uk";
-        }
-
-        document.getElementById('logoutButton').addEventListener('click', logout);
-        checkSession();
-
         document.addEventListener('DOMContentLoaded', function() {
             fetch('https://solarportal-server.alexgs.co.uk/manage/logins')
                 .then(response => response.json())
