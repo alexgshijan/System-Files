@@ -35,9 +35,6 @@
     </div>
 
     <script>
-        const fullName = sessionStorage.getItem('full_name');
-        document.getElementById('welcome-message').textContent = `Welcome back, ${fullName}`;
-
         fetch('/assets/html/admin/menubar.html')
             .then(response => response.text())
             .then(data => {
@@ -45,6 +42,8 @@
             })
             .catch(error => console.error('Error loading menubar:', error));
 
+            const fullName = sessionStorage.getItem('full_name');
+            document.getElementById('welcome-message').textContent = `Welcome back, ${fullName}`;
     </script>
 </body>
 </html>
