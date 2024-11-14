@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+
+    <style>
+        :root {
+            --main-color: #00261a; /* Dark jade green */
+            --text-color: #ffffff; /* White for text contrast */
+        }
+
+        body {
+            background-color: var(--main-color);
+            overflow: hidden;
+            height: 100%;
+            padding: 0;
+            color: var(--text-color);
+            margin: 0; /* Remove default margin */
+            text-align: center; /* Center text alignment for the welcome message */
+        }
+
+        .logo-default {
+            max-width: 200px;
+            height: auto;
+        }
+
+        /* Navbar customization */
+        .navbar-nav .nav-link {
+            color: var(--text-color);
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #a3e0c6; /* Lighter jade green */
+        }
+
+        .dropdown-menu {
+            background-color: var(--main-color);
+            color: var(--text-color);
+        }
+
+        .dropdown-item {
+            color: var(--text-color);
+        }
+
+        .dropdown-item:hover {
+            background-color: #a3e0c6;
+            color: #000;
+        }
+
+        h1 {
+            font-size: 72px; /* Bigger text for h1 */
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            animation: pulseShadow 2s ease-in-out infinite;
+        }
+
+        p {
+            font-size: 32px; /* Bigger text for p */
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            animation: pulseShadow 2s ease-in-out infinite;
+            animation-delay: 2s; /* Delay animation for the paragraph */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="https://solarportal.alexgs.co.uk">
+                    <img src="/assets/img/SolarPortalLogo-Banner.png" alt="solarportal" title="solarportal" class="logo-default">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Home -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://solarportal.alexgs.co.uk/pages/landing">Home</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="manageInstallationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Manage Installations
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="manageInstallationsDropdown">
+                                <a class="dropdown-item" href="register-installation.html">Register</a>
+                                <a class="dropdown-item" href="view-installation.html">View Status</a>
+                                <a class="dropdown-item" href="withdraw-installation.html">Withdraw Application</a>
+                            </div>
+                        </li>
+
+                        <!-- Account Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Account
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/pages/manage/settings.html">Settings</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="https://solarportal.alexgs.co.uk">Log Out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    <script>
+        if (sessionStorage.getItem('account_type') !== 'client') {
+            window.location.href = 'https://solarportal.alexgs.co.uk';
+        } 
+    </script>
+</body>
