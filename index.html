@@ -65,112 +65,97 @@
             margin-bottom: 30px;
         }
 
+        .modal-content {
+            display: none;
+            opacity: 0;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 100%;
+            z-index: 1000;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: opacity 0.5s ease;
+        }
+
+        .show-modal {
+            display: block;
+            opacity: 1;
+        }
     </style>
-
-<style>
-/* Modal initially hidden with opacity */
-.modal-content {
-    display: none;
-    opacity: 0;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 100%;
-    z-index: 1000;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    transition: opacity 0.5s ease; /* Transition for opacity change */
-}
-
-
-
-/* When modal is shown, set opacity to 1 */
-.show-modal {
-    display: block;
-    opacity: 1;
-}
-</style>
 </head>
 
 <body>        
-        <div class="content">
-            <div class="title m-b-md"><b>Solar</b>Portal</div>
-            <div class="links">
-                    <a href="https://solarportal.alexgs.co.uk">Home</a>
-                    <a href="pages/auth/login.html">Login</a>
-                    <a href="pages/support.html">Support</a>
-            </div>
+    <div class="content">
+        <div class="title m-b-md"><b>Solar</b>Portal</div>
+        <div class="links">
+                <a href="https://solarportal.alexgs.co.uk">Home</a>
+                <a href="#login">Login</a>
+                <a href="pages/support.html">Support</a>
         </div>
+    </div>
 
-        <div class = "modal-content">
-            <div class="container" id="container">
-                <div class="form-container sign-up">
-                    <form id="register-form">
-                        <h1>Create Account</h1>
-                        <input type="text" id="first_name" placeholder="First Name">
-                        <input type="text" id="last_name" placeholder="Last Name">
-                        <input type="email" id="regemail_id" placeholder="Email">
-                        <input type="password" id="regpassword" placeholder="Password">
-                        <select id="account_type" name="account_type" required>
-                            <option value="client">Client</option>
-                            <option value="employee">Employee</option>
-                        </select>
-                        <button type="submit">Sign Up</button>
-                        <div id="message"></div>
-                    </form>
-                </div>
-        
-                <div class="form-container sign-in">
-                    <form id="loginForm">
-                        <h1>Sign In</h1>
-                        <input type="email" id="logemail" placeholder="Email">
-                        <input type="password" id="logpassword" placeholder="Password">
-                        <button type="submit">Sign In</button>
-                    </form>
-                </div>
-        
-                <div class="toggle-container">
-                    <div class="toggle">
-                        <div class="toggle-panel toggle-left">
-                            <h1>Welcome Back!</h1>
-                            <p>To Sign In, click the button below</p>
-                            <button class="hidden" id="login">Sign In</button>
-                        </div>
-                        <div class="toggle-panel toggle-right">
-                            <h1>Hi there!</h1>
-                            <p>To Get Started with us, click the button below</p>
-                            <button class="hidden" id="register">Sign Up</button>
-                        </div>
+    <div class = "modal-content">
+        <div class="container" id="container">
+            <div class="form-container sign-up">
+                <form id="register-form">
+                    <h1>Create Account</h1>
+                    <input type="text" id="first_name" placeholder="First Name">
+                    <input type="text" id="last_name" placeholder="Last Name">
+                    <input type="email" id="regemail_id" placeholder="Email">
+                    <input type="password" id="regpassword" placeholder="Password">
+                    <select id="account_type" name="account_type" required>
+                        <option value="client">Client</option>
+                        <option value="employee">Employee</option>
+                    </select>
+                    <button type="submit">Sign Up</button>
+                    <div id="message"></div>
+                </form>
+            </div>
+    
+            <div class="form-container sign-in">
+                <form id="loginForm">
+                    <h1>Sign In</h1>
+                    <input type="email" id="logemail" placeholder="Email">
+                    <input type="password" id="logpassword" placeholder="Password">
+                    <button type="submit">Sign In</button>
+                </form>
+            </div>
+    
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-left">
+                        <h1>Welcome Back!</h1>
+                        <p>To Sign In, click the button below</p>
+                        <button class="hidden" id="login">Sign In</button>
+                    </div>
+                    <div class="toggle-panel toggle-right">
+                        <h1>Hi there!</h1>
+                        <p>To Get Started with us, click the button below</p>
+                        <button class="hidden" id="register">Sign Up</button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-<div id="modal-overlay"></div>
+    <div id="modal-overlay"></div>
 
     <script>
         const modal = document.querySelector('.modal-content');
         const modalOverlay = document.getElementById('modal-overlay');
-        const loginLink = document.querySelector('a[href="pages/auth/login.html"]');
 
         // Function to show the modal with fade-in
         function showModal() {
             modal.style.display = 'block'; // Show modal
 
-        // Trigger opacity change after display is set
-        setTimeout(() => {
-            modal.classList.add('show-modal'); 
-            modalOverlay.classList.add('show-modal');
-        }, 10); // Small delay to ensure the transition applies
-    }
-
-
-        // Show modal on login link click
-        loginLink.addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent the default link behavior
-            showModal();
-        });
+            // Trigger opacity change after display is set
+            setTimeout(() => {
+                modal.classList.add('show-modal'); 
+                modalOverlay.classList.add('show-modal');
+            }, 10)
+        }
     </script>
 
     <script>
@@ -298,7 +283,5 @@
         // Listen for hash changes and call the function
         window.onhashchange = handleHashChange;
     </script>
-
-
 </body></html>
 
