@@ -95,17 +95,13 @@
 
 <body>        
         <div class="content">
-            <div class="title m-b-md">
-                <b>Solar</b>Portal
-            </div>
-
+            <div class="title m-b-md"><b>Solar</b>Portal</div>
             <div class="links">
-                                <a href="https://solarportal.alexgs.co.uk">Home</a>
-                                <a href="pages/auth/login.html">Login</a>
-                                <a href="pages/support.html">Support</a>
-                                            </div>
+                    <a href="https://solarportal.alexgs.co.uk">Home</a>
+                    <a href="pages/auth/login.html">Login</a>
+                    <a href="pages/support.html">Support</a>
+            </div>
         </div>
-
 
         <div class = "modal-content">
             <div class="container" id="container">
@@ -149,37 +145,34 @@
                     </div>
                 </div>
             </div>
-            </divdiv>
+        </div>
 
-    <!-- Add an overlay for background dimming -->
 <div id="modal-overlay"></div>
 
-<script>
-    const modal = document.querySelector('.modal-content');
-    const modalOverlay = document.getElementById('modal-overlay');
-    const loginLink = document.querySelector('a[href="pages/auth/login.html"]');
+    <script>
+        const modal = document.querySelector('.modal-content');
+        const modalOverlay = document.getElementById('modal-overlay');
+        const loginLink = document.querySelector('a[href="pages/auth/login.html"]');
 
-// Function to show the modal with fade-in
-function showModal() {
-    modal.style.display = 'block'; // Show modal
+        // Function to show the modal with fade-in
+        function showModal() {
+            modal.style.display = 'block'; // Show modal
 
-    // Trigger opacity change after display is set
-    setTimeout(() => {
-        modal.classList.add('show-modal'); 
-        modalOverlay.classList.add('show-modal');
-    }, 10); // Small delay to ensure the transition applies
-}
+        // Trigger opacity change after display is set
+        setTimeout(() => {
+            modal.classList.add('show-modal'); 
+            modalOverlay.classList.add('show-modal');
+        }, 10); // Small delay to ensure the transition applies
+    }
 
 
-    // Show modal on login link click
-    loginLink.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent the default link behavior
-        showModal();
-    });
+        // Show modal on login link click
+        loginLink.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default link behavior
+            showModal();
+        });
+    </script>
 
-</script>
-
-    <!-- Login Script -->
     <script>
         document.getElementById('loginForm').addEventListener('submit', function (event) {
             event.preventDefault();  // Prevent default form submission
