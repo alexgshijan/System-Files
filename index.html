@@ -200,7 +200,6 @@ function showModal() {
                         // Store full_name and account_type in sessionStorage
                         sessionStorage.setItem('full_name', data.full_name);
                         sessionStorage.setItem('account_type', data.account_type);
-                        alert('Login successful! Redirecting...');
                         window.location.href = '/pages/landing.html';
                     } else {
                         alert('Login failed: ' + data.error);
