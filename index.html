@@ -175,7 +175,6 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.message === 'Login successful.') {
-                        // Store full_name and account_type in sessionStorage
                         sessionStorage.setItem('full_name', data.full_name);
                         sessionStorage.setItem('account_type', data.account_type);
                         window.location.href = '/pages/landing.html';
