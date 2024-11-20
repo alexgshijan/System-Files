@@ -56,11 +56,12 @@
                 <th>Email ID</th>
                 <th>Full Name</th>
                 <th>Account Type</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td colspan="3">Loading data...</td>
+                <td colspan="4">Loading data...</td>
             </tr>
         </tbody>
     </table>
@@ -114,6 +115,9 @@
                             <td>${user.email_id}</td>
                             <td>${user.first_name} ${user.last_name}</td>
                             <td>${user.account_type}</td>
+                            <td>
+                                <button class="remove-btn" data-uid="${user.UID}">Remove</button>
+                            </td>
                         `;
                         verifiedTableBody.appendChild(row);
                     });
