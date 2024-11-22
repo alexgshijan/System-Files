@@ -175,7 +175,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.message === 'Login successful.') {
-                        sessionStorage.setItem('full_name', data.full_name);
+                        sessionStorage.setItem('first_name', data.first_name);
                         sessionStorage.setItem('account_type', data.account_type);
                         window.location.href = '/pages/landing.html';
                     } else {
