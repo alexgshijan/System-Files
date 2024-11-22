@@ -21,6 +21,11 @@
 		<lastmod>2024-11-14</lastmod>
 	</url>
 	<url>
+		<loc>https://www.solarportal.alexgs.co.uk/pages/logout.html</loc>
+		<priority>0.60</priority>
+		<lastmod>2024-11-22</lastmod>
+	</url>
+	<url>
 		<loc>https://www.solarportal.alexgs.co.uk/pages/manage/users.html</loc>
 		<priority>0.40</priority>
 		<lastmod>2024-11-20</lastmod>
@@ -73,16 +78,16 @@
 	<url>
 		<loc>https://www.solarportal.alexgs.co.uk/assets/html/employee/menubar.html</loc>
 		<priority>0.20</priority>
-		<lastmod>2024-11-14</lastmod>
+		<lastmod>2024-11-22</lastmod>
 	</url>
 	<url>
 		<loc>https://www.solarportal.alexgs.co.uk/assets/html/client/menubar.html</loc>
 		<priority>0.20</priority>
-		<lastmod>2024-11-14</lastmod>
+		<lastmod>2024-11-22</lastmod>
 	</url>
 	<url>
 		<loc>https://www.solarportal.alexgs.co.uk/assets/html/admin/menubar.html</loc>
 		<priority>0.20</priority>
-		<lastmod>2024-11-14</lastmod>
+		<lastmod>2024-11-22</lastmod>
 	</url>
 </urlset>
