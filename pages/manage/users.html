@@ -6,7 +6,6 @@
     <title>SolarPortal - Logins</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <script src="/auth/sessionManagement.js" defer></script>
 
     <style>
         h1 {
@@ -119,7 +118,7 @@
                             <td>${user.first_name} ${user.last_name}</td>
                             <td>${user.account_type}</td>
                             <td>
-                                <button class="remove-btn" data-uid="${user.UID}">Remove</button>
+                                <button class="remove-btn" data-user_id="${user.user_id}">Remove</button>
                             </td>
                         `;
                         verifiedTableBody.appendChild(row);
@@ -133,7 +132,7 @@
                             <td>${user.account_type}</td>
                             <td>
                                 <button class="verify-btn" data-email="${user.email_id}">Verify</button>
-                                <button class="remove-btn" data-uid="${user.UID}">Remove</button>
+                                <button class="remove-btn" data-user_id="${user.user_id}">Remove</button>
                             </td>
                         `;
                         nonVerifiedTableBody.appendChild(row);
@@ -148,8 +147,8 @@
 
                     document.querySelectorAll('.remove-btn').forEach(button => {
                         button.addEventListener('click', function() {
-                            const uid = this.getAttribute('data-uid');
-                            removeUser(uid);
+                            const user_id = this.getAttribute('data-user_id');
+                            removeUser(user_id);
                         });
                     });
                 })
@@ -185,18 +184,18 @@
                 });
             }
 
-            function removeUser(uid) {
+            function removeUser(user_id) {
                 fetch(`https://solarportal-server.alexgs.co.uk/manage/removeuser`, {
                     method: 'POST', 
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ UID: uid })
+                    body: JSON.stringify({ user_id: user_id })
                 })
                 .then(response => response.json())
                 .then(result => {
                     if (result.message) {
-                        alert(`User with UID ${uid} deleted successfully.`);
+                        alert(`User with user ID ${user_id} deleted successfully.`);
                         location.reload();
                     } else {
                         alert('Deletion failed.');
