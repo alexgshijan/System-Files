@@ -109,6 +109,14 @@
                         <option value="client">Client</option>
                         <option value="employee">Employee</option>
                     </select>
+                    <div style="display: flex; align-items: center; margin-top: 10px;">
+                        <input type="checkbox" id="gdpr_consent" required style="margin-right: 5px;">
+                        <label for="gdpr_consent" style="font-size: 12px; white-space: nowrap;">
+                            I consent to the <span style="text-decoration: underline; color: blue; cursor: pointer;" title="I consent to the processing of my data in compliance with GDPR. I acknowledge this site is part of a computer science project and not associated with any real-world organization.">
+                                privacy policy
+                            </span>.
+                        </label>
+                    </div>
                     <button type="submit">Sign Up</button>
                     <div id="message"></div>
                 </form>
@@ -132,7 +140,7 @@
                     </div>
                     <div class="toggle-panel toggle-right">
                         <h1>Hi there!</h1>
-                        <p>To Get Started with us, click the button below</p>
+                        <p>To Get Started, click the button below</p>
                         <button class="hidden" id="register">Sign Up</button>
                     </div>
                 </div>
