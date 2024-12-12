@@ -3,41 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SolarPortal</title>
+    <title>SolarPortal - Installations</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="assets/img/SolarPortalLogo.png">
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 20%;
-            background-color: #00261a; /* Dark jade green */
+        h1 {
+            font-size: 48px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 90%;
+            background-color: white;
+            color: black;
+            text-align: left;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #004d40;
             color: white;
         }
-
-        h1 {
-            font-size: 72px; /* Bigger text for h1 */
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
-            animation: pulseShadow 2s ease-in-out infinite;
+        .status-dropdown {
+            width: 100%;
         }
-
-        p {
-            font-size: 32px; /* Bigger text for p */
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
-            animation: pulseShadow 2s ease-in-out infinite;
-            animation-delay: 2s; /* Delay animation for the paragraph */
+        .update-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
         }
-
-        @keyframes pulseShadow {
-            0%, 100% {
-                text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
-            }
-            50% {
-                text-shadow: 0 0 50px rgba(255, 255, 255, 1);
-            }
+        .update-btn:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <h1>SolarPortal</h1>
-    <p>This page is currently under construction</p>
+    <div id="navbarContainer"></div>
+    <h1>Application Management</h1>
+
+    <table id="applicationsTable">
+        <thead>
+            <tr>
+                <th>Application ID</th>
+                <th>User ID</th>
+                <th>Address</th>
+                <th>Postcode</th>
+                <th>Property Type</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="7">Loading data...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        fetch('/assets/html/admin/menubar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbarContainer').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading menubar:', error));
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const statusOptions = [
+                "0. Application Denied",
+                "1. Pending Approval",
+                "2. Approved for Development",
+                "3. Site Surveyed",
+                "4. Awaiting Installation",
+                "5. Awaiting QoW Assessment",
+                "6. Installation Complete"
+            ];
+
+            fetch('https://solarportal-server.alexgs.co.uk/manage/installations')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = '';
+
+                    data.forEach(application => {
+                        const row = document.createElement('tr');
+                        const statusDropdown = statusOptions.map(option => 
+                            `<option value="${option}" ${option === application.status ? "selected" : ""}>${option}</option>`
+                        ).join('');
+
+                        row.innerHTML = `
+                            <td>${application.application_id}</td>
+                            <td>${application.user_id}</td>
+                            <td>${application.address}</td>
+                            <td>${application.postcode}</td>
+                            <td>${application.property_type}</td>
+                            <td>
+                                <select class="status-dropdown" data-application-id="${application.application_id}">
+                                    ${statusDropdown}
+                                </select>
+                            </td>
+                            <td>
+                                <button class="update-btn" data-application-id="${application.application_id}">Update</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+
+                    document.querySelectorAll('.update-btn').forEach(button => {
+                        button.addEventListener('click', function () {
+                            const applicationId = this.getAttribute('data-application-id');
+                            const newStatus = document.querySelector(`.status-dropdown[data-application-id="${applicationId}"]`).value;
+                            updateApplicationStatus(applicationId, newStatus);
+                        });
+                    });
+                })
+                .catch(error => {
+                    const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = '<tr><td colspan="7">Error loading data</td></tr>';
+                    console.error('Error fetching data:', error);
+                });
+
+            function updateApplicationStatus(applicationId, newStatus) {
+                fetch('https://solarportal-server.alexgs.co.uk/manage/updateapplication', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ application_id: applicationId, status: newStatus })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.message) {
+                        alert(`Status for Application ID ${applicationId} updated to '${newStatus}'.`);
+                        location.reload();
+                    } else {
+                        alert('Update failed.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating status:', error);
+                    alert('Error updating status.');
+                });
+            }
+        });
+    </script>
 </body>
 </html>
