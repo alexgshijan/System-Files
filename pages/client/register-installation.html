@@ -71,6 +71,10 @@
                                         <option value="">Loading...</option>
                                     </select>
                                 </div>
+                                <div class="form-group">
+                                    <label for="numPanels">Number of Panels</label>
+                                    <input type="number" id="numPanels" class="form-control" min="1" placeholder="Enter number of panels" required>
+                                </div>
                                 <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next</button>
                             </div>
 
@@ -106,10 +110,6 @@
                                         <option value="Other">Other</option>
                                     </select>
                                     <input type="text" id="otherRoofTypeInput" class="form-control mt-2" placeholder="Please specify" style="display: none;">
-                                </div>
-                                <div class="form-group">
-                                    <label for="numPanels">Number of Panels</label>
-                                    <input type="number" id="numPanels" class="form-control" min="1" placeholder="Enter number of panels" required>
                                 </div>
                                 <button type="button" class="btn btn-primary" onclick="nextStep(3)">Next</button>
                             </div>
@@ -193,7 +193,7 @@ function redirectToLandingPage() {
     // Navigate to next step
 function nextStep(step) {
     // Check if all required fields are filled before proceeding
-    if (!validateStep(step)) {
+    if (!validateStep(step - 1)) {
         return; // Don't proceed to the next step if validation fails
     }
 
@@ -215,8 +215,9 @@ function validateStep(step) {
             const panel = document.getElementById('panel').value;
             const battery = document.getElementById('battery').value;
             const inverter = document.getElementById('inverter').value;
+            const numPanels = document.getElementById('numPanels').value;
 
-            if (!panel || !battery || !inverter) {
+            if (!panel || !battery || !inverter || !numPanels) {
                 alert('Please select a panel, battery, and inverter.');
                 valid = false;
             }
@@ -227,9 +228,8 @@ function validateStep(step) {
             const postcode = document.getElementById('postcode').value;
             const propertyType = document.getElementById('propertyType').value;
             const roofType = document.getElementById('roofType').value;
-            const numPanels = document.getElementById('numPanels').value;
 
-            if (!address || !postcode || !propertyType || !roofType || !numPanels) {
+            if (!address || !postcode || !propertyType || !roofType) {
                 alert('Please fill in all property details.');
                 valid = false;
             }
@@ -293,15 +293,13 @@ function validateStep(step) {
             .then(data => {alert('Application submitted successfully!'); redirectToLandingPage()})
             .catch(error => alert('Error submitting application.'));
     }
-    function redirectToLandingPage() {
-    window.location.href = 'https://solarportal.alexgs.co.uk/pages/client/client-landing';
-}
 </script>
         <script type="module">
         if (sessionStorage.getItem('account_type') !== "client") {
             window.location.href = 'https://solarportal.alexgs.co.uk';
         }
     </script>
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
