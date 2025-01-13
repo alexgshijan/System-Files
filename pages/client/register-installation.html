@@ -273,6 +273,7 @@ function validateStep(step) {
     // Submit application
     function submitApplication() {
         const formData = {
+            user : sessionStorage.getItem('user_id'),
             panel: document.getElementById('panel').value,
             battery: document.getElementById('battery').value,
             inverter: document.getElementById('inverter').value,
@@ -281,7 +282,7 @@ function validateStep(step) {
             propertyType: document.getElementById('propertyType').value,
             roofType: document.getElementById('roofType').value,
             numPanels: document.getElementById('numPanels').value,
-            totalPrice: document.getElementById('totalPrice').value,
+            totalPrice: (basePrice + installationFee + vat),
         };
 
         fetch('https://solarportal-server.alexgs.co.uk/submit-application', {
