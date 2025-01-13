@@ -79,7 +79,18 @@
             .catch(error => console.error('Error loading menubar:', error));
     </script>
 <script>
-fetch('https://solarportal-server.alexgs.co.uk/manage/installations')
+    document.addEventListener('DOMContentLoaded', function () {
+        const statusOptions = [
+            "0. Application Denied",
+            "1. Pending Approval",
+            "2. Approved for Development",
+            "3. Site Surveyed",
+            "4. Awaiting Installation",
+            "5. Awaiting QoW Assessment",
+            "6. Installation Complete"
+        ];
+
+        fetch('https://solarportal-server.alexgs.co.uk/manage/installations')
     .then(response => response.json())
     .then(data => {
         const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
@@ -177,7 +188,7 @@ function updateApplication(applicationId, newStatus, newDate) {
         console.error('Error updating application:', error);
         alert('Error updating application.');
     });
-}
+}});
 </script>
 </body>
 </html>
