@@ -212,9 +212,9 @@ function validateStep(step) {
 
     switch (step) {
         case 1: // Step 1: Product Selection
-            const panel = document.getElementById('panel').data-id;
-            const battery = document.getElementById('battery').data-id;
-            const inverter = document.getElementById('inverter').data-id;
+            const panel = document.getElementById('panel').value;
+            const battery = document.getElementById('battery').value;
+            const inverter = document.getElementById('inverter').value;
             const numPanels = document.getElementById('numPanels').value;
 
             if (!panel || !battery || !inverter || !numPanels) {
@@ -274,9 +274,9 @@ function validateStep(step) {
     function submitApplication() {
         const formData = {
             user : sessionStorage.getItem('user_id'),
-            panel: document.getElementById('panel').value,
-            battery: document.getElementById('battery').value,
-            inverter: document.getElementById('inverter').value,
+            panel: document.getElementById('panel').data-id,
+            battery: document.getElementById('battery').data-id,
+            inverter: document.getElementById('inverter').data-id,
             address: document.getElementById('address').value,
             postcode: document.getElementById('postcode').value,
             propertyType: document.getElementById('propertyType').value,
