@@ -79,48 +79,36 @@
             .catch(error => console.error('Error loading menubar:', error));
     </script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const statusOptions = [
-            "0. Application Denied",
-            "1. Pending Approval",
-            "2. Approved for Development",
-            "3. Site Surveyed",
-            "4. Awaiting Installation",
-            "5. Awaiting QoW Assessment",
-            "6. Installation Complete"
-        ];
+fetch('https://solarportal-server.alexgs.co.uk/manage/installations')
+    .then(response => response.json())
+    .then(data => {
+        const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
+        tableBody.innerHTML = '';
 
-        fetch('https://solarportal-server.alexgs.co.uk/manage/installations')
-            .then(response => response.json())
-            .then(data => {
-                const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
-                tableBody.innerHTML = '';
+        data.forEach(application => {
+            const mainRow = document.createElement('tr');
+            mainRow.innerHTML = `
+                <td><button class="expand-btn" data-id="${application.application_id}">+</button></td>
+                <td>${application.application_id}</td>
+                <td>${application.user_id}</td>
+                <td>${application.status}</td>
+            `;
+            tableBody.appendChild(mainRow);
 
-                data.forEach(application => {
-                    const mainRow = document.createElement('tr');
-                    mainRow.innerHTML = `
-                        <td><button class="expand-btn" data-id="${application.application_id}">+</button></td>
-                        <td>${application.application_id}</td>
-                        <td>${application.user_id}</td>
-                        <td>${application.status}</td>
-                    `;
-                    tableBody.appendChild(mainRow);
-
-                    const detailsRow1 = document.createElement('tr');
-                    detailsRow1.className = 'details-row';
-                    detailsRow1.innerHTML = `
-                        <td colspan="4">
-                            <strong>Panel ID:</strong> ${application.panel_id}  <strong>Panel Name:</strong> ${application.panel_name}<br>
-                            <strong>Battery ID:</strong> ${application.battery_id}   <strong>Battery Name:</strong> ${application.battery_name}<br>
-                            <strong>Inverter ID:</strong> ${application.inverter_id}   <strong>Inverter Name:</strong> ${application.inverter_name}<br>
-                        </td>
-                    `;
-                    tableBody.appendChild(detailsRow1);
-
-                    const detailsRow2 = document.createElement('tr');
-                    detailsRow2.className = 'details-row';
-                    detailsRow2.innerHTML = `
-                        <td colspan="4">
+            const detailsRow = document.createElement('tr');
+            detailsRow.className = 'details-row';
+            detailsRow.innerHTML = `
+                <td colspan="4">
+                    <div style="display: flex; justify-content: space-between; gap: 20px;">
+                        <div style="flex: 1;">
+                            <strong>Panel ID:</strong> ${application.panel_id}<br>
+                            <strong>Panel Name:</strong> ${application.panel_name}<br>
+                            <strong>Battery ID:</strong> ${application.battery_id}<br>
+                            <strong>Battery Name:</strong> ${application.battery_name}<br>
+                            <strong>Inverter ID:</strong> ${application.inverter_id}<br>
+                            <strong>Inverter Name:</strong> ${application.inverter_name}<br>
+                        </div>
+                        <div style="flex: 1;">
                             <strong>Installation Date:</strong> 
                             <input type="date" id="installation-date-${application.application_id}" value="${application.installation_date}"><br>
                             <strong>Address:</strong> ${application.address}<br>
@@ -133,65 +121,63 @@
                                     `<option value="${option}" ${option === application.status ? "selected" : ""}>${option}</option>`).join('')}
                             </select>
                             <button class="update-btn" data-application-id="${application.application_id}">Update</button>
-                        </td>
-                    `;
-                    tableBody.appendChild(detailsRow2);
-                });
+                        </div>
+                    </div>
+                </td>
+            `;
+            tableBody.appendChild(detailsRow);
+        });
 
-                document.querySelectorAll('.expand-btn').forEach(button => {
-                    button.addEventListener('click', function () {
-                        const detailsRows = [
-                            this.closest('tr').nextElementSibling,
-                            this.closest('tr').nextElementSibling.nextElementSibling
-                        ];
-                        if (detailsRows[0].style.display === 'table-row') {
-                            detailsRows.forEach(row => row.style.display = 'none');
-                            this.textContent = '+';
-                        } else {
-                            detailsRows.forEach(row => row.style.display = 'table-row');
-                            this.textContent = '-';
-                        }
-                    });
-                });
-
-                document.querySelectorAll('.update-btn').forEach(button => {
-                    button.addEventListener('click', function () {
-                        const applicationId = this.getAttribute('data-application-id');
-                        const newStatus = document.querySelector(`.status-dropdown[data-application-id="${applicationId}"]`).value;
-                        const newDate = document.querySelector(`#installation-date-${applicationId}`).value;
-                        updateApplication(applicationId, newStatus, newDate);
-                    });
-                });
-            })
-            .catch(error => {
-                const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
-                tableBody.innerHTML = '<tr><td colspan="4">Error loading data</td></tr>';
-                console.error('Error fetching data:', error);
-            });
-
-        function updateApplication(applicationId, newStatus, newDate) {
-            fetch('https://solarportal-server.alexgs.co.uk/manage/updateapplication', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ application_id: applicationId, status: newStatus, installation_date: newDate })
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result.message) {
-                    alert(`Application ID ${applicationId} updated successfully.`);
-                    location.reload();
+        document.querySelectorAll('.expand-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const detailsRow = this.closest('tr').nextElementSibling;
+                if (detailsRow.style.display === 'table-row') {
+                    detailsRow.style.display = 'none';
+                    this.textContent = '+';
                 } else {
-                    alert('Update failed.');
+                    detailsRow.style.display = 'table-row';
+                    this.textContent = '-';
                 }
-            })
-            .catch(error => {
-                console.error('Error updating application:', error);
-                alert('Error updating application.');
             });
-        }
+        });
+
+        document.querySelectorAll('.update-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const applicationId = this.getAttribute('data-application-id');
+                const newStatus = document.querySelector(`.status-dropdown[data-application-id="${applicationId}"]`).value;
+                const newDate = document.querySelector(`#installation-date-${applicationId}`).value;
+                updateApplication(applicationId, newStatus, newDate);
+            });
+        });
+    })
+    .catch(error => {
+        const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
+        tableBody.innerHTML = '<tr><td colspan="4">Error loading data</td></tr>';
+        console.error('Error fetching data:', error);
     });
+
+function updateApplication(applicationId, newStatus, newDate) {
+    fetch('https://solarportal-server.alexgs.co.uk/manage/updateapplication', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ application_id: applicationId, status: newStatus, installation_date: newDate })
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.message) {
+            alert(`Application ID ${applicationId} updated successfully.`);
+            location.reload();
+        } else {
+            alert('Update failed.');
+        }
+    })
+    .catch(error => {
+        console.error('Error updating application:', error);
+        alert('Error updating application.');
+    });
+}
 </script>
 </body>
 </html>
