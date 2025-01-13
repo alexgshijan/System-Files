@@ -274,9 +274,9 @@ function validateStep(step) {
     function submitApplication() {
         const formData = {
             user : sessionStorage.getItem('user_id'),
-            panel: document.getElementById('panel').data-id,
-            battery: document.getElementById('battery').data-id,
-            inverter: document.getElementById('inverter').data-id,
+            panel: document.getElementById('panel').selectedOptions[0].dataset.id,
+            battery: document.getElementById('battery').selectedOptions[0].dataset.id,
+            inverter: document.getElementById('inverter').selectedOptions[0].dataset.id,
             address: document.getElementById('address').value,
             postcode: document.getElementById('postcode').value,
             propertyType: document.getElementById('propertyType').value,
