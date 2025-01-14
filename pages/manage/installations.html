@@ -120,6 +120,7 @@
                             <strong>Battery Name:</strong> ${application.battery_name}<br>
                             <strong>Inverter ID:</strong> ${application.inverter_id}<br>
                             <strong>Inverter Name:</strong> ${application.inverter_name}<br>
+                            <strong>Number of Panels:</strong> ${application.num_panels}<br>
                         </div>
                         <div style="flex: 1;">
                             <strong>Installation Date:</strong> 
@@ -192,5 +193,10 @@ function updateApplication(applicationId, newStatus, newDate) {
     });
 }});
 </script>
+<script>
+            if (sessionStorage.getItem('account_type') !== "admin" && sessionStorage.getItem('account_type') !== "employee") {
+            window.location.href = 'https://solarportal.alexgs.co.uk';
+        }
+        </script>
 </body>
 </html>
