@@ -182,7 +182,7 @@
         });
     </script>
         <script>
-            fetch('/assets/html' + sessionStorage.getItem('account_type') + 'menubar.html')
+            fetch('/assets/html/' + sessionStorage.getItem('account_type') + '/menubar.html')
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('navbarContainer').innerHTML = data;
