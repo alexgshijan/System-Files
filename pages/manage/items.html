@@ -9,8 +9,9 @@
     <link rel="icon" type="image/x-icon" href="assets/img/SolarPortalLogo.png">
 
     <style>
-        body {
-            overflow-y: auto; /* Enable scrolling on the entire page */
+        body, html {
+            min-height: 100vh; /* Ensure body and html are at least the height of the viewport */
+            overflow-y: auto;  /* Make both scrollable if content is greater */
         }
         h1 {
             font-size: 48px;
@@ -53,6 +54,7 @@
         .update-btn:hover {
             background-color: #0056b3;
         }
+        
     </style>
 </head>
 <body>
