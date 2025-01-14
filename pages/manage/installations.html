@@ -123,17 +123,18 @@
                             <strong>Number of Panels:</strong> ${application.nu_panel}<br>
                         </div>
                         <div style="flex: 1;">
-                            <strong>Installation Date:</strong> 
-                            <input type="date" id="installation-date-${application.application_id}" value="${application.installation_date}"><br>
+                            
                             <strong>Address:</strong> ${application.address}<br>
                             <strong>Postcode:</strong> ${application.postcode}<br>
                             <strong>Property Type:</strong> ${application.property_type}<br>
-                            <strong>Roof Type:</strong> ${application.roof_type}<br>
+                            <strong>Roof Type:</strong> ${application.roof_type}<br><br>
+                            <strong>Installation Date:</strong> 
+                            <input type="date" id="installation-date-${application.application_id}" value="${application.installation_date}"><br>
                             <label for="status-${application.application_id}">Status:</label>
                             <select id="status-${application.application_id}" class="status-dropdown short-dropdown" data-application-id="${application.application_id}">
                                 ${statusOptions.map(option => 
                                     `<option value="${option}" ${option === application.status ? "selected" : ""}>${option}</option>`).join('')}
-                            </select>
+                            </select><br>
                             <button class="update-btn" data-application-id="${application.application_id}">Update</button>
                         </div>
                     </div>
