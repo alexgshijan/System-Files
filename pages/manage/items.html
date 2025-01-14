@@ -60,17 +60,32 @@
     overflow-y: auto; /* Allows scrolling when content overflows */
 }
 
-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-.container {
-    overflow: auto; /* Allow scrolling if content exceeds viewport height */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
+html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #navbarContainer {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            background-color: #fff;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .container {
+            margin-top: 60px; /* Adjust based on your navbar height */
+            flex-grow: 1;
+            overflow: auto;
+        }
 </style>
 
 </head>
