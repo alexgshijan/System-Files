@@ -36,9 +36,6 @@
             display: none;
             background-color: #f9f9f9;
         }
-        .details-row.open {
-    display: table-row; /* Ensure proper display for expanded rows */
-}
         .edit-input {
             width: 100%;
             box-sizing: border-box;
@@ -53,31 +50,12 @@
         .update-btn:hover {
             background-color: #0056b3;
         }
-        
-        html, body {
-    height: 100%;
-    margin: 0;
-    overflow-y: auto; /* Allows scrolling when content overflows */
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-.container {
-    min-height: 100vh; /* Ensure container expands with content */
-    overflow: auto; /* Allow scrolling if content exceeds viewport height */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-</style>
-
+    </style>
 </head>
 <body>
     <div id="navbarContainer"></div>
     <h1>Component Management</h1>
+
     <table id="componentsTable">
         <thead>
             <tr>
@@ -125,7 +103,13 @@ body {
                         detailsRow.innerHTML = `
                             <td colspan="7">
                                 <div style="display: flex; flex-direction: column; gap: 10px;">
-                                    <label>Component Type: <input type="text" class="edit-input" id="type-${component.component_id}" value="${component.component_type}"></label>
+                                    <label>Component Type: 
+                                        <select class="edit-input" id="type-${component.component_id}">
+                                            <option value="panel" ${component.component_type === 'panel' ? 'selected' : ''}>Panel</option>
+                                            <option value="inverter" ${component.component_type === 'inverter' ? 'selected' : ''}>Inverter</option>
+                                            <option value="battery" ${component.component_type === 'battery' ? 'selected' : ''}>Battery</option>
+                                        </select>
+                                    </label>
                                     <label>Component Name: <input type="text" class="edit-input" id="name-${component.component_id}" value="${component.component_name}"></label>
                                     <label>Component Description: <textarea class="edit-input" id="desc-${component.component_id}">${component.component_desc}</textarea></label>
                                     <label>Price (£): <input type="number" class="edit-input" id="price-${component.component_id}" value="${(component.component_price / 100).toFixed(2)}"></label>
@@ -138,18 +122,17 @@ body {
                     });
 
                     document.querySelectorAll('.expand-btn').forEach(button => {
-    button.addEventListener('click', function () {
-        const detailsRow = this.closest('tr').nextElementSibling;
-        if (detailsRow.style.display === 'table-row') {
-            detailsRow.style.display = 'none';
-            this.textContent = '+';
-        } else {
-            detailsRow.style.display = 'table-row';
-            this.textContent = '-';
-            detailsRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-    });
-});
+                        button.addEventListener('click', function () {
+                            const detailsRow = this.closest('tr').nextElementSibling;
+                            if (detailsRow.style.display === 'table-row') {
+                                detailsRow.style.display = 'none';
+                                this.textContent = '+';
+                            } else {
+                                detailsRow.style.display = 'table-row';
+                                this.textContent = '-';
+                            }
+                        });
+                    });
 
                     document.querySelectorAll('.update-btn').forEach(button => {
                         button.addEventListener('click', function () {
