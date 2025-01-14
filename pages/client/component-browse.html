@@ -64,8 +64,6 @@
     <table id="componentsTable">
         <thead>
             <tr>
-                <th></th>
-                <th>Component ID</th>
                 <th>Type</th>
                 <th>Name</th>
                 <th>Description</th>
@@ -75,7 +73,7 @@
         </thead>
         <tbody>
             <tr>
-                <td colspan="7">Loading data...</td>
+                <td colspan="6">Loading data...</td>
             </tr>
         </tbody>
     </table>
@@ -93,8 +91,6 @@
                     data.forEach(component => {
                         const mainRow = document.createElement('tr');
                         mainRow.innerHTML = `
-                            <td><button class="expand-btn" data-id="${component.component_id}">+</button></td>
-                            <td>${component.component_id}</td>
                             <td>${component.component_type}</td>
                             <td>${component.component_name}</td>
                             <td>${component.component_desc}</td>
@@ -102,41 +98,6 @@
                             <td>${component.component_stock}</td>
                         `;
                         tableBody.appendChild(mainRow);
-                    });
-
-                    document.querySelectorAll('.update-btn').forEach(button => {
-                        button.addEventListener('click', function () {
-                            const componentId = this.getAttribute('data-id');
-                            const updatedData = {
-                                component_id: componentId,
-                                component_type: document.getElementById(`type-${componentId}`).value,
-                                component_name: document.getElementById(`name-${componentId}`).value,
-                                component_desc: document.getElementById(`desc-${componentId}`).value,
-                                component_price: Math.round(parseFloat(document.getElementById(`price-${componentId}`).value) * 100),
-                                component_stock: parseInt(document.getElementById(`stock-${componentId}`).value, 10)
-                            };
-
-                            fetch('https://solarportal-server.alexgs.co.uk/update-component', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(updatedData)
-                            })
-                            .then(response => response.json())
-                            .then(result => {
-                                if (result.message) {
-                                    alert(`Component ID ${componentId} updated successfully.`);
-                                    location.reload();
-                                } else {
-                                    alert('Update failed.');
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error updating component:', error);
-                                alert('Error updating component.');
-                            });
-                        });
                     });
                 })
                 .catch(error => {
@@ -147,7 +108,7 @@
         });
     </script>
         <script>
-            fetch('/assets/html/' + sessionStorage.getItem('account_type') + '/menubar.html')
+            fetch('/assets/html/client/menubar.html')
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('navbarContainer').innerHTML = data;
