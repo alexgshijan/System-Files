@@ -151,7 +151,7 @@
                             <select id="status-${application.application_id}" class="status-dropdown short-dropdown" data-application-id="${application.application_id}">
                                 ${statusOptions.map(option => 
                                     `<option value="${option}" ${option === application.status ? "selected" : ""}>${option}</option>`).join('')}
-                            </select><br>
+                            </select><br><br>
                             </div>
                             <button class="update-btn" data-application-id="${application.application_id}">Update</button>
                         </div>
