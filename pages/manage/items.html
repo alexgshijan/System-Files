@@ -50,11 +50,19 @@
         .update-btn:hover {
             background-color: #0056b3;
         }
-        html, body {
-    height: 100%; /* Ensure the body takes full height of the viewport */
-    overflow-y: scroll; /* Force a vertical scrollbar */
-}
-    </style>
+        
+    body {
+        height: 100%; /* Ensure full height for scrolling */
+        margin: 0;
+        overflow-y: auto; /* Allow vertical scrolling */
+    }
+
+    .details-row {
+        max-height: 300px; /* Optional: Set a limit to prevent overly large rows */
+        overflow-y: auto; /* Enable scrolling for the expanded details if needed */
+    }
+</style>
+
 </head>
 <body>
     <div id="navbarContainer"></div>
