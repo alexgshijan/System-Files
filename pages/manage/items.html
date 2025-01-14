@@ -103,7 +103,13 @@
                         detailsRow.innerHTML = `
                             <td colspan="7">
                                 <div style="display: flex; flex-direction: column; gap: 10px;">
-                                    <label>Component Type: <input type="text" class="edit-input" id="type-${component.component_id}" value="${component.component_type}"></label>
+                                    <label>Component Type: 
+                                        <select class="edit-input" id="type-${component.component_id}">
+                                            <option value="panel" ${component.component_type === 'panel' ? 'selected' : ''}>Panel</option>
+                                            <option value="inverter" ${component.component_type === 'inverter' ? 'selected' : ''}>Inverter</option>
+                                            <option value="battery" ${component.component_type === 'battery' ? 'selected' : ''}>Battery</option>
+                                        </select>
+                                    </label>
                                     <label>Component Name: <input type="text" class="edit-input" id="name-${component.component_id}" value="${component.component_name}"></label>
                                     <label>Component Description: <textarea class="edit-input" id="desc-${component.component_id}">${component.component_desc}</textarea></label>
                                     <label>Price (£): <input type="number" class="edit-input" id="price-${component.component_id}" value="${(component.component_price / 100).toFixed(2)}"></label>
