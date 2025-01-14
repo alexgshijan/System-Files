@@ -46,6 +46,19 @@
             display: none;
             background-color: #f9f9f9;
         }
+        .status-row {
+            display: flex;
+            align-items: center;
+            gap: 8px; /* Adjust spacing between label and dropdown */
+        }
+
+        .status-row label {
+            margin: 0;
+        }
+
+        .status-dropdown {
+            flex-shrink: 0; /* Ensures dropdown doesn't shrink in flex container */
+        }
     </style>
 </head>
 <body>
@@ -130,11 +143,13 @@
                             <strong>Roof Type:</strong> ${application.roof_type}<br><br>
                             <strong>Installation Date:</strong> 
                             <input type="date" id="installation-date-${application.application_id}" value="${application.installation_date}"><br>
+                            <div class="status-row">
                             <label for="status-${application.application_id}">Status:</label>
                             <select id="status-${application.application_id}" class="status-dropdown short-dropdown" data-application-id="${application.application_id}">
                                 ${statusOptions.map(option => 
                                     `<option value="${option}" ${option === application.status ? "selected" : ""}>${option}</option>`).join('')}
                             </select><br>
+                            </div>
                             <button class="update-btn" data-application-id="${application.application_id}">Update</button>
                         </div>
                     </div>
