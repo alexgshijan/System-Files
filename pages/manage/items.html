@@ -93,7 +93,7 @@
                             <td>${component.component_type}</td>
                             <td>${component.component_name}</td>
                             <td>${component.component_desc}</td>
-                            <td>${component.component_price.toFixed(2)}</td>
+                            <td>£${(component.component_price / 100).toFixed(2)}</td>
                             <td>${component.component_stock}</td>
                         `;
                         tableBody.appendChild(mainRow);
@@ -106,7 +106,7 @@
                                     <label>Component Type: <input type="text" class="edit-input" id="type-${component.component_id}" value="${component.component_type}"></label>
                                     <label>Component Name: <input type="text" class="edit-input" id="name-${component.component_id}" value="${component.component_name}"></label>
                                     <label>Component Description: <textarea class="edit-input" id="desc-${component.component_id}">${component.component_desc}</textarea></label>
-                                    <label>Price (€): <input type="number" class="edit-input" id="price-${component.component_id}" value="${component.component_price.toFixed(2)}"></label>
+                                    <label>Price (£): <input type="number" class="edit-input" id="price-${component.component_id}" value="${(component.component_price / 100).toFixed(2)}"></label>
                                     <label>Stock: <input type="number" class="edit-input" id="stock-${component.component_id}" value="${component.component_stock}"></label>
                                     <button class="update-btn" data-id="${component.component_id}">Update</button>
                                 </div>
@@ -136,7 +136,7 @@
                                 component_type: document.getElementById(`type-${componentId}`).value,
                                 component_name: document.getElementById(`name-${componentId}`).value,
                                 component_desc: document.getElementById(`desc-${componentId}`).value,
-                                component_price: parseFloat(document.getElementById(`price-${componentId}`).value),
+                                component_price: Math.round(parseFloat(document.getElementById(`price-${componentId}`).value) * 100),
                                 component_stock: parseInt(document.getElementById(`stock-${componentId}`).value, 10)
                             };
 
