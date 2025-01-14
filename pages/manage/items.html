@@ -36,9 +36,6 @@
             display: none;
             background-color: #f9f9f9;
         }
-        .details-row.open {
-    display: table-row; /* Ensure proper display for expanded rows */
-}
         .edit-input {
             width: 100%;
             box-sizing: border-box;
@@ -54,45 +51,16 @@
             background-color: #0056b3;
         }
         
-        html, body {
-    height: 100%;
-    margin: 0;
-    overflow-y: auto; /* Allows scrolling when content overflows */
-}
-
-html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow: auto;
-            display: flex;
-            flex-direction: column;
-        }
-
-        #navbarContainer {
-            width: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 10;
-            background-color: #fff;
-            padding: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            overflow-x: auto;
-        }
-
-        .container {
-            margin-top: 60px; /* Adjust based on your navbar height */
-            flex-grow: 1;
-            overflow: auto;
-        }
+    body {
+        height: 100%; /* Ensure full height for scrolling */
+        margin: 0;
+        overflow-y: visible; /* Allow vertical scrolling */
+    }
 </style>
 
 </head>
 <body>
-    
     <div id="navbarContainer"></div>
-    <div class="container">
     <h1>Component Management</h1>
     <table id="componentsTable">
         <thead>
@@ -160,18 +128,17 @@ html, body {
                     });
 
                     document.querySelectorAll('.expand-btn').forEach(button => {
-    button.addEventListener('click', function () {
-        const detailsRow = this.closest('tr').nextElementSibling;
-        if (detailsRow.style.display === 'table-row') {
-            detailsRow.style.display = 'none';
-            this.textContent = '+';
-        } else {
-            detailsRow.style.display = 'table-row';
-            this.textContent = '-';
-            detailsRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-    });
-});
+                        button.addEventListener('click', function () {
+                            const detailsRow = this.closest('tr').nextElementSibling;
+                            if (detailsRow.style.display === 'table-row') {
+                                detailsRow.style.display = 'none';
+                                this.textContent = '+';
+                            } else {
+                                detailsRow.style.display = 'table-row';
+                                this.textContent = '-';
+                            }
+                        });
+                    });
 
                     document.querySelectorAll('.update-btn').forEach(button => {
                         button.addEventListener('click', function () {
@@ -223,6 +190,5 @@ html, body {
                 })
                 .catch(error => console.error('Error loading menubar:', error));
         </script>
-</div>
 </body>
 </html>
