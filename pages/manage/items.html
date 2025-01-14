@@ -10,8 +10,8 @@
 
     <style>
         body, html {
-            min-height: 100vh; /* Ensure body and html are at least the height of the viewport */
-            overflow-y: auto;  /* Make both scrollable if content is greater */
+            min-height: 100vh;
+            overflow-y: auto;
         }
         h1 {
             font-size: 48px;
@@ -44,23 +44,53 @@
             width: 100%;
             box-sizing: border-box;
         }
-        .update-btn {
+        .update-btn, .add-btn {
             background-color: #007bff;
             color: white;
             border: none;
             padding: 5px 10px;
             cursor: pointer;
+            margin-top: 10px; /* Space it from the input fields */
         }
-        .update-btn:hover {
+        .update-btn:hover, .add-btn:hover {
             background-color: #0056b3;
         }
-        
+        .add-component-form {
+            margin: 20px auto;
+            width: 90%;
+            background-color: white;
+            padding: 20px;
+            display: none;
+        }
+        .add-component-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
     </style>
 </head>
 <body>
     <div id="navbarContainer"></div>
     <h1>Component Management</h1>
     
+    <button id="showAddComponentForm" class="add-btn">Add Component</button>
+
+    <div id="addComponentForm" class="add-component-form">
+        <h2>Add New Component</h2>
+        <label>Component Type:
+            <select class="edit-input" id="new-type">
+                <option value="panel">Panel</option>
+                <option value="inverter">Inverter</option>
+                <option value="battery">Battery</option>
+            </select>
+        </label>
+        <label>Component Name: <input type="text" class="edit-input" id="new-name"></label>
+        <label>Component Description: <textarea class="edit-input" id="new-desc"></textarea></label>
+        <label>Price (£): <input type="number" class="edit-input" id="new-price"></label>
+        <label>Stock: <input type="number" class="edit-input" id="new-stock"></label>
+        <button id="addNewComponent" class="add-btn">Add</button>
+    </div>
+
     <table id="componentsTable">
         <thead>
             <tr>
@@ -84,6 +114,52 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            const addComponentForm = document.getElementById('addComponentForm');
+            const showAddComponentFormButton = document.getElementById('showAddComponentForm');
+            const addNewComponentButton = document.getElementById('addNewComponent');
+            
+            showAddComponentFormButton.addEventListener('click', () => {
+                addComponentForm.style.display = 'block';
+            });
+            
+            addNewComponentButton.addEventListener('click', function() {
+                const newType = document.getElementById('new-type').value;
+                const newName = document.getElementById('new-name').value;
+                const newDesc = document.getElementById('new-desc').value;
+                const newPrice = Math.round(parseFloat(document.getElementById('new-price').value) * 100);
+                const newStock = parseInt(document.getElementById('new-stock').value, 10);
+                
+                const newComponentData = {
+                    component_type: newType,
+                    component_name: newName,
+                    component_desc: newDesc,
+                    component_price: newPrice,
+                    component_stock: newStock
+                };
+                
+                fetch('https://solarportal-server.alexgs.co.uk/add-component', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newComponentData)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.message) {
+                        alert('Component added successfully.');
+                        location.reload();
+                    } else {
+                        alert('Failed to add component.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error adding component:', error);
+                    alert('Error adding component.');
+                });
+            });
+
+
             fetch('https://solarportal-server.alexgs.co.uk/get-components')
                 .then(response => response.json())
                 .then(data => {
