@@ -3,41 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SolarPortal</title>
+    <title>SolarPortal - Components</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="assets/img/SolarPortalLogo.png">
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 20%;
-            background-color: #00261a; /* Dark jade green */
+        h1 {
+            font-size: 48px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 90%;
+            background-color: white;
+            color: black;
+            text-align: left;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #004d40;
             color: white;
         }
-
-        h1 {
-            font-size: 72px; /* Bigger text for h1 */
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
-            animation: pulseShadow 2s ease-in-out infinite;
+        .expand-btn {
+            cursor: pointer;
         }
-
-        p {
-            font-size: 32px; /* Bigger text for p */
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
-            animation: pulseShadow 2s ease-in-out infinite;
-            animation-delay: 2s; /* Delay animation for the paragraph */
+        .details-row {
+            display: none;
+            background-color: #f9f9f9;
         }
-
-        @keyframes pulseShadow {
-            0%, 100% {
-                text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
-            }
-            50% {
-                text-shadow: 0 0 50px rgba(255, 255, 255, 1);
-            }
+        .edit-input {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .update-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .update-btn:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <h1>SolarPortal</h1>
-    <p>This page is currently under construction</p>
+    <div id="navbarContainer"></div>
+    <h1>Component Management</h1>
+
+    <table id="componentsTable">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Component ID</th>
+                <th>Type</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price (€)</th>
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="7">Loading data...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('https://solarportal-server.alexgs.co.uk/get-components')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('componentsTable').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = '';
+
+                    data.forEach(component => {
+                        const mainRow = document.createElement('tr');
+                        mainRow.innerHTML = `
+                            <td><button class="expand-btn" data-id="${component.component_id}">+</button></td>
+                            <td>${component.component_id}</td>
+                            <td>${component.component_type}</td>
+                            <td>${component.component_name}</td>
+                            <td>${component.component_desc}</td>
+                            <td>${component.component_price.toFixed(2)}</td>
+                            <td>${component.component_stock}</td>
+                        `;
+                        tableBody.appendChild(mainRow);
+
+                        const detailsRow = document.createElement('tr');
+                        detailsRow.className = 'details-row';
+                        detailsRow.innerHTML = `
+                            <td colspan="7">
+                                <div style="display: flex; flex-direction: column; gap: 10px;">
+                                    <label>Component Type: <input type="text" class="edit-input" id="type-${component.component_id}" value="${component.component_type}"></label>
+                                    <label>Component Name: <input type="text" class="edit-input" id="name-${component.component_id}" value="${component.component_name}"></label>
+                                    <label>Component Description: <textarea class="edit-input" id="desc-${component.component_id}">${component.component_desc}</textarea></label>
+                                    <label>Price (€): <input type="number" class="edit-input" id="price-${component.component_id}" value="${component.component_price.toFixed(2)}"></label>
+                                    <label>Stock: <input type="number" class="edit-input" id="stock-${component.component_id}" value="${component.component_stock}"></label>
+                                    <button class="update-btn" data-id="${component.component_id}">Update</button>
+                                </div>
+                            </td>
+                        `;
+                        tableBody.appendChild(detailsRow);
+                    });
+
+                    document.querySelectorAll('.expand-btn').forEach(button => {
+                        button.addEventListener('click', function () {
+                            const detailsRow = this.closest('tr').nextElementSibling;
+                            if (detailsRow.style.display === 'table-row') {
+                                detailsRow.style.display = 'none';
+                                this.textContent = '+';
+                            } else {
+                                detailsRow.style.display = 'table-row';
+                                this.textContent = '-';
+                            }
+                        });
+                    });
+
+                    document.querySelectorAll('.update-btn').forEach(button => {
+                        button.addEventListener('click', function () {
+                            const componentId = this.getAttribute('data-id');
+                            const updatedData = {
+                                component_id: componentId,
+                                component_type: document.getElementById(`type-${componentId}`).value,
+                                component_name: document.getElementById(`name-${componentId}`).value,
+                                component_desc: document.getElementById(`desc-${componentId}`).value,
+                                component_price: parseFloat(document.getElementById(`price-${componentId}`).value),
+                                component_stock: parseInt(document.getElementById(`stock-${componentId}`).value, 10)
+                            };
+
+                            fetch('https://solarportal-server.alexgs.co.uk/update-component', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(updatedData)
+                            })
+                            .then(response => response.json())
+                            .then(result => {
+                                if (result.message) {
+                                    alert(`Component ID ${componentId} updated successfully.`);
+                                    location.reload();
+                                } else {
+                                    alert('Update failed.');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error updating component:', error);
+                                alert('Error updating component.');
+                            });
+                        });
+                    });
+                })
+                .catch(error => {
+                    const tableBody = document.getElementById('componentsTable').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = '<tr><td colspan="7">Error loading data</td></tr>';
+                    console.error('Error fetching data:', error);
+                });
+        });
+    </script>
+        <script>
+            fetch('/assets/html/employee/menubar.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('navbarContainer').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading menubar:', error));
+        </script>
 </body>
 </html>
