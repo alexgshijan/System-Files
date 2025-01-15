@@ -97,7 +97,6 @@
             </div>
 
             <div id="applicationSummary">
-                <!-- This will be populated dynamically -->
             </div>
         </div>
     </div>
@@ -136,9 +135,7 @@
                     } else {
                         // Calculate number of applications and the next installation date
                         const numApplications = data.length;
-                        const nextInstallationDate = data
-                            .map(app => new Date(app.installation_date)) // Convert to Date objects
-                            .sort((a, b) => a - b)[0]; // Sort and get the earliest date
+                        const nextInstallationDate = application.installation_date ? new Date(application.installation_date).sort((a, b) => a - b)[0] : 'TBC'; // Convert to Date objects
                         
                         // Display the summary
                         summaryBox.innerHTML = `Total Applications: ${numApplications}<br>Next Installation Date: ${nextInstallationDate.toLocaleDateString()}`;
