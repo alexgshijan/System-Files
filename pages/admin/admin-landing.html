@@ -120,83 +120,81 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-    fetch('https://solarportal-server.alexgs.co.uk/manage/installations/user?user_id=' + sessionStorage.getItem('user_id'))
-    .then(response => response.json())
-    .then(data => {
-        const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
-        tableBody.innerHTML = '';
-        if (data.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="4">No Applications registered...</td></tr>';
-        }
-        else {
-        data.forEach(application => {
-            const mainRow = document.createElement('tr');
-            mainRow.innerHTML = `
-                <td><button class="expand-btn" data-id="${application.application_id}">+</button></td>
-                <td>${application.application_id}</td>
-                <td>${application.address}</td>
-                <td>${application.status}</td>
-            `;
-            tableBody.appendChild(mainRow);
-
-            const detailsRow = document.createElement('tr');
-            detailsRow.className = 'details-row';
-            detailsRow.innerHTML = `
-                <td colspan="4">
-                    <div style="display: flex; justify-content: space-between; gap: 20px;">
-                        <div style="flex: 1;">
-                            
-                            <strong>Panel Name:</strong> ${application.panel_name} (<strong>Panel ID:</strong> ${application.panel_id})<br>
-                            <strong>Battery Name:</strong> ${application.battery_name} (<strong>Battery ID:</strong> ${application.battery_id})<br>
-                            <strong>Inverter Name:</strong> ${application.inverter_name} (<strong>Inverter ID:</strong> ${application.inverter_id})<br><br>
-                            <strong>Number of Panels:</strong> ${application.nu_panel}<br>
-                        </div>
-                        <div style="flex: 1;">
-                            
-                            <strong>Address:</strong> ${application.address}
-                            <strong>Postcode:</strong> ${application.postcode}<br>
-                            <strong>Property Type:</strong> ${application.property_type}
-                            <strong>Roof Type:</strong> ${application.roof_type}<br><br>
-                            <strong>Installation Date:</strong> ${application.installation_date}<br>
-                            <strong>Status:</strong> ${application.status}
-                        </div>
-                    </div>
-                </td>
-            `;
-            tableBody.appendChild(detailsRow);
-
-            // Update the summary box when the row is clicked
-            mainRow.addEventListener('click', function () {
-                document.getElementById('summaryApplicationId').innerText = application.application_id;
-                document.getElementById('summaryAddress').innerText = application.address;
-                document.getElementById('summaryPanelName').innerText = application.panel_name;
-                document.getElementById('summaryBatteryName').innerText = application.battery_name;
-                document.getElementById('summaryInverterName').innerText = application.inverter_name;
-                document.getElementById('summaryInstallationDate').innerText = application.installation_date;
-                document.getElementById('summaryStatus').innerText = application.status;
-            });
-
+            fetch('https://solarportal-server.alexgs.co.uk/manage/installations/user?user_id=' + sessionStorage.getItem('user_id'))
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = '';
+                    const summaryBox = document.getElementById('applicationSummary'); // Element for summary
+                    
+                    if (data.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="4">No Applications registered...</td></tr>';
+                        summaryBox.innerHTML = 'No applications to display';
+                    } else {
+                        // Calculate number of applications and the next installation date
+                        const numApplications = data.length;
+                        const nextInstallationDate = data
+                            .map(app => new Date(app.installation_date)) // Convert to Date objects
+                            .sort((a, b) => a - b)[0]; // Sort and get the earliest date
+                        
+                        // Display the summary
+                        summaryBox.innerHTML = `Total Applications: ${numApplications}<br>Next Installation Date: ${nextInstallationDate.toLocaleDateString()}`;
+    
+                        data.forEach(application => {
+                            const mainRow = document.createElement('tr');
+                            mainRow.innerHTML = `
+                                <td><button class="expand-btn" data-id="${application.application_id}">+</button></td>
+                                <td>${application.application_id}</td>
+                                <td>${application.address}</td>
+                                <td>${application.status}</td>
+                            `;
+                            tableBody.appendChild(mainRow);
+    
+                            const detailsRow = document.createElement('tr');
+                            detailsRow.className = 'details-row';
+                            detailsRow.innerHTML = `
+                                <td colspan="4">
+                                    <div style="display: flex; justify-content: space-between; gap: 20px;">
+                                        <div style="flex: 1;">
+                                            <strong>Panel Name:</strong> ${application.panel_name} (<strong>Panel ID:</strong> ${application.panel_id})<br>
+                                            <strong>Battery Name:</strong> ${application.battery_name} (<strong>Battery ID:</strong> ${application.battery_id})<br>
+                                            <strong>Inverter Name:</strong> ${application.inverter_name} (<strong>Inverter ID:</strong> ${application.inverter_id})<br><br>
+                                            <strong>Number of Panels:</strong> ${application.nu_panel}<br>
+                                        </div>
+                                        <div style="flex: 1;">
+                                            <strong>Address:</strong> ${application.address}
+                                            <strong>Postcode:</strong> ${application.postcode}<br>
+                                            <strong>Property Type:</strong> ${application.property_type}
+                                            <strong>Roof Type:</strong> ${application.roof_type}<br><br>
+                                            <strong>Installation Date:</strong> ${application.installation_date}<br>
+                                            <strong>Status:</strong> ${application.status}
+                                        </div>
+                                    </div>
+                                </td>
+                            `;
+                            tableBody.appendChild(detailsRow);
+                        });
+    
+                        document.querySelectorAll('.expand-btn').forEach(button => {
+                            button.addEventListener('click', function () {
+                                const detailsRow = this.closest('tr').nextElementSibling;
+                                if (detailsRow.style.display === 'table-row') {
+                                    detailsRow.style.display = 'none';
+                                    this.textContent = '+';
+                                } else {
+                                    detailsRow.style.display = 'table-row';
+                                    this.textContent = '-';
+                                }
+                            });
+                        });
+                    }
+                })
+                .catch(error => {
+                    const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = '<tr><td colspan="4">Error loading data</td></tr>';
+                    console.error('Error fetching data:', error);
+                });
         });
-
-        document.querySelectorAll('.expand-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const detailsRow = this.closest('tr').nextElementSibling;
-                if (detailsRow.style.display === 'table-row') {
-                    detailsRow.style.display = 'none';
-                    this.textContent = '+';
-                } else {
-                    detailsRow.style.display = 'table-row';
-                    this.textContent = '-';
-                }
-            });
-        });
-    }
-    })
-    .catch(error => {
-        const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
-        tableBody.innerHTML = '<tr><td colspan="4">Error loading data</td></tr>';
-        console.error('Error fetching data:', error);
-    })});
-    </script>>
+    </script>
 </body>
 </html>
