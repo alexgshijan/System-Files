@@ -112,6 +112,7 @@
                                     <input type="text" id="otherRoofTypeInput" class="form-control mt-2" placeholder="Please specify" style="display: none;">
                                 </div>
                                 <button type="button" class="btn btn-primary" onclick="nextStep(3)">Next</button>
+                                <button type="button" class="btn btn-secondary" onclick="nextStep(1)">Back</button>
                             </div>
 
                             <!-- Step 3: Final Details -->
@@ -122,6 +123,8 @@
                                     <input type="text" id="totalPrice" class="form-control" readonly>
                                 </div>
                                 <button type="button" class="btn btn-primary" onclick="submitApplication()">Submit Application</button>
+                                <button type="button" class="btn btn-primary" onclick="redirectToLandingPage()">Cancel Application</button>
+                                <button type="button" class="btn btn-secondary" onclick="nextStep(2)">Back</button>
                             </div>
                         </div>
                     </form>
