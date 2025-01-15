@@ -91,29 +91,53 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            const filterTypeDropdown = document.getElementById('filterType');
+            const tableBody = document.getElementById('componentsTable').getElementsByTagName('tbody')[0];
+            let componentsData = [];
+
+            // Fetch components from the server
             fetch('https://solarportal-server.alexgs.co.uk/get-components')
                 .then(response => response.json())
                 .then(data => {
-                    const tableBody = document.getElementById('componentsTable').getElementsByTagName('tbody')[0];
-                    tableBody.innerHTML = '';
-
-                    data.forEach(component => {
-                        const mainRow = document.createElement('tr');
-                        mainRow.innerHTML = `
-                            <td>${component.component_type}</td>
-                            <td>${component.component_name}</td>
-                            <td>${component.component_desc}</td>
-                            <td>£${(component.component_price / 100).toFixed(2)}</td>
-                            <td>${component.component_stock}</td>
-                        `;
-                        tableBody.appendChild(mainRow);
-                    });
+                    componentsData = data;
+                    renderTable(data);
                 })
                 .catch(error => {
-                    const tableBody = document.getElementById('componentsTable').getElementsByTagName('tbody')[0];
-                    tableBody.innerHTML = '<tr><td colspan="7">Error loading data</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="5">Error loading data</td></tr>';
                     console.error('Error fetching data:', error);
                 });
+
+            // Render the table based on the filtered or unfiltered data
+            function renderTable(data) {
+                tableBody.innerHTML = '';
+
+                if (data.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="5">No components found</td></tr>';
+                    return;
+                }
+
+                data.forEach(component => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${component.component_type}</td>
+                        <td>${component.component_name}</td>
+                        <td>${component.component_desc}</td>
+                        <td>£${(component.component_price / 100).toFixed(2)}</td>
+                        <td>${component.component_stock}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+
+            // Filter data based on dropdown selection
+            filterTypeDropdown.addEventListener('change', function () {
+                const selectedType = this.value;
+                const filteredData = selectedType
+                    ? componentsData.filter(component => component.component_type === selectedType)
+                    : componentsData;
+
+                renderTable(filteredData);
+            });
         });
     </script>
         <script>
@@ -123,6 +147,11 @@
                     document.getElementById('navbarContainer').innerHTML = data;
                 })
                 .catch(error => console.error('Error loading menubar:', error));
+        </script>
+        <script>
+            if (sessionStorage.getItem('account_type') !== "client") {
+            window.location.href = 'https://solarportal.alexgs.co.uk';
+            }
         </script>
 </body>
 </html>

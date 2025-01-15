@@ -205,5 +205,10 @@
                 })
                 .catch(error => console.error('Error loading menubar:', error));
         </script>
+        <script>
+            if (sessionStorage.getItem('account_type') !== "admin" && sessionStorage.getItem('account_type') !== "employee") {
+            window.location.href = 'https://solarportal.alexgs.co.uk';
+            }
+        </script>
 </body>
 </html>
