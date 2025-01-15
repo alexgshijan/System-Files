@@ -119,6 +119,7 @@
                             <td>${user.email_id}</td>
                             <td>${user.account_type}</td>
                             <td>
+                                <button class="lock-btn" data-email="${user.email_id}">Lock</button>
                                 <button class="remove-btn" data-user_id="${user.user_id}">Remove</button>
                             </td>
                         `;
@@ -143,6 +144,13 @@
                         button.addEventListener('click', function() {
                             const email = this.getAttribute('data-email');
                             verifyUser(email);
+                        });
+                    });
+
+                    document.querySelectorAll('.lock-btn').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const email = this.getAttribute('data-email');
+                            lockUser(email);
                         });
                     });
 
@@ -182,6 +190,29 @@
                 .catch(error => {
                     console.error('Error verifying user:', error);
                     alert('Error verifying user.');
+                });
+            }
+
+            function lockUser(email) {
+                fetch(`https://solarportal-server.alexgs.co.uk/manage/lock`, {
+                    method: 'POST', 
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email: email })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.message) {
+                        alert(`User with Email ID ${email} locked successfully.`);
+                        location.reload();
+                    } else {
+                        alert('lock failed.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error locking user:', error);
+                    alert('Error locking user.');
                 });
             }
 
