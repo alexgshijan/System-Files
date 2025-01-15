@@ -187,9 +187,70 @@
     }
 
     // Helper functions for actions (reuse from existing script)
-    function verifyUser(email) { /* Add verify logic here */ }
-    function lockUser(email) { /* Add lock logic here */ }
-    function removeUser(userId) { /* Add remove logic here */ }
+    function verifyUser(email) { 
+        fetch(`https://solarportal-server.alexgs.co.uk/manage/verify}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: email }),
+                })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.message) {
+                            alert(`User with Email ID ${email} updated successfully.`);
+                            location.reload();
+                        } else {
+                            alert('Update failed.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error updating user status:', error);
+                        alert('Error updating user status.')});
+    }
+    
+    function lockUser(email) { 
+        fetch(`https://solarportal-server.alexgs.co.uk/manage/lock}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: email }),
+                })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.message) {
+                            alert(`User with Email ID ${email} updated successfully.`);
+                            location.reload();
+                        } else {
+                            alert('Update failed.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error updating user status:', error);
+                        alert('Error updating user status.')});
+    }
+    function removeUser(userId) { 
+        fetch(`https://solarportal-server.alexgs.co.uk/manage/removeuser`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ user_id: user_id }),
+                })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.message) {
+                            alert(`User with ID ${user_id} removed successfully.`);
+                            location.reload();
+                        } else {
+                            alert('Removal failed.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error removing user:', error);
+                        alert('Error removing user.')})
+    }
 });
     </script>
 </body>
