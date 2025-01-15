@@ -39,7 +39,6 @@
 
         <!-- Modal -->
         <div class="modal fade" id="installationModal" tabindex="-1" aria-labelledby="installationModalLabel" aria-hidden="true">
-
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -80,16 +79,14 @@
                                 </div>
                                 <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next</button>
                             </div>
-
+        
                             <!-- Step 2: Final Details -->
                             <div id="step2" style="display: none;">
                                 <h5>Component Details Confirmation</h5>
-                                <div class="form-group">
-                                    <label>Total Price</label>
-                                    <input type="text" id="totalPrice" class="form-control" readonly>
-                                </div>
+                                <ul id="summaryList"></ul>
                                 <button type="button" class="btn btn-primary" onclick="submitApplication()">Submit Application</button>
                                 <button type="button" class="btn btn-primary" onclick="redirectToLandingPage()">Cancel Application</button>
+                                <button type="button" class="btn btn-secondary" onclick="nextStep(1)">Back</button>
                             </div>
                         </div>
                     </form>
@@ -136,10 +133,27 @@ function nextStep(step) {
     document.querySelectorAll('.modal-body > div').forEach(section => (section.style.display = 'none'));
     document.getElementById(`step${step}`).style.display = 'block';
 
-    if (step === 3) {
-        calculatePrice(); // Only calculate price in Step 3
+    if (step === 2) {
+        // Get input values
+        const componentType = document.getElementById('componentType').value || 'Not selected';
+        const componentName = document.getElementById('componentName').value || 'Not provided';
+        const price = document.getElementById('price').value || 'Not provided';
+        const stock = document.getElementById('stock').value || 'Not provided';
+        const description = document.getElementById('description').value || 'Not provided';
+
+        // Populate summary list
+        const summaryList = document.getElementById('summaryList');
+        summaryList.innerHTML = `
+            <li><strong>Component Type:</strong> ${componentType}</li>
+            <li><strong>Component Name:</strong> ${componentName}</li>
+            <li><strong>Price:</strong> £${price}</li>
+            <li><strong>Stock:</strong> ${stock}</li>
+            <li><strong>Description:</strong> ${description}</li>
+        `;
+
     }
 }
+
 
 function validateStep(step) {
     let valid = true;
