@@ -60,7 +60,15 @@
 <body>
     <div id="navbarContainer"></div>
     <h1>Component Management</h1>
-    
+    <div style="margin: 20px;">
+        <label for="filterType">Filter by Component Type: </label>
+        <select id="filterType">
+            <option value="">All</option>
+            <option value="panel">Panel</option>
+            <option value="inverter">Inverter</option>
+            <option value="battery">Battery</option>
+        </select>
+    </div>
     <table id="componentsTable">
         <thead>
             <tr>
@@ -83,14 +91,24 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        const filterDropdown = document.getElementById('filterType');
+        const fetchAndRenderData = (filterType = '') => {
             fetch('https://solarportal-server.alexgs.co.uk/get-components')
                 .then(response => response.json())
                 .then(data => {
                     const tableBody = document.getElementById('componentsTable').getElementsByTagName('tbody')[0];
                     tableBody.innerHTML = '';
 
-                    data.forEach(component => {
+                    const filteredData = filterType 
+                        ? data.filter(component => component.component_type === filterType) 
+                        : data;
+
+                    if (filteredData.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="7">No components found.</td></tr>';
+                        return;
+                    }
+
+                    filteredData.forEach(component => {
                         const mainRow = document.createElement('tr');
                         mainRow.innerHTML = `
                             <td><button class="expand-btn" data-id="${component.component_id}">+</button></td>
@@ -129,13 +147,8 @@
                     document.querySelectorAll('.expand-btn').forEach(button => {
                         button.addEventListener('click', function () {
                             const detailsRow = this.closest('tr').nextElementSibling;
-                            if (detailsRow.style.display === 'table-row') {
-                                detailsRow.style.display = 'none';
-                                this.textContent = '+';
-                            } else {
-                                detailsRow.style.display = 'table-row';
-                                this.textContent = '-';
-                            }
+                            detailsRow.style.display = detailsRow.style.display === 'table-row' ? 'none' : 'table-row';
+                            this.textContent = this.textContent === '+' ? '-' : '+';
                         });
                     });
 
@@ -153,24 +166,19 @@
 
                             fetch('https://solarportal-server.alexgs.co.uk/update-component', {
                                 method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
+                                headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify(updatedData)
                             })
-                            .then(response => response.json())
-                            .then(result => {
-                                if (result.message) {
-                                    alert(`Component ID ${componentId} updated successfully.`);
-                                    location.reload();
-                                } else {
-                                    alert('Update failed.');
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error updating component:', error);
-                                alert('Error updating component.');
-                            });
+                                .then(response => response.json())
+                                .then(result => {
+                                    if (result.message) {
+                                        alert(`Component ID ${componentId} updated successfully.`);
+                                        fetchAndRenderData(filterDropdown.value);
+                                    } else {
+                                        alert('Update failed.');
+                                    }
+                                })
+                                .catch(error => console.error('Error updating component:', error));
                         });
                     });
                 })
@@ -179,6 +187,14 @@
                     tableBody.innerHTML = '<tr><td colspan="7">Error loading data</td></tr>';
                     console.error('Error fetching data:', error);
                 });
+        };
+
+        // Initial data fetch
+        fetchAndRenderData();
+
+        // Filter dropdown event listener
+        filterDropdown.addEventListener('change', () => {
+            fetchAndRenderData(filterDropdown.value);
         });
     </script>
         <script>
