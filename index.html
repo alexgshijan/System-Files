@@ -104,6 +104,7 @@
                     <input type="text" id="last_name" placeholder="Last Name">
                     <input type="email" id="regemail_id" placeholder="Email">
                     <input type="password" id="regpassword" placeholder="Password">
+                    <input type="password" id="confirm_password" placeholder="Confirm Password">
                     <select id="account_type" name="account_type" required>
                         <option value="client">Client</option>
                         <option value="employee">Employee</option>
@@ -199,63 +200,72 @@
 
     <!-- Registration Script -->
     <script>
-        document.getElementById('register-form').addEventListener('submit', async (event) => {
-            event.preventDefault();
+document.getElementById('register-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
 
-            const first_name = document.getElementById('first_name').value;
-            const last_name = document.getElementById('last_name').value;
-            const email_id = document.getElementById('regemail_id').value;
-            const password = document.getElementById('regpassword').value;
-            const account_type = document.getElementById('account_type').value;
+    const first_name = document.getElementById('first_name').value;
+    const last_name = document.getElementById('last_name').value;
+    const email_id = document.getElementById('regemail_id').value;
+    const password = document.getElementById('regpassword').value;
+    const confirm_password = document.getElementById('confirm_password').value;
+    const account_type = document.getElementById('account_type').value;
 
-            const messageDiv = document.getElementById('message');
-            messageDiv.innerText = ''; // Clear previous message
+    const messageDiv = document.getElementById('message');
+    messageDiv.innerText = ''; // Clear previous message
 
-            // Simple email validation regex
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Check if passwords match
+    if (password !== confirm_password) {
+        messageDiv.style.color = 'red';
+        messageDiv.innerText = "Passwords do not match.";
+        return;
+    }
 
-            // Check if email is valid
-            if (!emailPattern.test(email_id)) {
-                messageDiv.innerText = "Please enter a valid email address.";
-                return;
-            }
+    // Simple email validation regex
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            try {
-                const response = await fetch('https://solarportal-server.alexgs.co.uk/auth/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        first_name,
-                        last_name,
-                        email_id,
-                        password,
-                        account_type
-                    })
-                });
+    // Check if email is valid
+    if (!emailPattern.test(email_id)) {
+        messageDiv.style.color = 'red';
+        messageDiv.innerText = "Please enter a valid email address.";
+        return;
+    }
 
-                const data = await response.json();
-
-                // Check for error or success message
-                if (response.ok) {
-                    messageDiv.style.color = 'green';
-                    messageDiv.innerText = data.message || "Registration successful! Redirecting to login page...";
-
-                    // Redirect to login page after 0.8 seconds
-                    setTimeout(() => {
-                        window.location.href = '#login';
-                    }, 800);
-                } else {
-                    messageDiv.style.color = 'red';
-                    messageDiv.innerText = data.error || "Registration failed. Please try again.";
-                }
-            } catch (error) {
-                messageDiv.style.color = 'red';
-                messageDiv.innerText = "An error occurred. Please try again.";
-                console.error("Error during registration:", error);
-            }
+    try {
+        const response = await fetch('https://solarportal-server.alexgs.co.uk/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                first_name,
+                last_name,
+                email_id,
+                password,  // Only send the password once, since they match
+                account_type
+            })
         });
+
+        const data = await response.json();
+
+        // Check for error or success message
+        if (response.ok) {
+            messageDiv.style.color = 'green';
+            messageDiv.innerText = data.message || "Registration successful! Redirecting to login page...";
+
+            // Redirect to login page after 0.8 seconds
+            setTimeout(() => {
+                window.location.href = '#login';
+            }, 800);
+        } else {
+            messageDiv.style.color = 'red';
+            messageDiv.innerText = data.error || "Registration failed. Please try again.";
+        }
+    } catch (error) {
+        messageDiv.style.color = 'red';
+        messageDiv.innerText = "An error occurred. Please try again.";
+        console.error("Error during registration:", error);
+    }
+});
     </script>
 
     <!-- Toggle between Sign In and Sign Up -->
