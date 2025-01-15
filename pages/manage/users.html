@@ -188,7 +188,7 @@
 
     // Helper functions for actions (reuse from existing script)
     function verifyUser(email) { 
-        fetch(`https://solarportal-server.alexgs.co.uk/manage/verify}`, {
+        fetch(`https://solarportal-server.alexgs.co.uk/manage/verify`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -210,7 +210,7 @@
     }
     
     function lockUser(email) { 
-        fetch(`https://solarportal-server.alexgs.co.uk/manage/lock}`, {
+        fetch(`https://solarportal-server.alexgs.co.uk/manage/lock`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
