@@ -105,7 +105,10 @@
     .then(data => {
         const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
         tableBody.innerHTML = '';
-
+        if (data.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="4">No Applications registered...</td></tr>';
+        }
+        else {
         data.forEach(application => {
             const mainRow = document.createElement('tr');
             mainRow.innerHTML = `
@@ -155,6 +158,7 @@
                 }
             });
         });
+    }
     })
     .catch(error => {
         const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
