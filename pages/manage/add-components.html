@@ -179,7 +179,11 @@ function validateStep(step) {
     // Submit application
     function submitApplication() {
         const formData = {
-            
+            componentType: document.getElementById('componentType').value,
+            componentName: document.getElementById('componentName').value,
+            price: document.getElementById('price').value * 100,
+            stock: document.getElementById('stock').value,
+            description: document.getElementById('description').value
         };
 
         fetch('https://solarportal-server.alexgs.co.uk/submit-component', {
@@ -188,8 +192,8 @@ function validateStep(step) {
             body: JSON.stringify(formData),
         })
             .then(response => response.json())
-            .then(data => {alert('Application submitted successfully!'); redirectToLandingPage()})
-            .catch(error => alert('Error submitting application.'));
+            .then(data => {alert('Component submitted successfully!'); redirectToLandingPage()})
+            .catch(error => alert('Error submitting component.'));
     }
 </script>
         <script type="module">
