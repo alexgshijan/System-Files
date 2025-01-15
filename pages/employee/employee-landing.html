@@ -102,14 +102,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script type="module">
-        if (sessionStorage.getItem('account_type') !== "client") {
+        if (sessionStorage.getItem('account_type') !== "employee") {
             window.location.href = 'https://solarportal.alexgs.co.uk';
         }
     </script>
     
     <script>
         const first_name = sessionStorage.getItem('first_name');
-        fetch('/assets/html/client/menubar.html')
+        fetch('/assets/html/employee/menubar.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('navbarContainer').innerHTML = data;
