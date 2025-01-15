@@ -29,216 +29,161 @@
             background-color: #004d40; /* Darker green for headers */
             color: white;
         }
-        .verified-title, .non-verified-title {
-            margin-top: 40px;
-            font-size: 36px;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
-        }
-        .verify-btn {
+        .btn {
             padding: 5px 10px;
-            background-color: #28a745; /* Green button */
             color: white;
             border: none;
             cursor: pointer;
         }
+        .verify-btn {
+            background-color: #28a745; /* Green button */
+        }
         .verify-btn:hover {
             background-color: #218838;
+        }
+        .lock-btn {
+            background-color: #dc3545; /* Red button */
+        }
+        .lock-btn:hover {
+            background-color: #c82333;
         }
     </style>
 </head>
 <body>
     <div id="navbarContainer"></div>
-    <h1>Login Verification</h1>
+    <h1>User Management</h1>
 
-    <h2 class="verified-title">Verified Users</h2>
-    <table id="verifiedTable">
+    <table id="userTable">
         <thead>
             <tr>
                 <th>Full Name</th>
                 <th>Email ID</th>
                 <th>Account Type</th>
+                <th>Verified Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td colspan="4">Loading data...</td>
+                <td colspan="5">Loading data...</td>
             </tr>
         </tbody>
     </table>
 
-    <h2 class="non-verified-title">Non-Verified Users</h2>
-    <table id="nonVerifiedTable">
-        <thead>
-            <tr>
-                <th>Full Name</th>
-                <th>Email ID</th>
-                <th>Account Type</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td colspan="4">Loading data...</td>
-            </tr>
-        </tbody>
-    </table>
-    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         if (sessionStorage.getItem('account_type') !== "admin") {
             window.location.href = 'https://solarportal.alexgs.co.uk';
         }
+
         fetch('/assets/html/admin/menubar.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('navbarContainer').innerHTML = data;
             })
             .catch(error => console.error('Error loading menubar:', error));
-    </script>
 
-    <script>
         document.addEventListener('DOMContentLoaded', function() {
             fetch('https://solarportal-server.alexgs.co.uk/manage/logins')
                 .then(response => response.json())
                 .then(data => {
-                    const verifiedUsers = data.verified;
-                    const unverifiedUsers = data.unverified;
+                    const users = data.users;
+                    const userTableBody = document.getElementById('userTable').getElementsByTagName('tbody')[0];
 
-                    const verifiedTableBody = document.getElementById('verifiedTable').getElementsByTagName('tbody')[0];
-                    const nonVerifiedTableBody = document.getElementById('nonVerifiedTable').getElementsByTagName('tbody')[0];
+                    userTableBody.innerHTML = '';
 
-                    verifiedTableBody.innerHTML = '';
-                    nonVerifiedTableBody.innerHTML = '';
-
-                    verifiedUsers.forEach(user => {
+                    users.forEach(user => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
                             <td>${user.first_name} ${user.last_name}</td>
                             <td>${user.email_id}</td>
                             <td>${user.account_type}</td>
+                            <td>${user.verified ? 'Verified' : 'Unverified'}</td>
                             <td>
-                                <button class="lock-btn" data-email="${user.email_id}">Lock</button>
+                                ${user.verified 
+                                    ? `<button class="lock-btn" data-email="${user.email_id}">Lock</button>` 
+                                    : `<button class="verify-btn" data-email="${user.email_id}">Verify</button>`}
                                 <button class="remove-btn" data-user_id="${user.user_id}">Remove</button>
                             </td>
                         `;
-                        verifiedTableBody.appendChild(row);
-                    });
-
-                    unverifiedUsers.forEach(user => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${user.first_name} ${user.last_name}</td>
-                            <td>${user.email_id}</td>
-                            <td>${user.account_type}</td>
-                            <td>
-                                <button class="verify-btn" data-email="${user.email_id}">Verify</button>
-                                <button class="remove-btn" data-user_id="${user.user_id}">Remove</button>
-                            </td>
-                        `;
-                        nonVerifiedTableBody.appendChild(row);
+                        userTableBody.appendChild(row);
                     });
 
                     document.querySelectorAll('.verify-btn').forEach(button => {
                         button.addEventListener('click', function() {
                             const email = this.getAttribute('data-email');
-                            verifyUser(email);
+                            updateUserStatus(email, 'verify');
                         });
                     });
 
                     document.querySelectorAll('.lock-btn').forEach(button => {
                         button.addEventListener('click', function() {
                             const email = this.getAttribute('data-email');
-                            lockUser(email);
+                            updateUserStatus(email, 'lock');
                         });
                     });
 
                     document.querySelectorAll('.remove-btn').forEach(button => {
                         button.addEventListener('click', function() {
                             const user_id = this.getAttribute('data-user_id');
-                            removeUser(user_id);
+                            if (confirm(`Are you sure you want to remove the user with ID ${user_id}?`)) {
+                                removeUser(user_id);
+                            }
                         });
                     });
                 })
                 .catch(error => {
-                    const verifiedTableBody = document.getElementById('verifiedTable').getElementsByTagName('tbody')[0];
-                    const nonVerifiedTableBody = document.getElementById('nonVerifiedTable').getElementsByTagName('tbody')[0];
-
-                    verifiedTableBody.innerHTML = '<tr><td colspan="3">Error loading verified users data</td></tr>';
-                    nonVerifiedTableBody.innerHTML = '<tr><td colspan="4">Error loading non-verified users data</td></tr>';
+                    const userTableBody = document.getElementById('userTable').getElementsByTagName('tbody')[0];
+                    userTableBody.innerHTML = '<tr><td colspan="5">Error loading user data</td></tr>';
                     console.error('Error fetching data:', error);
                 });
 
-            function verifyUser(email) {
-                fetch(`https://solarportal-server.alexgs.co.uk/manage/verify`, {
-                    method: 'POST', 
+            function updateUserStatus(email, action) {
+                fetch(`https://solarportal-server.alexgs.co.uk/manage/${action}`, {
+                    method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ email: email })
+                    body: JSON.stringify({ email: email }),
                 })
-                .then(response => response.json())
-                .then(result => {
-                    if (result.message) {
-                        alert(`User with Email ID ${email} verified successfully.`);
-                        location.reload();
-                    } else {
-                        alert('Verification failed.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error verifying user:', error);
-                    alert('Error verifying user.');
-                });
-            }
-
-            function lockUser(email) {
-                fetch(`https://solarportal-server.alexgs.co.uk/manage/lock`, {
-                    method: 'POST', 
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ email: email })
-                })
-                .then(response => response.json())
-                .then(result => {
-                    if (result.message) {
-                        alert(`User with Email ID ${email} locked successfully.`);
-                        location.reload();
-                    } else {
-                        alert('lock failed.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error locking user:', error);
-                    alert('Error locking user.');
-                });
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.message) {
+                            alert(`User with Email ID ${email} updated successfully.`);
+                            location.reload();
+                        } else {
+                            alert('Update failed.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error updating user status:', error);
+                        alert('Error updating user status.');
+                    });
             }
 
             function removeUser(user_id) {
-                if (confirm(`Are you sure you want to remove the user with ID ${user_id}?`)){
                 fetch(`https://solarportal-server.alexgs.co.uk/manage/removeuser`, {
-                    method: 'POST', 
+                    method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ user_id: user_id })
+                    body: JSON.stringify({ user_id: user_id }),
                 })
-                .then(response => response.json())
-                .then(result => {
-                    if (result.message) {
-                        alert(`User with user ID ${user_id} deleted successfully.`);
-                        location.reload();
-                    } else {
-                        alert('Deletion failed.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error deleting user:', error);
-                    alert('Error deleting user.');
-                });
-            }}
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.message) {
+                            alert(`User with ID ${user_id} removed successfully.`);
+                            location.reload();
+                        } else {
+                            alert('Removal failed.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error removing user:', error);
+                        alert('Error removing user.');
+                    });
+            }
         });
     </script>
 </body>
