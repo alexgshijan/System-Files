@@ -110,7 +110,7 @@
             const mainRow = document.createElement('tr');
             mainRow.innerHTML = `
                 <td><button class="expand-btn" data-id="${application.application_id}">+</button></td>
-                <td>${application.id}</td>
+                <td>${application.application_id}</td>
                 <td>${application.address}</td>
                 <td>${application.status}</td>
             `;
@@ -122,19 +122,19 @@
                 <td colspan="4">
                     <div style="display: flex; justify-content: space-between; gap: 20px;">
                         <div style="flex: 1;">
-                            <strong>Panel ID:</strong> ${application.panel_id}<br>
+                            <strong>Panel ID:</strong> ${application.panel_id}
                             <strong>Panel Name:</strong> ${application.panel_name}<br>
-                            <strong>Battery ID:</strong> ${application.battery_id}<br>
+                            <strong>Battery ID:</strong> ${application.battery_id}
                             <strong>Battery Name:</strong> ${application.battery_name}<br>
-                            <strong>Inverter ID:</strong> ${application.inverter_id}<br>
-                            <strong>Inverter Name:</strong> ${application.inverter_name}<br>
+                            <strong>Inverter ID:</strong> ${application.inverter_id}
+                            <strong>Inverter Name:</strong> ${application.inverter_name}<br>}<br>
                             <strong>Number of Panels:</strong> ${application.nu_panel}<br>
                         </div>
                         <div style="flex: 1;">
                             
-                            <strong>Address:</strong> ${application.address}<br>
-                            <strong>Postcode:</strong> ${application.postcode}<br>
-                            <strong>Property Type:</strong> ${application.property_type}<br>
+                            <strong>Address:</strong> ${application.address}
+                            <strong>Postcode:</strong> ${application.postcode}<br>}<br>
+                            <strong>Property Type:</strong> ${application.property_type}
                             <strong>Roof Type:</strong> ${application.roof_type}<br><br>
                             <strong>Installation Date:</strong> ${application.installation_date}<br><br>
                             <strong>Status:</strong> ${application.status}<br><br>
