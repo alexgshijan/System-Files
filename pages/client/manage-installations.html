@@ -1,126 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Home | Solar Portal</title>
-    <link rel="icon" type="image/x-icon" href="assets/img/SolarPortalLogo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolarPortal - Installations</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
+    <link rel="icon" type="image/x-icon" href="assets/img/SolarPortalLogo.png">
+
     <style>
-        :root {
-            --main-color: #00261a;
-            --text-color: #ffffff;
+        body, html {
+            min-height: 100vh; /* Ensure body and html are at least the height of the viewport */
+            overflow-y: auto;  /* Make both scrollable if content is greater */
         }
-
-        body {
-            background-color: var(--main-color);
-            color: var(--text-color);
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-
-        .logo-default {
-            max-width: 200px;
-            height: auto;
-        }
-
-        .welcome-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: calc(100vh - 100px);
-        }
-
-        .welcome-message {
+        h1 {
             font-size: 48px;
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
-            animation: pulseShadow 2s ease-in-out infinite;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 90%;
+            background-color: white;
+            color: black;
+            text-align: left;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #004d40;
+            color: white;
+        }
+        .status-dropdown {
+            width: 100%;
+        }
+        .update-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .update-btn:hover {
+            background-color: #0056b3;
+        }
+        .details-row {
+            display: none;
+            background-color: #f9f9f9;
+        }
+        .status-row {
+            display: flex;
+            align-items: center;
+            gap: 8px; /* Adjust spacing between label and dropdown */
         }
 
-        @keyframes pulseShadow {
-            0%, 100% {
-                text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
-            }
-            50% {
-                text-shadow: 0 0 50px rgba(255, 255, 255, 1);
-            }
+        .status-row label {
+            margin: 0;
         }
 
-        .button-container {
-            margin-top: 20px;
-        }
-
-        .btn-custom {
-            margin: 5px;
-            font-size: 18px;
-            background-color: var(--main-color);
-            color: var(--text-color);
-            border-radius: 8px;
-            padding: 10px 20px;
-        }
-
-        .btn-custom:hover {
-            background-color: #a3e0c6;
-            color: #000;
-        }
-
-        .notifications-placeholder,
-        .app-summary-placeholder {
-            background-color: #333;
-            padding: 20px;
-            margin-top: 20px;
-            color: #fff;
-            border-radius: 8px;
-        }
+        .status-dropdown {
+            flex-shrink: 0; /* Prevent shrinking */
+            width: 250px; /* Set a specific width */
+            max-width: 100%; /* Ensure it doesn't exceed the container's width */
+            box-sizing: border-box; /* Include padding/borders in the width */
+}
     </style>
 </head>
-
 <body>
     <div id="navbarContainer"></div>
+    <h1>Application Management</h1>
 
-    <div class="welcome-container">
-        <div>
-            <div id="welcome-message" class="welcome-message"></div>
-            <div class="button-container">
-                <button class="btn-custom" onclick="window.location.href='register-installation.html'">Register Installation</button>
-                <button class="btn-custom" onclick="window.location.href='manage-installations.html'">Manage Installations</button>
-                <button class="btn-custom" onclick="window.location.href='withdraw-installations.html'">Withdraw Application</button>
-                <button class="btn-custom" onclick="window.location.href='component-browse.html'">Browse Components</button>
-            </div>
-
-            <div class="notifications-placeholder">
-                <h3>Notifications</h3>
-                <p>No new notifications.</p>
-            </div>
-
-            <div class="app-summary-placeholder">
-                <h3>Application Summary</h3>
-                <p>Your current application status: Pending</p>
-            </div>
-        </div>
-    </div>
+    <table id="applicationsTable">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Application ID</th>
+                <th>Address</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="4">Loading data...</td>
+            </tr>
+        </tbody>
+    </table>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script type="module">
-        if (sessionStorage.getItem('account_type') !== "client") {
-            window.location.href = 'https://solarportal.alexgs.co.uk';
-        }
-    </script>
-    
     <script>
-        const first_name = sessionStorage.getItem('first_name');
-        fetch('/assets/html/client/menubar.html')
+        fetch('/assets/html/' + sessionStorage.getItem('account_type') + '/menubar.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('navbarContainer').innerHTML = data;
-                document.getElementById('welcome-message').textContent = `Welcome back, ${first_name}`;
             })
             .catch(error => console.error('Error loading menubar:', error));
+    </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('https://solarportal-server.alexgs.co.uk/manage/installations/user?user_id=' + sessionStorage.getItem('user_id'))
+    .then(response => response.json())
+    .then(data => {
+        const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
+        tableBody.innerHTML = '';
+        if (data.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="4">No Applications registered...</td></tr>';
+        }
+        else {
+        data.forEach(application => {
+            const mainRow = document.createElement('tr');
+            mainRow.innerHTML = `
+                <td><button class="expand-btn" data-id="${application.application_id}">+</button></td>
+                <td>${application.application_id}</td>
+                <td>${application.address}</td>
+                <td>${application.status}</td>
+            `;
+            tableBody.appendChild(mainRow);
+
+            const detailsRow = document.createElement('tr');
+            detailsRow.className = 'details-row';
+            detailsRow.innerHTML = `
+                <td colspan="4">
+                    <div style="display: flex; justify-content: space-between; gap: 20px;">
+                        <div style="flex: 1;">
+                            
+                            <strong>Panel Name:</strong> ${application.panel_name} (<strong>Panel ID:</strong> ${application.panel_id})<br>
+                            <strong>Battery Name:</strong> ${application.battery_name} (<strong>Battery ID:</strong> ${application.battery_id})<br>
+                            <strong>Inverter Name:</strong> ${application.inverter_name} (<strong>Inverter ID:</strong> ${application.inverter_id})<br><br>
+                            <strong>Number of Panels:</strong> ${application.nu_panel}<br>
+                        </div>
+                        <div style="flex: 1;">
+                            
+                            <strong>Address:</strong> ${application.address}
+                            <strong>Postcode:</strong> ${application.postcode}<br>
+                            <strong>Property Type:</strong> ${application.property_type}
+                            <strong>Roof Type:</strong> ${application.roof_type}<br><br>
+                            <strong>Installation Date:</strong> ${application.installation_date}<br>
+                            <strong>Status:</strong> ${application.status}
+                        </div>
+                    </div>
+                </td>
+            `;
+            tableBody.appendChild(detailsRow);
+        });
+
+        document.querySelectorAll('.expand-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const detailsRow = this.closest('tr').nextElementSibling;
+                if (detailsRow.style.display === 'table-row') {
+                    detailsRow.style.display = 'none';
+                    this.textContent = '+';
+                } else {
+                    detailsRow.style.display = 'table-row';
+                    this.textContent = '-';
+                }
+            });
+        });
+    }
+    })
+    .catch(error => {
+        const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
+        tableBody.innerHTML = '<tr><td colspan="4">Error loading data</td></tr>';
+        console.error('Error fetching data:', error);
+    })});
+</script>
+<script>
+        if (sessionStorage.getItem('account_type') !== "client") {
+        window.location.href = 'https://solarportal.alexgs.co.uk';
+        }
     </script>
 </body>
 </html>
