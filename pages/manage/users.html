@@ -67,7 +67,6 @@
             <option value="verified">Verified</option>
             <option value="unverified">Unverified</option>
         </select>
-        <button id="applyFilter" class="btn-apply-filter">Apply Filter</button>
     </div>
 
     <table id="usersTable">
@@ -100,90 +99,98 @@
             })
             .catch(error => console.error('Error loading menubar:', error));
 
-        document.addEventListener('DOMContentLoaded', function () {
-            let allUsers = [];
+            document.addEventListener('DOMContentLoaded', function () {
+    let allUsers = [];
 
-            // Fetch user data from API
-            fetch('https://solarportal-server.alexgs.co.uk/manage/logins')
-                .then(response => response.json())
-                .then(data => {
-                    allUsers = data.users; // Combined verified and unverified users
-                    renderTable(allUsers);
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                    document.getElementById('usersTable').getElementsByTagName('tbody')[0].innerHTML = '<tr><td colspan="5">Error loading data.</td></tr>';
-                });
-
-            // Apply filter logic
-            document.getElementById('applyFilter').addEventListener('click', function () {
-                const accountType = document.getElementById('filterAccountType').value;
-                const verifiedStatus = document.getElementById('filterVerifiedStatus').value;
-
-                const filteredUsers = allUsers.filter(user => {
-                    return (accountType === 'all' || user.account_type === accountType) &&
-                           (verifiedStatus === 'all' || 
-                            (verifiedStatus === 'verified' && user.verified) ||
-                            (verifiedStatus === 'unverified' && !user.verified));
-                });
-
-                renderTable(filteredUsers);
-            });
-
-            // Render user table
-            function renderTable(users) {
-                const tableBody = document.getElementById('usersTable').getElementsByTagName('tbody')[0];
-                tableBody.innerHTML = '';
-
-                if (users.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="5">No users found.</td></tr>';
-                    return;
-                }
-
-                users.forEach(user => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${user.first_name} ${user.last_name}</td>
-                        <td>${user.email_id}</td>
-                        <td>${user.account_type}</td>
-                        <td>${user.verified ? 'Verified' : 'Unverified'}</td>
-                        <td>
-                            ${user.verified ? 
-                                `<button class="lock-btn" data-email="${user.email_id}">Lock</button>` : 
-                                `<button class="verify-btn" data-email="${user.email_id}">Verify</button>`}
-                            <button class="remove-btn" data-user_id="${user.user_id}">Remove</button>
-                        </td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-
-                document.querySelectorAll('.verify-btn').forEach(button => {
-                    button.addEventListener('click', function () {
-                        const email = this.getAttribute('data-email');
-                        verifyUser(email);
-                    });
-                });
-
-                document.querySelectorAll('.lock-btn').forEach(button => {
-                    button.addEventListener('click', function () {
-                        const email = this.getAttribute('data-email');
-                        lockUser(email);
-                    });
-                });
-
-                document.querySelectorAll('.remove-btn').forEach(button => {
-                    button.addEventListener('click', function () {
-                        const userId = this.getAttribute('data-user_id');
-                        removeUser(userId);
-                    });
-                });
-            }
-
-            // Helper functions for actions (reuse from existing script)
-            function verifyUser(email) { /* Add verify logic here */ }
-            function lockUser(email) { /* Add lock logic here */ }
-            function removeUser(userId) { /* Add remove logic here */ }
+    // Fetch user data from API
+    fetch('https://solarportal-server.alexgs.co.uk/manage/logins')
+        .then(response => response.json())
+        .then(data => {
+            allUsers = data.users; // Combined verified and unverified users
+            renderTable(allUsers);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            document.getElementById('usersTable').getElementsByTagName('tbody')[0].innerHTML = '<tr><td colspan="5">Error loading data.</td></tr>';
         });
+
+    // Event listener for dropdowns
+    const accountTypeDropdown = document.getElementById('filterAccountType');
+    const verifiedStatusDropdown = document.getElementById('filterVerifiedStatus');
+
+    accountTypeDropdown.addEventListener('change', filterUsers);
+    verifiedStatusDropdown.addEventListener('change', filterUsers);
+
+    // Filter users based on dropdown selection
+    function filterUsers() {
+        const accountType = accountTypeDropdown.value;
+        const verifiedStatus = verifiedStatusDropdown.value;
+
+        const filteredUsers = allUsers.filter(user => {
+            return (accountType === 'all' || user.account_type === accountType) &&
+                   (verifiedStatus === 'all' || 
+                    (verifiedStatus === 'verified' && user.verified) ||
+                    (verifiedStatus === 'unverified' && !user.verified));
+        });
+
+        renderTable(filteredUsers);
+    }
+
+    // Render user table
+    function renderTable(users) {
+        const tableBody = document.getElementById('usersTable').getElementsByTagName('tbody')[0];
+        tableBody.innerHTML = '';
+
+        if (users.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="5">No users found.</td></tr>';
+            return;
+        }
+
+        users.forEach(user => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${user.first_name} ${user.last_name}</td>
+                <td>${user.email_id}</td>
+                <td>${user.account_type}</td>
+                <td>${user.verified ? 'Verified' : 'Unverified'}</td>
+                <td>
+                    ${user.verified ? 
+                        `<button class="lock-btn" data-email="${user.email_id}">Lock</button>` : 
+                        `<button class="verify-btn" data-email="${user.email_id}">Verify</button>`}
+                    <button class="remove-btn" data-user_id="${user.user_id}">Remove</button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+        // Add event listeners for actions
+        document.querySelectorAll('.verify-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const email = this.getAttribute('data-email');
+                verifyUser(email);
+            });
+        });
+
+        document.querySelectorAll('.lock-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const email = this.getAttribute('data-email');
+                lockUser(email);
+            });
+        });
+
+        document.querySelectorAll('.remove-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const userId = this.getAttribute('data-user_id');
+                removeUser(userId);
+            });
+        });
+    }
+
+    // Helper functions for actions (reuse from existing script)
+    function verifyUser(email) { /* Add verify logic here */ }
+    function lockUser(email) { /* Add lock logic here */ }
+    function removeUser(userId) { /* Add remove logic here */ }
+});
     </script>
 </body>
 </html>
