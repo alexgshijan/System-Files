@@ -210,6 +210,7 @@ document.getElementById('register-form').addEventListener('submit', async (event
     const password = document.getElementById('regpassword').value;
     const confirm_password = document.getElementById('confirm_password').value;
     const account_type = document.getElementById('account_type').value;
+    const hashpassword = CryptoJS.SHA256(password).toString()
 
     const messageDiv = document.getElementById('message');
     messageDiv.innerText = ''; // Clear previous message
@@ -241,7 +242,7 @@ document.getElementById('register-form').addEventListener('submit', async (event
                 first_name,
                 last_name,
                 email_id,
-                password,  // Only send the password once, since they match
+                password: hashedPassword,  // Only send the password once, since they match
                 account_type
             })
         });
