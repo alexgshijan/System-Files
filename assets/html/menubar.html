@@ -104,15 +104,11 @@
         </div>
 
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const url = new URL(request.url);
+            function setupNavbar(accountType) {
                 const dynamicDropdown = document.getElementById('dynamicDropdown');
-                const accountType = url.searchParams.get('account_type');
-                const navbar = document.querySelector(".navbar-nav");
+                let dropdownContent = '';
         
-                let dropdownContent = ""; // Placeholder for dropdown HTML
-        
-                if (accountType === "admin") {
+                if (accountType === 'admin') {
                     dropdownContent = `
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -125,7 +121,7 @@
                                 <a class="dropdown-item" href="/pages/manage/add-components.html">Add Components</a>
                             </div>
                         </li>`;
-                } else if (accountType === "employee") {
+                } else if (accountType === 'employee') {
                     dropdownContent = `
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="employeeDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -137,7 +133,7 @@
                                 <a class="dropdown-item" href="/pages/manage/add-components.html">Add Components</a>
                             </div>
                         </li>`;
-                } else if (accountType === "client") {
+                } else if (accountType === 'client') {
                     dropdownContent = `
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="clientDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -155,6 +151,6 @@
                 if (dropdownContent) {
                     dynamicDropdown.innerHTML = dropdownContent;
                 }
-            });
+            }
         </script>
 </body>
