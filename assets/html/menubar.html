@@ -105,8 +105,9 @@
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {
+                const url = new URL(request.url);
                 const dynamicDropdown = document.getElementById('dynamicDropdown');
-                const accountType = sessionStorage.getItem('account_type');
+                const accountType = url.searchParams.get('account_type');
                 const navbar = document.querySelector(".navbar-nav");
         
                 let dropdownContent = ""; // Placeholder for dropdown HTML
