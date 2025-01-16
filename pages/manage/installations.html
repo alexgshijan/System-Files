@@ -136,17 +136,10 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const accountType = sessionStorage.getItem('account_type');
-    
-        fetch('/assets/html/menubar.html')
+        fetch('/assets/html/'+ sessionStorage.getItem('account_type') +'/menubar.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('navbarContainer').innerHTML = data;
-    
-                // Call a function in the fetched file to handle dropdown logic
-                if (typeof setupNavbar === 'function') {
-                    setupNavbar(accountType);
-                }
             })
             .catch(error => console.error('Error loading menubar:', error));
     </script>
