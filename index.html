@@ -6,6 +6,7 @@
     <link href="assets/style/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="assets/style/form.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <link rel="icon" type="image/x-icon" href="assets/img/SolarPortalLogo.png">
     <title>SolarPortal</title>
 
@@ -178,7 +179,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email_id: email, password: password })
+                body: JSON.stringify({ email_id: email, password: CryptoJS.SHA256(password).toString() })
             })
                 .then(response => response.json())
                 .then(data => {
