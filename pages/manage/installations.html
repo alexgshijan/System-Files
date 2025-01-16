@@ -136,7 +136,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        fetch('/assets/html/' + sessionStorage.getItem('account_type') + '/menubar.html')
+        fetch('/assets/html/menubar.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('navbarContainer').innerHTML = data;
@@ -261,11 +261,7 @@ function updateApplication(applicationId, newStatus, newDate) {
     });
 }});
 </script>
-<script>
-            if (sessionStorage.getItem('account_type') !== "admin" && sessionStorage.getItem('account_type') !== "employee") {
-            window.location.href = 'https://solarportal.alexgs.co.uk';
-        }
-        </script>
+
         <script>
             document.addEventListener('DOMContentLoaded', function () {
     const searchBox = document.getElementById('searchBox');
