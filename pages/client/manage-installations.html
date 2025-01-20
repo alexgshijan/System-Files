@@ -10,8 +10,8 @@
 
     <style>
         body, html {
-            min-height: 100vh; /* Ensure body and html are at least the height of the viewport */
-            overflow-y: auto;  /* Make both scrollable if content is greater */
+            min-height: 100vh;
+            overflow-y: auto;
         }
         h1 {
             font-size: 48px;
@@ -33,39 +33,16 @@
             background-color: #004d40;
             color: white;
         }
-        .status-dropdown {
-            width: 100%;
-        }
-        .update-btn {
-            background-color: #007bff;
+        .withdraw-btn {
+            background-color: #dc3545;
             color: white;
             border: none;
             padding: 5px 10px;
             cursor: pointer;
         }
-        .update-btn:hover {
-            background-color: #0056b3;
+        .withdraw-btn:hover {
+            background-color: #a71d2a;
         }
-        .details-row {
-            display: none;
-            background-color: #f9f9f9;
-        }
-        .status-row {
-            display: flex;
-            align-items: center;
-            gap: 8px; /* Adjust spacing between label and dropdown */
-        }
-
-        .status-row label {
-            margin: 0;
-        }
-
-        .status-dropdown {
-            flex-shrink: 0; /* Prevent shrinking */
-            width: 250px; /* Set a specific width */
-            max-width: 100%; /* Ensure it doesn't exceed the container's width */
-            box-sizing: border-box; /* Include padding/borders in the width */
-}
     </style>
 </head>
 <body>
@@ -79,11 +56,12 @@
                 <th>Application ID</th>
                 <th>Address</th>
                 <th>Status</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td colspan="4">Loading data...</td>
+                <td colspan="5">Loading data...</td>
             </tr>
         </tbody>
     </table>
@@ -98,77 +76,99 @@
             })
             .catch(error => console.error('Error loading menubar:', error));
     </script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        fetch('https://solarportal-server.alexgs.co.uk/manage/installations/user?user_id=' + sessionStorage.getItem('user_id'))
-    .then(response => response.json())
-    .then(data => {
-        const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
-        tableBody.innerHTML = '';
-        if (data.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="4">No Applications registered...</td></tr>';
-        }
-        else {
-        data.forEach(application => {
-            const mainRow = document.createElement('tr');
-            mainRow.innerHTML = `
-                <td><button class="expand-btn" data-id="${application.application_id}">+</button></td>
-                <td>${application.application_id}</td>
-                <td>${application.address}</td>
-                <td>${application.status}</td>
-            `;
-            tableBody.appendChild(mainRow);
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('https://solarportal-server.alexgs.co.uk/manage/installations/user?user_id=' + sessionStorage.getItem('user_id'))
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = '';
+                    if (data.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="5">No Applications registered...</td></tr>';
+                    } else {
+                        data.forEach(application => {
+                            const mainRow = document.createElement('tr');
+                            mainRow.innerHTML = `
+                                <td><button class="expand-btn" data-id="${application.application_id}">+</button></td>
+                                <td>${application.application_id}</td>
+                                <td>${application.address}</td>
+                                <td>${application.status}</td>
+                                <td><button class="withdraw-btn" data-id="${application.application_id}">Withdraw</button></td>
+                            `;
+                            tableBody.appendChild(mainRow);
 
-            const detailsRow = document.createElement('tr');
-            detailsRow.className = 'details-row';
-            detailsRow.innerHTML = `
-                <td colspan="4">
-                    <div style="display: flex; justify-content: space-between; gap: 20px;">
-                        <div style="flex: 1;">
-                            
-                            <strong>Panel Name:</strong> ${application.panel_name} (<strong>Panel ID:</strong> ${application.panel_id})<br>
-                            <strong>Battery Name:</strong> ${application.battery_name} (<strong>Battery ID:</strong> ${application.battery_id})<br>
-                            <strong>Inverter Name:</strong> ${application.inverter_name} (<strong>Inverter ID:</strong> ${application.inverter_id})<br><br>
-                            <strong>Number of Panels:</strong> ${application.nu_panel}<br>
-                        </div>
-                        <div style="flex: 1;">
-                            
-                            <strong>Address:</strong> ${application.address}
-                            <strong>Postcode:</strong> ${application.postcode}<br>
-                            <strong>Property Type:</strong> ${application.property_type}
-                            <strong>Roof Type:</strong> ${application.roof_type}<br><br>
-                            <strong>Installation Date:</strong> ${application.installation_date}<br>
-                            <strong>Status:</strong> ${application.status}
-                        </div>
-                    </div>
-                </td>
-            `;
-            tableBody.appendChild(detailsRow);
-        });
+                            const detailsRow = document.createElement('tr');
+                            detailsRow.className = 'details-row';
+                            detailsRow.innerHTML = `
+                                <td colspan="5">
+                                    <div style="display: flex; justify-content: space-between; gap: 20px;">
+                                        <div style="flex: 1;">
+                                            <strong>Panel Name:</strong> ${application.panel_name} (<strong>Panel ID:</strong> ${application.panel_id})<br>
+                                            <strong>Battery Name:</strong> ${application.battery_name} (<strong>Battery ID:</strong> ${application.battery_id})<br>
+                                            <strong>Inverter Name:</strong> ${application.inverter_name} (<strong>Inverter ID:</strong> ${application.inverter_id})<br>
+                                            <strong>Number of Panels:</strong> ${application.nu_panel}<br>
+                                        </div>
+                                        <div style="flex: 1;">
+                                            <strong>Address:</strong> ${application.address}<br>
+                                            <strong>Postcode:</strong> ${application.postcode}<br>
+                                            <strong>Property Type:</strong> ${application.property_type}<br>
+                                            <strong>Roof Type:</strong> ${application.roof_type}<br>
+                                            <strong>Installation Date:</strong> ${application.installation_date}<br>
+                                            <strong>Status:</strong> ${application.status}
+                                        </div>
+                                    </div>
+                                </td>
+                            `;
+                            tableBody.appendChild(detailsRow);
+                        });
 
-        document.querySelectorAll('.expand-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const detailsRow = this.closest('tr').nextElementSibling;
-                if (detailsRow.style.display === 'table-row') {
-                    detailsRow.style.display = 'none';
-                    this.textContent = '+';
-                } else {
-                    detailsRow.style.display = 'table-row';
-                    this.textContent = '-';
-                }
-            });
+                        document.querySelectorAll('.expand-btn').forEach(button => {
+                            button.addEventListener('click', function () {
+                                const detailsRow = this.closest('tr').nextElementSibling;
+                                if (detailsRow.style.display === 'table-row') {
+                                    detailsRow.style.display = 'none';
+                                    this.textContent = '+';
+                                } else {
+                                    detailsRow.style.display = 'table-row';
+                                    this.textContent = '-';
+                                }
+                            });
+                        });
+
+                        document.querySelectorAll('.withdraw-btn').forEach(button => {
+                            button.addEventListener('click', function () {
+                                const applicationId = this.getAttribute('data-id');
+                                if (confirm('Are you sure you want to withdraw this application?')) {
+                                    fetch(`https://solarportal-server.alexgs.co.uk/manage/installations/delete?application_id=${applicationId}`, {
+                                        method: 'DELETE'
+                                    })
+                                        .then(response => {
+                                            if (response.ok) {
+                                                alert('Application withdrawn successfully.');
+                                                this.closest('tr').remove();
+                                            } else {
+                                                alert('Failed to withdraw the application.');
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error('Error withdrawing application:', error);
+                                            alert('Error withdrawing the application.');
+                                        });
+                                }
+                            });
+                        });
+                    }
+                })
+                .catch(error => {
+                    const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = '<tr><td colspan="5">Error loading data</td></tr>';
+                    console.error('Error fetching data:', error);
+                });
         });
-    }
-    })
-    .catch(error => {
-        const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
-        tableBody.innerHTML = '<tr><td colspan="4">Error loading data</td></tr>';
-        console.error('Error fetching data:', error);
-    })});
-</script>
-<script>
+    </script>
+    <script>
         if (sessionStorage.getItem('account_type') !== "client") {
-        window.location.href = 'https://solarportal.alexgs.co.uk';
+            window.location.href = 'https://solarportal.alexgs.co.uk';
         }
     </script>
 </body>
