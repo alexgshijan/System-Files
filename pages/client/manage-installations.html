@@ -93,7 +93,6 @@
                                 <td>${application.application_id}</td>
                                 <td>${application.address}</td>
                                 <td>${application.status}</td>
-                                <td><button class="withdraw-btn" data-id="${application.application_id}">Withdraw</button></td>
                             `;
                             tableBody.appendChild(mainRow);
 
@@ -116,6 +115,7 @@
                                             <strong>Installation Date:</strong> ${application.installation_date}<br>
                                             <strong>Status:</strong> ${application.status}
                                         </div>
+                                        <button class="withdraw-btn" data-id="${application.application_id}">Withdraw</button>
                                     </div>
                                 </td>
                             `;
