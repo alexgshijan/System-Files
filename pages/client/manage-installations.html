@@ -139,8 +139,12 @@
                             button.addEventListener('click', function () {
                                 const applicationId = this.getAttribute('data-id');
                                 if (confirm('Are you sure you want to withdraw this application?')) {
-                                    fetch(`https://solarportal-server.alexgs.co.uk/manage/installations/delete?application_id=${applicationId}`, {
-                                        method: 'DELETE'
+                                    fetch(`https://solarportal-server.alexgs.co.uk/manage/removeapplication`, {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({ application_id: applicationId})
                                     })
                                         .then(response => {
                                             if (response.ok) {
