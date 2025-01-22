@@ -245,7 +245,7 @@
                     .then(response => response.json())
                     .then(result => {
                         if (result.message) {
-                            alert(`User with ID ${user_id} removed successfully.`);
+                            alert(`User with ID ${userId} removed successfully.`);
                             location.reload();
                         } else {
                             alert('Removal failed.');
