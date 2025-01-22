@@ -209,13 +209,12 @@ function nextStep(step) {
         calculatePrice(); // Only calculate price in Step 3
         const summaryList = document.getElementById('summaryList');
         summaryList.innerHTML = `
-            <li><strong>Panel :</strong> ${panel}</li>
-            <li><strong>Battery :</strong> ${battery}</li>
-            <li><strong>Inverter :</strong> £${inverter}</li>
-            <li><strong>Number of Panels :</strong> £${numPanels}</li>
-            <li><strong>Address :</strong> ${address}, ${postcode}</li>
-            <li><strong>Type of Property :</strong> ${propertyType}</li>
-            <li><strong>Type of Roof :</strong> ${roofType}</li>
+            <li><strong>Panel :</strong> ${document.getElementById('numPanels').value}x ${document.getElementById('panel').selectedOptions[0].dataset.component_name}</li>
+            <li><strong>Battery :</strong> ${document.getElementById('battery').selectedOptions[0].dataset.i.component_name}</li>
+            <li><strong>Inverter :</strong> ${document.getElementById('inverter').selectedOptions[0].dataset.i.component_name}</li>
+            <li><strong>Address :</strong> ${document.getElementById('address').value}, ${document.getElementById('postcode').value}</li>
+            <li><strong>Type of Property :</strong> ${document.getElementById('propertyType').value}</li>
+            <li><strong>Type of Roof :</strong> ${document.getElementById('roofType').value}</li>
         `;
     }
 }
@@ -252,10 +251,6 @@ function validateStep(step) {
         case 3: // Step 3: Final Details
             const totalPrice = document.getElementById('totalPrice').value;
 
-            if (!totalPrice) {
-                alert('Please calculate the total price before proceeding.');
-                valid = false;
-            }
             break;
 
         default:
