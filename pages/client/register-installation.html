@@ -187,7 +187,7 @@ function redirectToLandingPage() {
 
         items.forEach(item => {
             if (item.component_stock > 0) {
-                dropdown.innerHTML += `<option value="${item.component_price / 100}" data-id="${item.component_id}">
+                dropdown.innerHTML += `<option value="${item.component_price / 100}" data-id="${item.component_id}"data-component_name="${item.component_name}">
                     ${item.component_name} - ${item.component_desc} (£${item.component_price / 100})
                 </option>`;
             }
