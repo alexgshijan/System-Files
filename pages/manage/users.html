@@ -185,7 +185,7 @@
         document.querySelectorAll('.remove-btn').forEach(button => {
             button.addEventListener('click', function () {
                 const userId = this.getAttribute('data-user_id');
-                removeUser(userId);
+                if (confirm("Are you sure you want to delete this user?")) {removeUser(userId)};
             });
         });
     }
