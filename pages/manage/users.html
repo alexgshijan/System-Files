@@ -240,7 +240,7 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ user_id: user_id }),
+                    body: JSON.stringify({ user_id: userId }),
                 })
                     .then(response => response.json())
                     .then(result => {
