@@ -166,7 +166,7 @@
                     : 'Locked'}
                 </td>
                 <td>
-                    ${user.verified ? 
+                    ${user.verified === 1 ? 
                         `<button class="lock-btn" data-email="${user.email_id}">Lock</button>` : 
                         `<button class="verify-btn" data-email="${user.email_id}">Verify</button>`}
                     <button class="remove-btn" data-user_id="${user.user_id}">Remove</button>
