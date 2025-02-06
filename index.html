@@ -251,10 +251,10 @@ document.getElementById('register-form').addEventListener('submit', async (event
             messageDiv.style.color = 'green';
             messageDiv.innerText = data.message || "Registration successful! Redirecting to login page...";
 
-            // Redirect to login page after 0.8 seconds
+            // Redirect to login page after delay
             setTimeout(() => {
                 window.location.href = '#login';
-            }, 800);
+            }, 1200);
         } else {
             messageDiv.style.color = 'red';
             messageDiv.innerText = data.error || "Registration failed. Please try again.";
