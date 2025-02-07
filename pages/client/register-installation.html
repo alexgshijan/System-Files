@@ -244,7 +244,15 @@ function validateStep(step) {
                 alert('Please fill in all property details.');
                 valid = false;
             }
+            const postcodeRegex = /^[A-Za-z]{1,2}[0-9][A-Za-z]?[0-9]? [A-Za-z]{2}$/;
+            if (postcodeRegex.test(postcode)) {
+                alert('Please enter a valid postcode.');
+                valid = false;
+            }
+
             break;
+
+        
 
         case 3: // Step 3: Final Details
             const totalPrice = document.getElementById('totalPrice').value;
