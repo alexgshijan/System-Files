@@ -85,7 +85,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="postcode">Postcode</label>
-                                    <input type="text" id="postcode" class="form-control" placeholder="Enter your postcode" required autocomplete="postal-code" pattern="^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$">
+                                    <input type="text" id="postcode" class="form-control" placeholder="Enter your postcode" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="propertyType">Type of Property</label>
@@ -239,7 +239,7 @@ function validateStep(step) {
             const postcode = document.getElementById('postcode').value;
             const propertyType = document.getElementById('propertyType').value;
             const roofType = document.getElementById('roofType').value;
-            const postcodeRegex = /^[A-Za-z]{1,2}[0-9][A-Za-z]?[0-9]? [A-Za-z]{2}$/;
+            const postcodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
 
             if (!address || !postcode || !propertyType || !roofType) {
                 alert('Please fill in all property details.');
