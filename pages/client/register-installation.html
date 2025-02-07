@@ -239,13 +239,14 @@ function validateStep(step) {
             const postcode = document.getElementById('postcode').value;
             const propertyType = document.getElementById('propertyType').value;
             const roofType = document.getElementById('roofType').value;
+            const postcodeRegex = /^[A-Za-z]{1,2}[0-9][A-Za-z]?[0-9]? [A-Za-z]{2}$/;
 
             if (!address || !postcode || !propertyType || !roofType) {
                 alert('Please fill in all property details.');
                 valid = false;
             }
-            const postcodeRegex = /^[A-Za-z]{1,2}[0-9][A-Za-z]?[0-9]? [A-Za-z]{2}$/;
-            if (postcodeRegex.test(postcode)) {
+            
+            if (!postcodeRegex.test(postcode)) {
                 alert('Please enter a valid postcode.');
                 valid = false;
             }
