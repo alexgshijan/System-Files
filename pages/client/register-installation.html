@@ -239,7 +239,7 @@ function validateStep(step) {
             const postcode = document.getElementById('postcode').value;
             const propertyType = document.getElementById('propertyType').value;
             const roofType = document.getElementById('roofType').value;
-            const postcodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
+            const postcodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/i;
 
             if (!address || !postcode || !propertyType || !roofType) {
                 alert('Please fill in all property details.');
