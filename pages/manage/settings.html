@@ -33,17 +33,17 @@
     </style>
 </head>
 <body>
-
+    <div id="navbarContainer"></div>
     <div class="container">
         <h1>Settings Page</h1>
 
     </div>
-
+    
     <script>
         fetch('/assets/html/' + sessionStorage.getItem('account_type') + '/menubar.html')
             .then(response => response.text())
             .then(data => {
-                document.getItem('navbarContainer').innerHTML = data;
+                document.getElementById('navbarContainer').innerHTML = data;
             })
             .catch(error => console.error('Error loading menubar:', error));
     </script>
