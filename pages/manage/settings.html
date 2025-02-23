@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SolarPortal - Add Component Form</title>
+    <title>SolarPortal - Settings</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="https://solarportal.alexgs.co.uk/assets/img/SolarPortalLogo.png">
@@ -38,12 +38,12 @@
         <h1>Settings Page</h1>
 
     </div>
-    
+
     <script>
         fetch('/assets/html/' + sessionStorage.getItem('account_type') + '/menubar.html')
             .then(response => response.text())
             .then(data => {
-                document.getElementById('navbarContainer').innerHTML = data;
+                document.getItem('navbarContainer').innerHTML = data;
             })
             .catch(error => console.error('Error loading menubar:', error));
     </script>
