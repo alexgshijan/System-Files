@@ -6,6 +6,7 @@
     <title>SolarPortal - Settings</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
     <link rel="icon" type="image/x-icon" href="https://solarportal.alexgs.co.uk/assets/img/SolarPortalLogo.png">
 
     <style>
@@ -34,10 +35,13 @@
 </head>
 <body>
     <div id="navbarContainer"></div>
-    <div class="container">
         <h1>Settings Page</h1>
-
-    </div>
+        <div class="button-container">
+            <button class="btn-custom" onclick="window.location.href='/pages/manage/installations.html'">Update User Details</button>
+            <button class="btn-custom" onclick="window.location.href='/pages/manage/items.html'">Manage Outstanding Transactions</button>
+            <button class="btn-custom" onclick="window.location.href='/pages/manage/add-components.html'">Delete Account</button>
+        </div>
+    <div id="formContainer">
     
     <script>
         fetch('/assets/html/' + sessionStorage.getItem('account_type') + '/menubar.html')
