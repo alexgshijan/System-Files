@@ -88,60 +88,65 @@
             .then(response => response.json())
             .then(data => {
                 document.getElementById('formContainer').innerHTML = `
-<h2 style="text-align: center;">User Details</h2>
-<form id="updateUserForm" style="display: flex; flex-direction: column; gap: 10px; max-width: 300px; margin: 0 auto; align-items: center;">
-    <label for="firstName">First Name:</label>
-    <input type="text" id="firstName" value="${data['user'].first_name || ''}" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
+                    <h2 style="text-align: center;">User Details</h2>
+                    <form id="updateUserForm" style="display: flex; flex-direction: column; gap: 10px; max-width: 300px; margin: 0 auto; align-items: center;">
+                        <label for="firstName">First Name:</label>
+                        <input type="text" id="firstName" value="${data['user'].first_name || ''}" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
 
-    <label for="lastName">Last Name:</label>
-    <input type="text" id="lastName" value="${data['user'].last_name || ''}" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
+                        <label for="lastName">Last Name:</label>
+                        <input type="text" id="lastName" value="${data['user'].last_name || ''}" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
 
-    <label for="email">Email:</label>
-    <input type="email" id="email" value="${data['user'].email_id || ''}" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" value="${data['user'].email_id || ''}" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
 
-    <button type="submit" style="padding: 10px; border: none; border-radius: 5px; background-color: #00897b; color: white; cursor: pointer; width: 100%;">Update</button>
-</form>
-                `
+                        <button type="submit" style="padding: 10px; border: none; border-radius: 5px; background-color: #00897b; color: white; cursor: pointer; width: 100%;">Update</button>
+                    </form>`
 
                 document.getElementById('updateUserForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
+                e.preventDefault();
 
-    const first_name = document.getElementById('firstName').value;
-    const last_name = document.getElementById('lastName').value;
-    const email_id = document.getElementById('email').value;
-    const user_id = sessionStorage.getItem('user_id');
+                const first_name = document.getElementById('firstName').value;
+                const last_name = document.getElementById('lastName').value;
+                const email_id = document.getElementById('email').value;
+                const user_id = sessionStorage.getItem('user_id');
 
-    const requestData = {
-        user_id,
-        first_name,
-        last_name,
-        email_id
-    };
+                const requestData = {
+                    user_id,
+                    first_name,
+                    last_name,
+                    email_id
+                };
 
-    try {
-        const response = await fetch('https://solarportal-server.alexgs.co.uk/update/userDetails', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestData)
-        });
+                try {
+                    const response = await fetch('https://solarportal-server.alexgs.co.uk/update/userDetails', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(requestData)
+                    });
 
-        const result = await response.json();
-        console.log('Update response:', result);
+                    const result = await response.json();
+                    console.log('Update response:', result);
 
-        if (response.ok) {
-            alert('User details updated successfully.');
-            sessionStorage.setItem('first_name', first_name);
-        } else {
-            alert('Failed to update user details. Please try again.');
-        }
-    } catch (error) {
-        console.error('Error updating user details:', error);
-        alert('An error occurred. Please try again later.');
-    }
-});
+                    if (response.ok) {
+                        alert('User details updated successfully.');
+                        sessionStorage.setItem('first_name', first_name);
+                    } else {
+                        alert('Failed to update user details. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Error updating user details:', error);
+                    alert('An error occurred. Please try again later.');
+                }
+            });
             })
+    }
+    if (formId === 1) {
+        document.getElementById('formContainer').innerHTML = ``
+    }
+    if (formId === 2) {
+        document.getElementById('formContainer').innerHTML = ``
     }
 }
     </script>
