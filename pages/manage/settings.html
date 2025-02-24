@@ -101,19 +101,46 @@
 
     <button type="submit" style="padding: 10px; border: none; border-radius: 5px; background-color: #00897b; color: white; cursor: pointer;">Update</button>
 </form>
-                `;
+                `
 
-                document.getElementById('updateUserForm').addEventListener('submit', function (e) {
-                    e.preventDefault();
-                    const firstName = document.getElementById('firstName').value;
-                    const lastName = document.getElementById('lastName').value;
-                    const email = document.getElementById('email').value;
+                document.getElementById('updateUserForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
 
-                    console.log(`Updating user details: First Name: ${firstName}, Last Name: ${lastName}, Email: ${email}`);
-                    // Perform API call here
-                });
+    const first_name = document.getElementById('firstName').value;
+    const last_name = document.getElementById('lastName').value;
+    const email_id = document.getElementById('email').value;
+    const user_id = sessionStorage.getItem('user_id');
+
+    const requestData = {
+        user_id,
+        first_name,
+        last_name,
+        email_id
+    };
+
+    try {
+        const response = await fetch('https://solarportal-server.alexgs.co.uk/update/userDetails', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        });
+
+        const result = await response.json();
+        console.log('Update response:', result);
+
+        if (response.ok) {
+            alert('User details updated successfully.');
+        } else {
+            alert('Failed to update user details. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error updating user details:', error);
+        alert('An error occurred. Please try again later.');
+    }
+});
             })
-            .catch(error => console.error('Error fetching user details:', error));
     }
 }
     </script>
