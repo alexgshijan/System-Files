@@ -88,22 +88,19 @@
             .then(response => response.json())
             .then(data => {
                 document.getElementById('formContainer').innerHTML = `
-<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-    <form id="updateUserForm" style="display: flex; flex-direction: column; gap: 10px; max-width: 300px; width: 100%; padding: 20px; background: white; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
-        <h2 style="text-align: center; margin-bottom: 10px;">User Details</h2>
-        
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" value="${data["user"].first_name || ''}" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+<h2>User Details</h2>
+<form id="updateUserForm" style="display: flex; flex-direction: column; gap: 10px; max-width: 300px;"; align : center>
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" value="${data["user"].first_name || ''}" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
 
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" value="${data["user"].last_name || ''}" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" value="${data["user"].last_name || ''}" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" value="${data["user"].email_id || ''}" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+    <label for="email">Email:</label>
+    <input type="email" id="email" value="${data["user"].email_id || ''}" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
 
-        <button type="submit" style="padding: 10px; border: none; border-radius: 5px; background-color: #00897b; color: white; cursor: pointer;">Update</button>
-    </form>
-</div>
+    <button type="submit" style="padding: 10px; border: none; border-radius: 5px; background-color: #00897b; color: white; cursor: pointer;">Update</button>
+</form>
                 `;
 
                 document.getElementById('updateUserForm').addEventListener('submit', function (e) {
