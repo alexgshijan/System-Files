@@ -84,7 +84,7 @@
 
             function updateForm(formId) {
     if (formId === 0) {
-        fetch('https://solarportal-server.alexgs.co.uk/update/userDetails?user_id=' + sessionStorage.getItem('user_id'))
+        fetch('https://solarportal-server.alexgs.co.uk/fetch/userDetails?user_id=' + sessionStorage.getItem('user_id'))
             .then(response => response.json())
             .then(data => {
                 document.getElementById('formContainer').innerHTML = `
