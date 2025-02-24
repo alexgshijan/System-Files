@@ -90,9 +90,9 @@
                 document.getElementById('formContainer').innerHTML = `
                     <h2>Update User Details</h2>
                     <form id="updateUserForm">
-                        <input type="text" value="${data.first_name || ''}" id="firstName">
-                        <input type="text" value="${data.last_name || ''}" id="lastName">
-                        <input type="email" value="${data.email_id || ''}" id="email">
+                        <input type="text" value="${data["user"].first_name || ''}" id="firstName">
+                        <input type="text" value="${data["user"].last_name || ''}" id="lastName">
+                        <input type="email" value="${data["user"].email_id || ''}" id="email">
                         <button type="submit">Update</button>
                     </form>
                 `;
