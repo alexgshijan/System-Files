@@ -132,6 +132,7 @@
 
         if (response.ok) {
             alert('User details updated successfully.');
+            sessionStorage.setItem('first_name', first_name);
         } else {
             alert('Failed to update user details. Please try again.');
         }
