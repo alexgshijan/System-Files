@@ -88,13 +88,19 @@
             .then(response => response.json())
             .then(data => {
                 document.getElementById('formContainer').innerHTML = `
-                    <h2>Update User Details</h2>
-                    <form id="updateUserForm">
-                        <input type="text" value="${data["user"].first_name || ''}" id="firstName">
-                        <input type="text" value="${data["user"].last_name || ''}" id="lastName">
-                        <input type="email" value="${data["user"].email_id || ''}" id="email">
-                        <button type="submit">Update</button>
-                    </form>
+                <h2>User Details</h2>
+                <form id="updateUserForm">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="firstName" value="${data["user"].first_name || ''}">
+                    
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName" value="${data["user"].last_name || ''}">
+                    
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" value="${data["user"].email_id || ''}">
+                    
+                    <button type="submit">Update</button>
+                </form>
                 `;
 
                 document.getElementById('updateUserForm').addEventListener('submit', function (e) {
