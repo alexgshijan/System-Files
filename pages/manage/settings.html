@@ -41,6 +41,22 @@
         .button-container {
             margin-top: 20px;
         }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+            background-color: white;
+            color: black;
+            text-align: left;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #004d40;
+            color: white;
+        }
 
     </style>
 </head>
@@ -61,6 +77,29 @@
                 document.getElementById('navbarContainer').innerHTML = data;
             })
             .catch(error => console.error('Error loading menubar:', error));
+
+            function updateForm(formId) {
+                if(formId === 0) {
+                    fetch('https://solarportal-server.alexgs.co.uk/update/userDetails?user_id=' + sessionStorage.getItem('user_id'))
+                    .then(response => response.json())
+                    .then(data => {const userData = data})
+                    document.getElementById('formContainer').innerHTML = '<h2>Update User Details</h2><form id="updateUserForm"><input type="text" value=data[first_name] id="firstName"><input type="text" value=data[last_name] id="lastName"><input type="email" value=data[email_id] id="email"><button type="submit">Update</button></form>';
+                    $('#updateUserForm').on('submit', function(e) {
+                        e.preventDefault();
+                        const firstName = $('#firstName').val();
+                        const lastName = $('#lastName').val();
+                        const email = $('#email').val();
+
+                        // Perform API call to update user details
+                        // Replace the following code with actual API call
+                        console.log(`Updating user details: First Name: ${firstName}, Last Name: ${lastName}, Email: ${email}`);
+                    });
+                }
+            }
+    </script>
+
+    <script>
+        $(document).ready(function() {updateForm(0)})
     </script>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
