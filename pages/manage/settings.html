@@ -66,7 +66,7 @@
         <div class="button-container">
             <button class="btn-custom" onclick=updateForm(0)>Update User Details</button>
             <button class="btn-custom" onclick=updateForm(1)>Outstanding Transactions</button>
-            <button class="btn-custom" onclick=updateForm(2)>Delete Account</button>
+            <button class="btn-custom" onclick=confirm(deleteUser())>Delete Account</button>
         </div>
     <div id="formContainer"></div>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -220,11 +220,7 @@
                 }
             });
         });
-}
-    if (formId === 2) {
-        document.getElementById('formContainer').innerHTML = ``
-    }
-}
+}}
     </script>
 
     <script>
@@ -233,8 +229,30 @@ document.addEventListener("DOMContentLoaded", function() {
 });
     </script>
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script>
+    function removeUser() { 
+        fetch(`https://solarportal-server.alexgs.co.uk/manage/removeuser`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ user_id: sessionStorage.getItem('user_id') }),
+                })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.message) {
+                            window.location.href = 'https://solarportal.alexgs.co.uk';
+                        } else {
+                            alert('Removal failed.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error removing user:', error);
+                        alert('Error removing user.')})
+    }
 
+
+</script>
 
 </body>
 </html>
