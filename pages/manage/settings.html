@@ -173,6 +173,9 @@
                     <label for="cvc">CVC:</label>
                     <input type="text" id="cvc" placeholder="123" maxlength="3" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
 
+                    <label for="amount_val">Amount:</label>
+                    <input type="text" id="amount_val" placeholder="100" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
+
                     <button type="submit" style="padding: 10px; border: none; border-radius: 5px; background-color: #00897b; color: white; cursor: pointer; width: 100%;">Add Funds</button>
                 </form>`;
 
@@ -182,7 +185,7 @@
                 const cardNumber = document.getElementById('cardNumber').value;
                 const expiryDate = document.getElementById('expiryDate').value;
                 const cvc = document.getElementById('cvc').value;
-                const amount = balance; // Assume user is paying the full outstanding balance
+                const amount = ocument.getElementById('amount_val').value;
 
                 const paymentData = { user_id, amount };
 
