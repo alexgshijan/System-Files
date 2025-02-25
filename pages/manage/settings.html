@@ -240,7 +240,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <script>
     function removeUser() { 
-        if (confirm("Are you sure you want to delete your account, this account is irreversible.")){
+        if (confirm("Are you sure you want to delete your account, this action is irreversible.")){
         fetch(`https://solarportal-server.alexgs.co.uk/manage/removeuser`, {
                     method: 'POST',
                     headers: {
