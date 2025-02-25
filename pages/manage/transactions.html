@@ -10,12 +10,11 @@
 
     <style>
         body, html {
-            min-height: 100vh; /* Ensure body and html are at least the height of the viewport */
-            overflow-y: auto;  /* Make both scrollable if content is greater */
+            min-height: 100vh;
+            overflow-y: auto;
         }
         h1 {
-            font-size: 48px;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            font-size: 36px;
         }
         table {
             margin: 20px auto;
@@ -33,272 +32,135 @@
             background-color: #004d40;
             color: white;
         }
-        .status-dropdown {
-            width: 100%;
-        }
-        .update-btn {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 5px 10px;
+        .expand-btn {
             cursor: pointer;
-        }
-        .update-btn:hover {
-            background-color: #0056b3;
+            background: none;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
         }
         .details-row {
             display: none;
             background-color: #f9f9f9;
         }
-        .status-row {
-            display: flex;
-            align-items: center;
-            gap: 8px; /* Adjust spacing between label and dropdown */
+        .filter-container {
+            justify-content: flex-end;
+            margin-right: 20px;
         }
-
-        .status-row label {
-            margin: 0;
+        #searchBox {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 300px;
         }
-
-        .status-dropdown {
-            flex-shrink: 0; /* Prevent shrinking */
-            width: 250px; /* Set a specific width */
-            max-width: 100%; /* Ensure it doesn't exceed the container's width */
-            box-sizing: border-box; /* Include padding/borders in the width */
-}
-/* Wrapper for search bar and dropdown */
-.filter-container {
-    justify-content: flex-end; /* Align the container to the right */
-    margin-right: 20px; /* Add some spacing to the right */
-}
-
-
-/* Search bar styles */
-#searchBox {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-/* Dropdown styles */
-#statusFilter {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    background-color: #fff;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-    width: 250px;
-    max-width: 100%;
-}
     </style>
 </head>
 <body>
     <div id="navbarContainer"></div>
     <h1>Application Management</h1>
+
     <div class="filter-container">
-        <input
-            type="text"
-            id="searchBox"
-            placeholder="Search Name, Email, or ID"
-        />
-        <select id="statusFilter">
-            <option value="">Filter by Status</option>
-            <option value="0. Application Denied">0. Application Denied</option>
-            <option value="1. Pending Approval">1. Pending Approval</option>
-            <option value="2. Approved for Development">2. Approved for Development</option>
-            <option value="3. Site Surveyed">3. Site Surveyed</option>
-            <option value="4. Awaiting Installation">4. Awaiting Installation</option>
-            <option value="5. Awaiting QoW Assessment">5. Awaiting QoW Assessment</option>
-            <option value="6. Installation Complete">6. Installation Complete</option>
-        </select>
+        <input type="text" id="searchBox" placeholder="Search User ID">
     </div>
 
-    <table id="applicationsTable">
+    <table id="transactionsTable">
         <thead>
             <tr>
                 <th></th>
-                <th>Application ID</th>
                 <th>User ID</th>
-                <th>Status</th>
+                <th>Total Due (£)</th>
+                <th>Total Paid (£)</th>
+                <th>Outstanding Balance (£)</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td colspan="4">Loading data...</td>
+                <td colspan="5">Loading data...</td>
             </tr>
         </tbody>
     </table>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        fetch('/assets/html/'+ sessionStorage.getItem('account_type') +'/menubar.html')
+        // Load navigation bar
+        fetch('/assets/html/' + sessionStorage.getItem('account_type') + '/menubar.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('navbarContainer').innerHTML = data;
             })
             .catch(error => console.error('Error loading menubar:', error));
+
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('https://solarportal-server.alexgs.co.uk/manage/transactions/all')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.querySelector('#transactionsTable tbody');
+                    tableBody.innerHTML = '';
+
+                    Object.values(data).forEach(user => {
+                        const mainRow = document.createElement('tr');
+                        mainRow.innerHTML = `
+                            <td><button class="expand-btn" data-id="${user.user_id}">+</button></td>
+                            <td>${user.user_id}</td>
+                            <td>£${user.total_due.toFixed(2)}</td>
+                            <td>£${user.total_paid.toFixed(2)}</td>
+                            <td>£${user.outstanding_balance.toFixed(2)}</td>
+                        `;
+                        tableBody.appendChild(mainRow);
+
+                        const detailsRow = document.createElement('tr');
+                        detailsRow.className = 'details-row';
+                        detailsRow.innerHTML = `
+                            <td colspan="5">
+                                <strong>Applications:</strong>
+                                <ul>
+                                    ${user.applications.map(app => 
+                                        `<li>Application ID: ${app.application_id}, Price: £${app.price.toFixed(2)}</li>`
+                                    ).join('')}
+                                </ul>
+                                <strong>Transactions:</strong>
+                                <ul>
+                                    ${user.transactions.map(trx => 
+                                        `<li>Transaction ID: ${trx.transaction_id}, Amount: £${trx.amount.toFixed(2)}, Date: ${trx.timestamp}</li>`
+                                    ).join('')}
+                                </ul>
+                            </td>
+                        `;
+                        tableBody.appendChild(detailsRow);
+                    });
+
+                    document.querySelectorAll('.expand-btn').forEach(button => {
+                        button.addEventListener('click', function () {
+                            const detailsRow = this.closest('tr').nextElementSibling;
+                            if (detailsRow.style.display === 'table-row') {
+                                detailsRow.style.display = 'none';
+                                this.textContent = '+';
+                            } else {
+                                detailsRow.style.display = 'table-row';
+                                this.textContent = '-';
+                            }
+                        });
+                    });
+                })
+                .catch(error => {
+                    document.querySelector('#transactionsTable tbody').innerHTML = 
+                        '<tr><td colspan="5">Error loading data</td></tr>';
+                    console.error('Error fetching data:', error);
+                });
+
+            document.getElementById('searchBox').addEventListener('input', function () {
+                const searchTerm = this.value.toLowerCase().trim();
+
+                document.querySelectorAll('#transactionsTable tbody tr').forEach(row => {
+                    if (row.classList.contains('details-row')) return;
+                    const userId = row.children[1].textContent.toLowerCase();
+                    row.style.display = searchTerm === '' || userId.includes(searchTerm) ? '' : 'none';
+                    if (row.style.display === 'none') {
+                        row.nextElementSibling.style.display = 'none';
+                    }
+                });
+            });
+        });
     </script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const statusOptions = [
-            "0. Application Denied",
-            "1. Pending Approval",
-            "2. Approved for Development",
-            "3. Site Surveyed",
-            "4. Awaiting Installation",
-            "5. Awaiting QoW Assessment",
-            "6. Installation Complete"
-        ];
-
-        fetch('https://solarportal-server.alexgs.co.uk/manage/installations')
-    .then(response => response.json())
-    .then(data => {
-        const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
-        tableBody.innerHTML = '';
-
-        data.forEach(application => {
-            const mainRow = document.createElement('tr');
-            mainRow.innerHTML = `
-                <td><button class="expand-btn" data-id="${application.application_id}">+</button></td>
-                <td>${application.application_id}</td>
-                <td>${application.user_id}</td>
-                <td>${application.status}</td>
-            `;
-            tableBody.appendChild(mainRow);
-
-            const detailsRow = document.createElement('tr');
-            detailsRow.className = 'details-row';
-            detailsRow.innerHTML = `
-                <td colspan="4">
-                    <div style="display: flex; justify-content: space-between; gap: 20px;">
-                        <div style="flex: 1;">
-                            <strong>Full Name:</strong> ${application.full_name}<br>
-                            <strong>Email ID:</strong> ${application.email_id}<br><br>
-                            <strong>Panel ID:</strong> ${application.panel_id}<br>
-                            <strong>Panel Name:</strong> ${application.panel_name}<br>
-                            <strong>Battery ID:</strong> ${application.battery_id}<br>
-                            <strong>Battery Name:</strong> ${application.battery_name}<br>
-                            <strong>Inverter ID:</strong> ${application.inverter_id}<br>
-                            <strong>Inverter Name:</strong> ${application.inverter_name}<br>
-                            <strong>Number of Panels:</strong> ${application.nu_panel}<br>
-                        </div>
-                        <div style="flex: 1;">
-                            
-                            <strong>Address:</strong> ${application.address}<br>
-                            <strong>Postcode:</strong> ${application.postcode}<br>
-                            <strong>Property Type:</strong> ${application.property_type}<br>
-                            <strong>Roof Type:</strong> ${application.roof_type}<br><br>
-                            <strong>Installation Date:</strong> 
-                            <input type="date" id="installation-date-${application.application_id}" value="${application.installation_date}"><br><br>
-                            <div class="status-row">
-                            <label for="status-${application.application_id}">Status:</label>
-                            <select id="status-${application.application_id}" class="status-dropdown short-dropdown" data-application-id="${application.application_id}">
-                                ${statusOptions.map(option => 
-                                    `<option value="${option}" ${option === application.status ? "selected" : ""}>${option}</option>`).join('')}
-                            </select><br><br>
-                            </div>
-                            <button class="update-btn" data-application-id="${application.application_id}">Update</button>
-                        </div>
-                    </div>
-                </td>
-            `;
-            tableBody.appendChild(detailsRow);
-        });
-
-        document.querySelectorAll('.expand-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const detailsRow = this.closest('tr').nextElementSibling;
-                if (detailsRow.style.display === 'table-row') {
-                    detailsRow.style.display = 'none';
-                    this.textContent = '+';
-                } else {
-                    detailsRow.style.display = 'table-row';
-                    this.textContent = '-';
-                }
-            });
-        });
-
-        document.querySelectorAll('.update-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const applicationId = this.getAttribute('data-application-id');
-                const newStatus = document.querySelector(`.status-dropdown[data-application-id="${applicationId}"]`).value;
-                const newDate = document.querySelector(`#installation-date-${applicationId}`).value;
-                updateApplication(applicationId, newStatus, newDate);
-            });
-        });
-    })
-    .catch(error => {
-        const tableBody = document.getElementById('applicationsTable').getElementsByTagName('tbody')[0];
-        tableBody.innerHTML = '<tr><td colspan="4">Error loading data</td></tr>';
-        console.error('Error fetching data:', error);
-    });
-
-function updateApplication(applicationId, newStatus, newDate) {
-    fetch('https://solarportal-server.alexgs.co.uk/manage/updateapplication', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ application_id: applicationId, status: newStatus, installation_date: newDate })
-    })
-    .then(response => response.json())
-    .then(result => {
-        if (result.message) {
-            alert(`Application ID ${applicationId} updated successfully.`);
-            location.reload();
-        } else {
-            alert('Update failed.');
-        }
-    })
-    .catch(error => {
-        console.error('Error updating application:', error);
-        alert('Error updating application.');
-    });
-}});
-</script>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-    const searchBox = document.getElementById('searchBox');
-    const statusFilter = document.getElementById('statusFilter');
-    const tableBody = document.querySelector('#applicationsTable tbody');
-
-    function applyFilters() {
-        const searchTerm = searchBox.value.toLowerCase().trim();
-        const selectedStatus = statusFilter.value;
-
-        // Filter table rows
-        document.querySelectorAll('#applicationsTable tbody tr').forEach(row => {
-            // Skip details rows
-            if (row.classList.contains('details-row')) return;
-
-            const userId = row.children[2].textContent.toLowerCase();
-            const fullName = row.nextElementSibling?.querySelector('strong')?.nextSibling?.textContent?.toLowerCase() || '';
-            const emailId = row.nextElementSibling?.querySelectorAll('strong')[1]?.nextSibling?.textContent?.toLowerCase() || '';
-            const status = row.children[3].textContent;
-
-            const matchesSearch = searchTerm === '' ||
-                userId.includes(searchTerm) ||
-                fullName.includes(searchTerm) ||
-                emailId.includes(searchTerm);
-
-            const matchesStatus = selectedStatus === '' || status === selectedStatus;
-
-            row.style.display = matchesSearch && matchesStatus ? '' : 'none';
-            if (row.style.display === 'none') {
-                row.nextElementSibling.style.display = 'none'; // Hide details row
-            }
-        });
-    }
-
-    searchBox.addEventListener('input', applyFilters);
-    statusFilter.addEventListener('change', applyFilters);
-});
-        </script>
 </body>
 </html>
