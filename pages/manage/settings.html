@@ -310,10 +310,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 const data = await response.json();
 
-                if (data.message === 'Password reset successful.') {
+                if (data.message === 'Password change successful.') {
                     alert('Your password has been reset successfully.');
-                    // Optionally, redirect to login page or reload
-                    window.location.href = '/pages/login.html';
                 } else {
                     alert('Password reset failed: ' + data.error);
                 }
