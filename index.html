@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
+<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="assets/style/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -70,7 +69,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             padding: 100%;
-            z-index: 1000;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             transition: opacity 0.5s ease;
@@ -93,7 +92,7 @@
         </div>
     </div>
 
-    <div class = "modal-content">
+    <div class="modal-content">
         <div class="container" id="container">
             <div class="form-container sign-up">
                 <form id="register-form">
@@ -193,7 +192,7 @@
                     console.error('Error:', error);
                     alert('An error occurred while logging in. Please try again later.');
                 });
-        });
+    });
     </script>
 
     <!-- Registration Script -->
@@ -207,7 +206,7 @@ document.getElementById('register-form').addEventListener('submit', async (event
     const password = document.getElementById('regpassword').value;
     const confirm_password = document.getElementById('confirm_password').value;
     const account_type = document.getElementById('account_type').value;
-    const hashpassword = CryptoJS.SHA256(password).toString()
+    const hashedPassword = CryptoJS.SHA256(password).toString()
 
     const messageDiv = document.getElementById('message');
     messageDiv.innerText = ''; // Clear previous message
@@ -239,7 +238,7 @@ document.getElementById('register-form').addEventListener('submit', async (event
                 first_name,
                 last_name,
                 email_id,
-                password: hashpassword,  // Only send the password once, since they match
+                password: hashedPassword,  // Only send the password once, since they match
                 account_type
             })
         });
@@ -285,7 +284,9 @@ document.getElementById('register-form').addEventListener('submit', async (event
                 function handleHashChange() {
             if (window.location.hash === '#signup') {
                 container.classList.add('active'); // Show signup form
-                showModal()
+                if (!modal.classList.contains('show-modal')) {
+                    showModal();
+                }
                 
             } else if (window.location.hash === '#login') {
                 container.classList.remove('active'); // Show login form
