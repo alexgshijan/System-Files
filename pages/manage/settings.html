@@ -132,6 +132,7 @@
                     if (response.ok) {
                         alert('User details updated successfully.');
                         sessionStorage.setItem('first_name', first_name);
+                        location.reload();
                     } else {
                         alert('Failed to update user details. Please try again.');
                     }
@@ -210,7 +211,7 @@
 
                     if (response.ok) {
                         alert('Payment successful!');
-                        document.getElementById('formContainer').innerHTML = "<p style='text-align: center;'>Payment completed. Thank you.</p>";
+                        location.reload();
                     } else {
                         alert('Payment failed. Please try again.');
                     }
