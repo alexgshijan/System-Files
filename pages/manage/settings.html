@@ -282,7 +282,6 @@ document.addEventListener("DOMContentLoaded", function() {
             const currentPassword = document.getElementById('currentPassword').value;
             const newPassword = document.getElementById('newPassword').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
-            const email = sessionStorage.getItem('email_id');  // Assumes email is stored in session storage
 
             // Check if the passwords match
             if (newPassword !== confirmPassword) {
@@ -298,7 +297,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        email_id: email,
+                        user_id: sessionStorage.getItem('user_id'),
                         password: CryptoJS.SHA256(currentPassword).toString(),
                         new_password: CryptoJS.SHA256(newPassword).toString()
                     })
