@@ -112,19 +112,25 @@
                         detailsRow.className = 'details-row';
                         detailsRow.innerHTML = `
                             <td colspan="5">
+                                <div style="display: flex; justify-content: space-between; gap: 20px;">
+                                    <div style="flex: 1;">
                                 <strong>Applications:</strong>
                                 <ul>
                                     ${user.applications.map(app => 
                                         `<li>Application ID: ${app.application_id}, Price: £${app.price.toFixed(2)}</li>`
                                     ).join('')}
                                 </ul>
+                                </div>
+                        <div style="flex: 1;">
                                 <strong>Transactions:</strong>
                                 <ul>
                                     ${user.transactions.map(trx => 
-                                        `<li>Transaction ID: ${trx.transaction_id}, Amount: £${trx.amount.toFixed(2)}, Date: ${trx.timestamp}</li>`
+                                        `<li>Transaction ID: ${trx.transaction_id}, Amount: £${trx.amount.toFixed(2)}</li>`
                                     ).join('')}
                                 </ul>
+                                </div>
                             </td>
+                            
                         `;
                         tableBody.appendChild(detailsRow);
                     });
