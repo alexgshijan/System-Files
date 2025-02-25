@@ -157,7 +157,8 @@
                 return;
             }
 
-            const balance = data.data[0].outstanding_balance;
+            // Convert balance from pence to pounds for display
+            const balance = data.data[0].outstanding_balance / 100;
 
             document.getElementById('formContainer').innerHTML = `
                 <h2 style="text-align: center;">Outstanding Balance</h2>
@@ -185,7 +186,15 @@
                 const cardNumber = document.getElementById('cardNumber').value;
                 const expiryDate = document.getElementById('expiryDate').value;
                 const cvc = document.getElementById('cvc').value;
-                const amount = ocument.getElementById('amount_val').value;
+                let amount = document.getElementById('amount_val').value;
+
+                if (!amount || isNaN(amount) || amount <= 0) {
+                    alert("Please enter a valid amount.");
+                    return;
+                }
+
+                // Convert amount from pounds to pence for storage
+                amount = Math.round(parseFloat(amount) * 100);
 
                 const paymentData = { user_id, amount };
 
@@ -210,7 +219,8 @@
                     alert('An error occurred. Please try again later.');
                 }
             });
-        })}
+        });
+}
     if (formId === 2) {
         document.getElementById('formContainer').innerHTML = ``
     }
