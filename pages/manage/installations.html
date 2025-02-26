@@ -249,7 +249,6 @@ function updateApplication(applicationId, newStatus, newDate) {
     .then(response => response.json())
     .then(result => {
         if (result.message) {
-            alert(`Application ID ${applicationId} updated successfully.`);
             location.reload();
         } else {
             alert('Update failed.');

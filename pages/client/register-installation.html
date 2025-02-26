@@ -307,7 +307,7 @@ function validateStep(step) {
             body: JSON.stringify(formData),
         })
             .then(response => response.json())
-            .then(data => {alert('Application submitted successfully!'); redirectToLandingPage()})
+            .then(data => redirectToLandingPage())
             .catch(error => alert('Error submitting application.'));
     }
 </script>

@@ -172,7 +172,6 @@
                                 .then(response => response.json())
                                 .then(result => {
                                     if (result.message) {
-                                        alert(`Component ID ${componentId} updated successfully.`);
                                         fetchAndRenderData(filterDropdown.value);
                                     } else {
                                         alert('Update failed.');

@@ -232,7 +232,6 @@
                     .then(response => response.json())
                     .then(result => {
                         if (result.message) {
-                            alert(`User with Email ID ${email} updated successfully.`);
                             location.reload();
                         } else {
                             alert('Update failed.');
@@ -253,7 +252,6 @@
                     .then(response => response.json())
                     .then(result => {
                         if (result.message) {
-                            alert(`User with ID ${userId} removed successfully.`);
                             location.reload();
                         } else {
                             alert('Removal failed.');

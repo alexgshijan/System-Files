@@ -138,7 +138,6 @@
                     console.log('Update response:', result);
 
                     if (response.ok) {
-                        alert('User details updated successfully.');
                         sessionStorage.setItem('first_name', first_name);
                         location.reload();
                     } else {
@@ -218,7 +217,6 @@
                     console.log('Payment response:', result);
 
                     if (response.ok) {
-                        alert('Payment successful!');
                         location.reload();
                     } else {
                         alert('Payment failed. Please try again.');
