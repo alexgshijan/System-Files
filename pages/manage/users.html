@@ -124,14 +124,17 @@
     // Event listener for dropdowns
     const accountTypeDropdown = document.getElementById('filterAccountType');
     const verifiedStatusDropdown = document.getElementById('filterVerifiedStatus');
+    const searchBox = document.getElementById('searchBox');
 
     accountTypeDropdown.addEventListener('change', filterUsers);
     verifiedStatusDropdown.addEventListener('change', filterUsers);
+    searchBoxElement.addEventListener('change', filterUsers);
 
     // Filter users based on dropdown selection
     function filterUsers() {
         const accountType = accountTypeDropdown.value;
         const verifiedStatus = verifiedStatusDropdown.value;
+        const searchBoxValue = searchBox.value.toLowerCase();
 
         const filteredUsers = allUsers.filter(user => {
             return (accountType === 'all' || user.account_type === accountType) &&
@@ -139,11 +142,11 @@
                     (verifiedStatus === 'verified' && user.verified === 1) ||
                     (verifiedStatus === 'unverified' && user.verified === 0) ||
                     (verifiedStatus === 'locked' && user.verified === -1)) &&
-                    (user.user_id.toLowerCase().includes(searchBox.value.toLowerCase()) ||
-                     user.first_name.toLowerCase().includes(searchBox.value.toLowerCase()) ||
-                     user.last_name.toLowerCase().includes(searchBox.value.toLowerCase()) ||
-                     user.email_id.toLowerCase().includes(searchBox.value.toLowerCase()) ||
-                    "${user.first_name} ${user.last_name}".toLowerCase().includes(searchBox.value.toLowerCase()));
+                    (user.user_id.toLowerCase().includes(searchBoxValue) ||
+                     user.first_name.toLowerCase().includes(searchBoxValue) ||
+                     user.last_name.toLowerCase().includes(searchBoxValue) ||
+                     user.email_id.toLowerCase().includes(searchBoxValue) ||
+                    "${user.first_name} ${user.last_name}".toLowerCase().includes(searchBoxValue));
         });
 
         renderTable(filteredUsers);
