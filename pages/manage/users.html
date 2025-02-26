@@ -142,7 +142,7 @@
                     (verifiedStatus === 'verified' && user.verified === 1) ||
                     (verifiedStatus === 'unverified' && user.verified === 0) ||
                     (verifiedStatus === 'locked' && user.verified === -1)) &&
-                    (user.user_id.stringify().includes(searchBoxValue) ||
+                    (user.user_id.includes(searchBoxValue) ||
                      user.first_name.toLowerCase().includes(searchBoxValue) ||
                      user.last_name.toLowerCase().includes(searchBoxValue) ||
                      user.email_id.toLowerCase().includes(searchBoxValue) ||
