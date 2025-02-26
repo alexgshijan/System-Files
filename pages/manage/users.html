@@ -72,6 +72,7 @@
             <option value="unverified">Unverified</option>
             <option value="locked">Locked</option>
         </select>
+        <input type="text" id="searchBox" placeholder="Search User ID">
     </div>
 
     <table id="usersTable">
@@ -137,7 +138,12 @@
                    (verifiedStatus === 'all' || 
                     (verifiedStatus === 'verified' && user.verified === 1) ||
                     (verifiedStatus === 'unverified' && user.verified === 0) ||
-                    (verifiedStatus === 'locked' && user.verified === -1));
+                    (verifiedStatus === 'locked' && user.verified === -1)) &&
+                    (user.user_id.toLowerCase().includes(searchBox.value.toLowerCase()) ||
+                     user.first_name.toLowerCase().includes(searchBox.value.toLowerCase()) ||
+                     user.last_name.toLowerCase().includes(searchBox.value.toLowerCase()) ||
+                     user.email_id.toLowerCase().includes(searchBox.value.toLowerCase()) ||
+                    "${user.first_name} ${user.last_name}".toLowerCase().includes(searchBox.value.toLowerCase()));
         });
 
         renderTable(filteredUsers);
