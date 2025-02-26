@@ -128,7 +128,7 @@
 
     accountTypeDropdown.addEventListener('change', filterUsers);
     verifiedStatusDropdown.addEventListener('change', filterUsers);
-    searchBox.addEventListener('change', filterUsers);
+    searchBox.addEventListener('input', filterUsers);
 
     // Filter users based on dropdown selection
     function filterUsers() {
@@ -142,11 +142,11 @@
                     (verifiedStatus === 'verified' && user.verified === 1) ||
                     (verifiedStatus === 'unverified' && user.verified === 0) ||
                     (verifiedStatus === 'locked' && user.verified === -1)) &&
-                    (user.user_id.includes(searchBoxValue) ||
+                    (user.user_id.toString().toLowerCase().includes(searchBoxValue)||
                      user.first_name.toLowerCase().includes(searchBoxValue) ||
                      user.last_name.toLowerCase().includes(searchBoxValue) ||
                      user.email_id.toLowerCase().includes(searchBoxValue) ||
-                    "${user.first_name} ${user.last_name}".toLowerCase().includes(searchBoxValue));
+                    (user.first_name + ' ' + user.last_name).toLowerCase().includes(searchBoxValue));
         });
 
         renderTable(filteredUsers);
