@@ -77,6 +77,7 @@
     <table id="usersTable">
         <thead>
             <tr>
+                <th>User ID</th>
                 <th>Full Name</th>
                 <th>Email ID</th>
                 <th>Account Type</th>
@@ -155,6 +156,7 @@
         users.forEach(user => {
             const row = document.createElement('tr');
             row.innerHTML = `
+                <td>${user.user_id}</td>
                 <td>${user.first_name} ${user.last_name}</td>
                 <td>${user.email_id}</td>
                 <td>${user.account_type}</td>
