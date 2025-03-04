@@ -94,7 +94,10 @@
 
             <div class="notifications-placeholder">
                 <h3>Notifications</h3>
-                <p>No new notifications.</p>
+                <div id="notifications-list">
+                    <p>Loading notifications...</p>
+                </div>
+                <button class="clear-btn" onclick="clearNotifications()">Clear Notifications</button>
             </div>
 
         </div>
@@ -111,6 +114,7 @@
     
     <script>
         const first_name = sessionStorage.getItem('first_name');
+        const userId = sessionStorage.getItem('user_id');
         fetch('/assets/html/admin/menubar.html')
             .then(response => response.text())
             .then(data => {
@@ -118,6 +122,52 @@
                 document.getElementById('welcome-message').textContent = `Welcome back, ${first_name}`;
             })
             .catch(error => console.error('Error loading menubar:', error));
+
+            function fetchNotifications() {
+            fetch('https://solarportal-server.alexgs.co.uk/manage/notifications', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: userId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const notificationsList = document.getElementById('notifications-list');
+                notificationsList.innerHTML = '';
+
+                if (data.length === 0) {
+                    notificationsList.innerHTML = '<p>No new notifications.</p>';
+                    return;
+                }
+
+                data.forEach(notification => {
+                    const div = document.createElement('div');
+                    div.classList.add('notification-item');
+                    div.textContent = notification.notification;
+                    notificationsList.appendChild(div);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching notifications:', error);
+                document.getElementById('notifications-list').innerHTML = '<p>Error loading notifications.</p>';
+            });
+        }
+
+        function clearNotifications() {
+            fetch('https://solarportal-server.alexgs.co.uk/clear/notifications', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: userId })
+            })
+            .then(response => response.json())
+            .then(() => {
+                document.getElementById('notifications-list').innerHTML = '<p>No new notifications.</p>';
+            })
+            .catch(error => {
+                console.error('Error clearing notifications:', error);
+            });
+        }
+
+        fetchNotifications();
     </script>
 </body>
 </html>
