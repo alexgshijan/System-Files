@@ -9,6 +9,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <style>
+        .clear-btn {
+    margin-top: 10px;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.clear-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
         :root {
             --main-color: #00261a;
             --text-color: #ffffff;
@@ -97,7 +110,9 @@
                 <div id="notifications-list">
                     <p>Loading notifications...</p>
                 </div>
-                <button class="clear-btn" onclick="clearNotifications()">Clear Notifications</button>
+                <button class="clear-btn btn btn-outline-light btn-sm" onclick="clearNotifications()">
+                    <i class="fas fa-trash-alt"></i> Clear All
+                </button>
             </div>
 
         </div>
