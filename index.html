@@ -120,7 +120,7 @@
             const email = document.getElementById('logemail').value;
             const password = document.getElementById('logpassword').value;
 
-            fetch('https://solarportal-server.alexgs.co.uk/auth/login', {
+            fetch(`${window.MY_APP_API_URL}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
