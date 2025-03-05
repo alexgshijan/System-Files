@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="assets/style/form.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <link rel="icon" type="image/x-icon" href="https://solarportal.alexgs.co.uk/assets/img/SolarPortalLogo.png">
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src='/config.js'></script>
     <title>SolarPortal</title>
 
@@ -180,7 +179,7 @@ document.getElementById('register-form').addEventListener('submit', async (event
     }
 
     try {
-        const url = axios.get(window.MY_APP_API_URL)
+        const url = window.MY_APP_API_URL
         const response = await fetch('${url}/auth/register', {
             method: 'POST',
             headers: {
