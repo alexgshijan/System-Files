@@ -10,75 +10,22 @@
     <title>SolarPortal</title>
 
     <style>
-        
+        /* General styling for the page */
         html,
         body {
-            color: #636b6f;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 200;
-            height: 100%;
-            margin: 0;
-            background-image: url("assets/img/bg.png");
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-
-        .full-height {
-            height: 100vh;
-        }
-
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
-
-        .position-ref {
-            position: relative;
-        }
-
-
-        .content {
-            text-align: center;
-        }
-
-        .title {
-            font-size: 84px;
-        }
-
-        .links>a {
-            color: #636b6f;
-            padding: 0 25px;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: .1rem;
-            text-decoration: none;
-            text-transform: uppercase;
-        }
-
-        .m-b-md {
-            margin-bottom: 30px;
-        }
-
+            color: #636b6f; font-family: 'Nunito', sans-serif; font-weight: 200; height: 100%; margin: 0; 
+            background-image: url("assets/img/bg.png"); background-position: center;  background-repeat: no-repeat; background-size: cover;}
+        .full-height { height: 100vh;}
+        .flex-center { align-items: center; display: flex; justify-content: center;}
+        .position-ref { position: relative; }
+        .content { text-align: center;}
+        .title {font-size: 84px; }
+        .links>a { color: #636b6f; padding: 0 25px; font-size: 13px; font-weight: 600; letter-spacing: .1rem; text-decoration: none; text-transform: uppercase;}
+        .m-b-md { margin-bottom: 30px;}
         .modal-content {
-            display: none;
-            opacity: 0;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 100%;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transition: opacity 0.5s ease;
-        }
-
-        .show-modal {
-            display: block;
-            opacity: 1;
-        }
+            display: none; opacity: 0; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);  padding: 100%; padding: 20px;
+            border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); transition: opacity 0.5s ease;}
+        .show-modal { display: block; opacity: 1;}
     </style>
 </head>
 
@@ -109,7 +56,9 @@
                     <div style="display: flex; align-items: center; margin-top: 10px;">
                         <input type="checkbox" id="gdpr_consent" required style="margin-right: 5px;">
                         <label for="gdpr_consent" style="font-size: 12px; white-space: nowrap;">
-                            I consent to the <span style="text-decoration: underline; color: blue; cursor: pointer;" title="I consent to the processing of my data in compliance with GDPR. I acknowledge this site is part of a computer science project and not associated with any real-world organization.">
+                            I consent to the <span style="text-decoration: underline; color: blue; cursor: pointer;" 
+                            title="I consent to the processing of my data in compliance with GDPR. 
+                            I acknowledge this site is part of a computer science project and not associated with any real-world organization.">
                                 privacy policy
                             </span>.
                         </label>
@@ -164,7 +113,7 @@
     </script>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function (event) {
+        document.getElementById('loginForm').addEventListener('submit', function (event) { //run if login form submitted
             event.preventDefault();  // Prevent default form submission
 
             const email = document.getElementById('logemail').value;
@@ -175,15 +124,15 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email_id: email, password: CryptoJS.SHA256(password).toString() })
+                body: JSON.stringify({ email_id: email, password: CryptoJS.SHA256(password).toString() }) // send encrypted password
             })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.message === 'Login successful.') {
+                    if (data.message === 'Login successful.') { // set the session storage variables
                         sessionStorage.setItem('first_name', data.first_name);
                         sessionStorage.setItem('account_type', data.account_type);
                         sessionStorage.setItem('user_id', data.user_id);
-                        window.location.href = '/pages/landing.html';
+                        window.location.href = '/pages/landing.html'; // redirect to the landing page
                     } else {
                         alert('Login failed: ' + data.error);
                     }
@@ -200,13 +149,13 @@
 document.getElementById('register-form').addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const first_name = document.getElementById('first_name').value;
+    const first_name = document.getElementById('first_name').value; // Pull details from the input fields
     const last_name = document.getElementById('last_name').value;
     const email_id = document.getElementById('regemail_id').value;
     const password = document.getElementById('regpassword').value;
     const confirm_password = document.getElementById('confirm_password').value;
     const account_type = document.getElementById('account_type').value;
-    const hashedPassword = CryptoJS.SHA256(password).toString()
+    const hashedPassword = CryptoJS.SHA256(password).toString() // Encrypt password
 
     const messageDiv = document.getElementById('message');
     messageDiv.innerText = ''; // Clear previous message
@@ -223,7 +172,7 @@ document.getElementById('register-form').addEventListener('submit', async (event
 
     // Check if email is valid
     if (!emailPattern.test(email_id)) {
-        messageDiv.style.color = 'red';
+        messageDiv.style.color = 'red'; // Email validation
         messageDiv.innerText = "Please enter a valid email address.";
         return;
     }
@@ -273,7 +222,7 @@ document.getElementById('register-form').addEventListener('submit', async (event
         const loginBtn = document.getElementById('login');
 
         registerBtn.addEventListener('click', () => {
-            window.location.hash = "#signup";
+            window.location.hash = "#signup"; // if user presses toggle button, change hash to signup
         });
 
         loginBtn.addEventListener('click', () => {
