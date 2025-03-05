@@ -252,7 +252,7 @@ document.getElementById('register-form').addEventListener('submit', async (event
 
             // Redirect to login page after delay
             setTimeout(() => {
-                window.location.href = '#login';
+                window.location.href = '#login'; // Redirect to login form after 1.2 seconds
             }, 1200);
         } else {
             messageDiv.style.color = 'red';
