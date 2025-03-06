@@ -133,7 +133,17 @@
                         sessionStorage.setItem('first_name', data.first_name);
                         sessionStorage.setItem('account_type', data.account_type);
                         sessionStorage.setItem('user_id', data.user_id);
-                        window.location.href = '/pages/landing.html'; // redirect to the landing page
+                        if (sessionStorage.getItem('account_type') === 'client') {
+        window.location.href = '/pages/client/client-landing.html';
+
+    } else if (sessionStorage.getItem('account_type') === 'employee') {
+        window.location.href = '/pages/employee/employee-landing.html';
+
+    } else if (sessionStorage.getItem('account_type') === 'admin') {
+        window.location.href = '/pages/admin/admin-landing.html';
+        
+    } else {
+        alert('Login failed: ' + data.error)} // redirect to the landing page
                     } else {
                         alert('Login failed: ' + data.error);
                     }
