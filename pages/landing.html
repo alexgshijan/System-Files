@@ -1,12 +1,12 @@
-<script src='/config.js'></script>
+<script src='/config.js'> // Load in global variables</script>
 <style>
 body {
-    background-color: #00261a;
+    background-color: #00261a; /* Set background to black so that even if there is a small delay, it's not noticed */
 }
 </style>
 <script>
     if (sessionStorage.getItem('account_type') === 'client') {
-        window.location.href = '/pages/client/client-landing.html';
+        window.location.href = '/pages/client/client-landing.html'; // redirect user to home page relevant to their account type as listed in the session storage
 
     } else if (sessionStorage.getItem('account_type') === 'employee') {
         window.location.href = '/pages/employee/employee-landing.html';
