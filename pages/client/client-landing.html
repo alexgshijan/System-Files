@@ -8,74 +8,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Compatibility meta tag -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Viewport meta tag -->
     <meta charset="utf-8"> <!-- Character set meta tag -->
-    <style>
-        
-        :root {
-            --main-color: #00261a;
-            --text-color: #ffffff;
-        }
-
-        body {
-            background-color: var(--main-color);
-            color: var(--text-color);
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-
-        .logo-default {
-            max-width: 200px;
-            height: auto;
-        }
-
-        .welcome-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: calc(100vh - 100px);
-        }
-
-        .welcome-message {
-            font-size: 48px;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
-            animation: pulseShadow 2s ease-in-out infinite;
-        }
-
-        @keyframes pulseShadow {
-            0%, 100% {
-                text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
-            }
-            50% {
-                text-shadow: 0 0 50px rgba(255, 255, 255, 1);
-            }
-        }
-
-        .button-container {
-            margin-top: 20px;
-        }
-
-        .btn-custom {
-            margin: 5px;
-            font-size: 18px;
-            background-color: var(--main-color);
-            color: var(--text-color);
-            border-radius: 8px;
-            padding: 10px 20px;
-        }
-
-        .btn-custom:hover {
-            background-color: #a3e0c6;
-            color: #000;
-        }
-
-        .notifications-placeholder{
-            background-color: #333;
-            padding: 20px;
-            margin-top: 20px;
-            color: #fff;
-            border-radius: 8px;
-        }
-    </style>
+    <style> 
+        .clear-btn { margin-top: 10px; font-size: 14px; padding: 5px 10px; border-radius: 5px; display: flex; align-items: center; gap: 5px; }
+        .clear-btn:hover { background-color: rgba(255, 255, 255, 0.2); }
+        :root { --main-color: #00261a; --text-color: #ffffff; }
+        body { background-color: var(--main-color); color: var(--text-color); text-align: center; margin: 0; padding: 0; }
+        .logo-default { max-width: 200px; height: auto; }
+        .welcome-container { display: flex; align-items: center; justify-content: center; height: calc(100vh - 100px); }
+        .welcome-message { font-size: 48px; text-shadow: 0 0 20px rgba(255, 255, 255, 0.7); animation: pulseShadow 2s ease-in-out infinite; }
+        @keyframes pulseShadow { 0%, 100% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.7); } 50% { text-shadow: 0 0 50px rgba(255, 255, 255, 1); } }
+        .button-container { margin-top: 20px; }
+        .btn-custom { margin: 5px; font-size: 18px; background-color: var(--main-color); color: var(--text-color); border-radius: 8px; padding: 10px 20px; }
+        .btn-custom:hover { background-color: #a3e0c6; color: #000; }
+        .notifications-placeholder, .app-summary-placeholder { background-color: #333; padding: 20px; margin-top: 20px; color: #fff; border-radius: 8px; }
+            </style>
 </head>
 
 <body>
