@@ -8,96 +8,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
-    <style>
-        .clear-btn {
-    margin-top: 10px;
-    font-size: 14px;
-    padding: 5px 10px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.clear-btn:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-        :root {
-            --main-color: #00261a;
-            --text-color: #ffffff;
-        }
-
-        body {
-            background-color: var(--main-color);
-            color: var(--text-color);
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-
-        .logo-default {
-            max-width: 200px;
-            height: auto;
-        }
-
-        .welcome-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: calc(100vh - 100px);
-        }
-
-        .welcome-message {
-            font-size: 48px;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
-            animation: pulseShadow 2s ease-in-out infinite;
-        }
-
-        @keyframes pulseShadow {
-            0%, 100% {
-                text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
-            }
-            50% {
-                text-shadow: 0 0 50px rgba(255, 255, 255, 1);
-            }
-        }
-
-        .button-container {
-            margin-top: 20px;
-        }
-
-        .btn-custom {
-            margin: 5px;
-            font-size: 18px;
-            background-color: var(--main-color);
-            color: var(--text-color);
-            border-radius: 8px;
-            padding: 10px 20px;
-        }
-
-        .btn-custom:hover {
-            background-color: #a3e0c6;
-            color: #000;
-        }
-
-        .notifications-placeholder,
-        .app-summary-placeholder {
-            background-color: #333;
-            padding: 20px;
-            margin-top: 20px;
-            color: #fff;
-            border-radius: 8px;
-        }
+    <style> 
+.clear-btn { margin-top: 10px; font-size: 14px; padding: 5px 10px; border-radius: 5px; display: flex; align-items: center; gap: 5px; }
+.clear-btn:hover { background-color: rgba(255, 255, 255, 0.2); }
+:root { --main-color: #00261a; --text-color: #ffffff; }
+body { background-color: var(--main-color); color: var(--text-color); text-align: center; margin: 0; padding: 0; }
+.logo-default { max-width: 200px; height: auto; }
+.welcome-container { display: flex; align-items: center; justify-content: center; height: calc(100vh - 100px); }
+.welcome-message { font-size: 48px; text-shadow: 0 0 20px rgba(255, 255, 255, 0.7); animation: pulseShadow 2s ease-in-out infinite; }
+@keyframes pulseShadow { 0%, 100% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.7); } 50% { text-shadow: 0 0 50px rgba(255, 255, 255, 1); } }
+.button-container { margin-top: 20px; }
+.btn-custom { margin: 5px; font-size: 18px; background-color: var(--main-color); color: var(--text-color); border-radius: 8px; padding: 10px 20px; }
+.btn-custom:hover { background-color: #a3e0c6; color: #000; }
+.notifications-placeholder, .app-summary-placeholder { background-color: #333; padding: 20px; margin-top: 20px; color: #fff; border-radius: 8px; }
     </style>
 </head>
 
 <body>
-    <div id="navbarContainer"></div>
+    <div id="navbarContainer"></div> <!-- This is where the menubar will be loaded -->
 
     <div class="welcome-container">
         <div>
             <div id="welcome-message" class="welcome-message"></div>
-            <div class="button-container">
+            <div class="button-container"> <!-- Buttons to navigate to different pages specific to account type -->
                 <button class="btn-custom" onclick="window.location.href='/pages/manage/users.html'">Manage Users</button>
                 <button class="btn-custom" onclick="window.location.href='/pages/manage/installations.html'">Manage Installations</button>
                 <button class="btn-custom" onclick="window.location.href='/pages/manage/components.html'">Manage Components</button>
@@ -105,40 +38,18 @@
                 <button class="btn-custom" onclick="window.location.href='/pages/manage/transactions.html'">Manage Transactions</button>
             </div>
 
-            <div class="notifications-placeholder">
+            <div class="notifications-placeholder"> <!-- Placeholder for notifications -->
                 <h3>Notifications</h3>
                 <div id="notifications-list">
                     <p>Loading notifications...</p>
                 </div>
                 <button class="clear-btn btn btn-outline-light btn-sm" onclick="clearNotifications()">
-                    <i class="fas fa-trash-alt"></i> Clear All
+                    <i class="fas fa-trash-alt"></i> Clear All <!-- Button to clear all notifications -->
                 </button>
-            </div>
+            </div> </div> </div>
 
-        </div>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script type="module">
-        if (sessionStorage.getItem('account_type') !== "admin") {
-            window.location.href = 'https://solarportal.alexgs.co.uk';
-        }
-    </script>
-    
     <script>
-        const first_name = sessionStorage.getItem('first_name');
-        const userId = sessionStorage.getItem('user_id');
-        fetch('/assets/html/admin/menubar.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('navbarContainer').innerHTML = data;
-                document.getElementById('welcome-message').textContent = `Welcome back, ${first_name}`;
-            })
-            .catch(error => console.error('Error loading menubar:', error));
-
-            function fetchNotifications() {
+function fetchNotifications() { // fetch notifications from the server
             fetch('https://solarportal-server.alexgs.co.uk/manage/notifications', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -149,40 +60,49 @@
                 const notificationsList = document.getElementById('notifications-list');
                 notificationsList.innerHTML = '';
 
-                if (data.length === 0) {
+                if (data.length === 0) { // if there are no notifications, display a message
                     notificationsList.innerHTML = '<p>No new notifications.</p>';
-                    return;
-                }
+                    return;}
 
-                data.forEach(notification => {
+                data.forEach(notification => {  // recursively add each notification to the notifications div
                     const div = document.createElement('div');
                     div.classList.add('notification-item');
                     div.textContent = notification.notification;
-                    notificationsList.appendChild(div);
-                });
-            })
+                    notificationsList.appendChild(div);});})
             .catch(error => {
-                console.error('Error fetching notifications:', error);
+                console.error('Error fetching notifications:', error);  // if there is an error, display an error message
                 document.getElementById('notifications-list').innerHTML = '<p>Error loading notifications.</p>';
-            });
-        }
+            });}
 
         function clearNotifications() {
-            fetch('https://solarportal-server.alexgs.co.uk/clear/notifications', {
+            fetch('https://solarportal-server.alexgs.co.uk/clear/notifications', { // send a request to the server to clear all notifications
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ user_id: userId })
-            })
+                body: JSON.stringify({ user_id: userId })})
             .then(response => response.json())
-            .then(() => {
-                document.getElementById('notifications-list').innerHTML = '<p>No new notifications.</p>';
-            })
-            .catch(error => {
-                console.error('Error clearing notifications:', error);
-            });
-        }
+            .then(() => {document.getElementById('notifications-list').innerHTML = '<p>No new notifications.</p>';})
+            .catch(error => {console.error('Error clearing notifications:', error);});}
 
         fetchNotifications();
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> <!-- Import jQuery and Bootstrap JS, needed for menubar -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="module">
+        if (sessionStorage.getItem('account_type') !== "admin") { window.location.href = 'https://solarportal.alexgs.co.uk';} 
+    </script> <!-- Redirect user to home page if they are not an admin -->
+    
+    <script>
+        const first_name = sessionStorage.getItem('first_name');
+        const userId = sessionStorage.getItem('user_id');
+        fetch('/assets/html/admin/menubar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbarContainer').innerHTML = data; // load the menubar and display the welcome message
+                document.getElementById('welcome-message').textContent = `Welcome back, ${first_name}`;
+            })
+            .catch(error => console.error('Error loading menubar:', error));
     </script>
 </body>
 </html>
