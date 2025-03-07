@@ -50,6 +50,7 @@ body { background-color: var(--main-color); color: var(--text-color); text-align
 
     <script>
 function fetchNotifications() { // fetch notifications from the server
+    const userId = sessionStorage.getItem('user_id');
             fetch('https://solarportal-server.alexgs.co.uk/manage/notifications', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -75,6 +76,7 @@ function fetchNotifications() { // fetch notifications from the server
             });}
 
         function clearNotifications() {
+            const userId = sessionStorage.getItem('user_id');
             fetch('https://solarportal-server.alexgs.co.uk/clear/notifications', { // send a request to the server to clear all notifications
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
