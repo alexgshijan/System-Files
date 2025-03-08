@@ -1,99 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Home | Solar Portal</title> <!-- Page title -->
-    <link rel="icon" type="image/x-icon" href="https://solarportal.alexgs.co.uk/assets/img/SolarPortalLogo.png"> <!-- Favicon -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome CSS -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Compatibility meta tag -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Viewport meta tag -->
-    <meta charset="utf-8"> <!-- Character set meta tag -->
-    <style> 
-        .clear-btn { margin-top: 10px; font-size: 14px; padding: 5px 10px; border-radius: 5px; display: flex; align-items: center; gap: 5px; }
-        .clear-btn:hover { background-color: rgba(255, 255, 255, 0.2); }
-        :root { --main-color: #00261a; --text-color: #ffffff; }
-        body { background-color: var(--main-color); color: var(--text-color); text-align: center; margin: 0; padding: 0; }
-        .logo-default { max-width: 200px; height: auto; }
-        .welcome-container { display: flex; align-items: center; justify-content: center; height: calc(100vh - 100px); }
-        .welcome-message { font-size: 48px; text-shadow: 0 0 20px rgba(255, 255, 255, 0.7); animation: pulseShadow 2s ease-in-out infinite; }
-        @keyframes pulseShadow { 0%, 100% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.7); } 50% { text-shadow: 0 0 50px rgba(255, 255, 255, 1); } }
-        .button-container { margin-top: 20px; }
-        .btn-custom { margin: 5px; font-size: 18px; background-color: var(--main-color); color: var(--text-color); border-radius: 8px; padding: 10px 20px; }
-        .btn-custom:hover { background-color: #a3e0c6; color: #000; }
-        .notifications-placeholder, .app-summary-placeholder { background-color: #333; padding: 20px; margin-top: 20px; color: #fff; border-radius: 8px; }
-            </style>
+    <title>Home | Solar Portal</title>
+    <link rel="icon" type="image/x-icon" href="https://solarportal.alexgs.co.uk/assets/img/SolarPortalLogo.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+        
+        :root {
+            --main-color: #00261a;
+            --text-color: #ffffff;
+        }
+
+        body {
+            background-color: var(--main-color);
+            color: var(--text-color);
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .logo-default {
+            max-width: 200px;
+            height: auto;
+        }
+
+        .welcome-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: calc(100vh - 100px);
+        }
+
+        .welcome-message {
+            font-size: 48px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            animation: pulseShadow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseShadow {
+            0%, 100% {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            }
+            50% {
+                text-shadow: 0 0 50px rgba(255, 255, 255, 1);
+            }
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .btn-custom {
+            margin: 5px;
+            font-size: 18px;
+            background-color: var(--main-color);
+            color: var(--text-color);
+            border-radius: 8px;
+            padding: 10px 20px;
+        }
+
+        .btn-custom:hover {
+            background-color: #a3e0c6;
+            color: #000;
+        }
+
+        .notifications-placeholder{
+            background-color: #333;
+            padding: 20px;
+            margin-top: 20px;
+            color: #fff;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="navbarContainer"></div> <!-- Navbar container -->
+    <div id="navbarContainer"></div>
 
     <div class="welcome-container">
         <div>
-            <div id="welcome-message" class="welcome-message"></div> <!-- Welcome message container -->
+            <div id="welcome-message" class="welcome-message"></div>
             <div class="button-container">
-                <button class="btn-custom" onclick="window.location.href='register-installation.html'">Register Installation</button> <!-- Register Installation button -->
-                <button class="btn-custom" onclick="window.location.href='manage-installations.html'">Manage Installations</button> <!-- Manage Installations button -->
-                <button class="btn-custom" onclick="window.location.href='component-browse.html'">Browse Components</button> <!-- Browse Components button -->
+                <button class="btn-custom" onclick="window.location.href='register-installation.html'">Register Installation</button>
+                <button class="btn-custom" onclick="window.location.href='manage-installations.html'">Manage Installations</button>
+                <button class="btn-custom" onclick="window.location.href='component-browse.html'">Browse Components</button>
             </div>
 
             <div class="notifications-placeholder">
-                <h3>Notifications</h3> <!-- Notifications header -->
+                <h3>Notifications</h3>
                 <div id="notifications-list">
-                    <p>Loading notifications...</p> <!-- Notifications list placeholder -->
+                    <p>Loading notifications...</p>
                 </div>
                 <button class="clear-btn btn btn-outline-light btn-sm" onclick="clearNotifications()">
-                    <i class="fas fa-trash-alt"></i> Clear All <!-- Clear All button -->
+                    <i class="fas fa-trash-alt"></i> Clear All
                 </button>
             </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> <!-- jQuery script -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script> <!-- Bootstrap script -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script type="module">
         if (sessionStorage.getItem('account_type') !== "client") {
-            window.location.href = 'https://solarportal.alexgs.co.uk'; // Redirect if not client
+            window.location.href = 'https://solarportal.alexgs.co.uk';
         }
     </script>
     
     <script>
-        const first_name = sessionStorage.getItem('first_name'); // Get first name from session storage
-        const userId = sessionStorage.getItem('user_id'); // Get user ID from session storage
+        const first_name = sessionStorage.getItem('first_name');
+        const user_id = sessionStorage.getItem('user_id');
         fetch('/assets/html/client/menubar.html')
             .then(response => response.text())
             .then(data => {
-                document.getElementById('navbarContainer').innerHTML = data; // Load menubar
-                document.getElementById('welcome-message').textContent = `Welcome back, ${first_name}`; // Set welcome message
+                document.getElementById('navbarContainer').innerHTML = data;
+                document.getElementById('welcome-message').textContent = `Welcome back, ${first_name}`;
             })
-            .catch(error => console.error('Error loading menubar:', error)); // Handle menubar loading error
+            .catch(error => console.error('Error loading menubar:', error));
 
             function fetchNotifications() {
             fetch('https://solarportal-server.alexgs.co.uk/manage/notifications', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ user_id: userId }) // Fetch notifications
+                body: JSON.stringify({ user_id: userId })
             })
             .then(response => response.json())
             .then(data => {
                 const notificationsList = document.getElementById('notifications-list');
-                notificationsList.innerHTML = ''; // Clear notifications list
+                notificationsList.innerHTML = '';
 
                 if (data.length === 0) {
-                    notificationsList.innerHTML = '<p>No new notifications.</p>'; // No notifications message
+                    notificationsList.innerHTML = '<p>No new notifications.</p>';
                     return;
                 }
 
                 data.forEach(notification => {
                     const div = document.createElement('div');
                     div.classList.add('notification-item');
-                    div.textContent = notification.notification; // Add notification item
+                    div.textContent = notification.notification;
                     notificationsList.appendChild(div);
                 });
             })
             .catch(error => {
-                console.error('Error fetching notifications:', error); // Handle notifications fetching error
-                document.getElementById('notifications-list').innerHTML = '<p>Error loading notifications.</p>'; // Error message
+                console.error('Error fetching notifications:', error);
+                document.getElementById('notifications-list').innerHTML = '<p>Error loading notifications.</p>';
             });
         }
 
@@ -101,18 +155,18 @@
             fetch('https://solarportal-server.alexgs.co.uk/clear/notifications', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ user_id: userId }) // Clear notifications
+                body: JSON.stringify({ user_id: userId })
             })
             .then(response => response.json())
             .then(() => {
-                document.getElementById('notifications-list').innerHTML = '<p>No new notifications.</p>'; // No notifications message
+                document.getElementById('notifications-list').innerHTML = '<p>No new notifications.</p>';
             })
             .catch(error => {
-                console.error('Error clearing notifications:', error); // Handle notifications clearing error
+                console.error('Error clearing notifications:', error);
             });
         }
 
-        fetchNotifications(); // Fetch notifications on page load
+        fetchNotifications();
     </script>
 </body>
 </html>

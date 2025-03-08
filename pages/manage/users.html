@@ -7,59 +7,22 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="https://solarportal.alexgs.co.uk/assets/img/SolarPortalLogo.png">
-
     <style>
-        body, html {
-            min-height: 100vh; /* Ensure body and html are at least the height of the viewport */
-            overflow-y: auto;  /* Make both scrollable if content is greater */
-        }
-        h1 {
-            font-size: 48px;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
-        }
-        table {
-            margin: 20px auto;
-            border-collapse: collapse;
-            width: 80%;
-            background-color: white;
-            color: black;
-            text-align: left;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-        th {
-            background-color: #004d40;
-            color: white;
-        }
-        .filter-container {
-            margin: 20px auto;
-            text-align: center;
-        }
-        .filter-dropdown {
-            padding: 5px 10px;
-            margin: 10px;
-            background-color: #f8f9fa;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .btn-apply-filter {
-            padding: 5px 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        .btn-apply-filter:hover {
-            background-color: #0056b3;
-        }
+        body, html { min-height: 100vh; overflow-y: auto; }
+        h1 { font-size: 48px; text-shadow: 0 0 20px rgba(255, 255, 255, 0.7); }
+        table { margin: 20px auto; border-collapse: collapse; width: 80%; background-color: white; color: rgb(153, 1, 1); text-align: left; }
+        th, td { padding: 10px; border: 1px solid #ddd; }
+        th { background-color: #004d40; color: white; }
+        .filter-container { margin: 20px auto; text-align: center; }
+        .filter-dropdown, .btn-apply-filter { padding: 5px 10px; margin: 10px; border-radius: 5px; }
+        .filter-dropdown { background-color: #f8f9fa; border: 1px solid #ccc; }
+        .btn-apply-filter { background-color: #007bff; color: white; border: none; cursor: pointer; }
+        .btn-apply-filter:hover { background-color: #0056b3; }
     </style>
 </head>
 <body>
     <div id="navbarContainer"></div>
     <h1>User Management</h1>
-
     <div class="filter-container">
         <select id="filterAccountType" class="filter-dropdown">
             <option value="all">All Account Types</option>
@@ -74,205 +37,47 @@
         </select>
         <input type="text" id="searchBox" placeholder="Search User ID">
     </div>
-
     <table id="usersTable">
         <thead>
-            <tr>
-                <th>User ID</th>
-                <th>Full Name</th>
-                <th>Email ID</th>
-                <th>Account Type</th>
-                <th>Account Status</th>
-                <th>Actions</th>
-            </tr>
+            <tr><th>User ID</th><th>Full Name</th><th>Email ID</th><th>Account Type</th><th>Account Status</th><th>Actions</th></tr>
         </thead>
-        <tbody>
-            <tr>
-                <td colspan="5">Loading data...</td>
-            </tr>
-        </tbody>
+        <tbody><tr><td colspan="5">Loading data...</td></tr></tbody>
     </table>
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        if (sessionStorage.getItem('account_type') !== "admin") {
-            window.location.href = 'https://solarportal.alexgs.co.uk';
-        }
-        fetch('/assets/html/admin/menubar.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('navbarContainer').innerHTML = data;
-            })
-            .catch(error => console.error('Error loading menubar:', error));
-
-            document.addEventListener('DOMContentLoaded', function () {
-    let allUsers = [];
-
-    // Fetch user data from API
-    fetch('https://solarportal-server.alexgs.co.uk/manage/logins')
-        .then(response => response.json())
-        .then(data => {
-            allUsers = data.users; // Combined verified and unverified users
-            renderTable(allUsers);
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-            document.getElementById('usersTable').getElementsByTagName('tbody')[0].innerHTML = '<tr><td colspan="5">Error loading data.</td></tr>';
+        if (sessionStorage.getItem('account_type') !== "admin") window.location.href = 'https://solarportal.alexgs.co.uk';
+        fetch('/assets/html/admin/menubar.html').then(res => res.text()).then(data => document.getElementById('navbarContainer').innerHTML = data).catch(err => console.error('Error loading menubar:', err));
+        document.addEventListener('DOMContentLoaded', function () {
+            let allUsers = [];
+            fetch('https://solarportal-server.alexgs.co.uk/manage/logins')
+                .then(res => res.json()).then(data => { allUsers = data.users; renderTable(allUsers); })
+                .catch(err => { console.error('Error fetching data:', err); document.getElementById('usersTable').getElementsByTagName('tbody')[0].innerHTML = '<tr><td colspan="5">Error loading data.</td></tr>'; });
+            const accountTypeDropdown = document.getElementById('filterAccountType'), verifiedStatusDropdown = document.getElementById('filterVerifiedStatus'), searchBox = document.getElementById('searchBox');
+            accountTypeDropdown.addEventListener('change', filterUsers);
+            verifiedStatusDropdown.addEventListener('change', filterUsers);
+            searchBox.addEventListener('input', filterUsers);
+            function filterUsers() {
+                const accountType = accountTypeDropdown.value, verifiedStatus = verifiedStatusDropdown.value, searchBoxValue = searchBox.value.toLowerCase();
+                const filteredUsers = allUsers.filter(user => (accountType === 'all' || user.account_type === accountType) && (verifiedStatus === 'all' || (verifiedStatus === 'verified' && user.verified === 1) ||
+                 (verifiedStatus === 'unverified' && user.verified === 0) || (verifiedStatus === 'locked' && user.verified === -1)) && (user.user_id.toString().toLowerCase().includes(searchBoxValue) || 
+                 user.first_name.toLowerCase().includes(searchBoxValue) || user.last_name.toLowerCase().includes(searchBoxValue) || user.email_id.toLowerCase().includes(searchBoxValue) || (user.first_name + ' ' + user.last_name).toLowerCase().includes(searchBoxValue)));
+                renderTable(filteredUsers);
+            }
+            function renderTable(users) {
+                const tableBody = document.getElementById('usersTable').getElementsByTagName('tbody')[0];
+                tableBody.innerHTML = users.length ? users.map(user => `<tr><td>${user.user_id}</td><td>${user.first_name} ${user.last_name}</td><td>${user.email_id}</td><td>${user.account_type}</td><td>${user.verified === 1 ? 'Verified' : user.verified === 0 ? 'Unverified' : 'Locked'}</td><td>${user.verified === 1 
+                    ? `<button class="lock-btn" data-email="${user.email_id}">Lock</button>` : `<button class="verify-btn" data-email="${user.email_id}">Verify</button>`}<button class="remove-btn" data-user_id="${user.user_id}">Remove</button></td></tr>`).join('') : '<tr><td colspan="5">No users found.</td></tr>';
+                document.querySelectorAll('.verify-btn').forEach(btn => btn.addEventListener('click', () => updateUserStatus('verify', btn.getAttribute('data-email'))));
+                document.querySelectorAll('.lock-btn').forEach(btn => btn.addEventListener('click', () => updateUserStatus('lock', btn.getAttribute('data-email'))));
+                document.querySelectorAll('.remove-btn').forEach(btn => btn.addEventListener('click', () => confirm("Are you sure you want to delete this user?") && updateUserStatus('removeuser', btn.getAttribute('data-user_id'))));
+            }
+            function updateUserStatus(action, identifier) {
+                fetch(`https://solarportal-server.alexgs.co.uk/manage/${action}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(action === 'removeuser' ? { user_id: identifier } : { email: identifier }) })
+                    .then(res => res.json()).then(result => { result.message ? location.reload() : alert('Update failed.'); })
+                    .catch(err => { console.error(`Error updating user status:`, err); alert('Error updating user status.'); });
+            }
         });
-
-    // Event listener for dropdowns
-    const accountTypeDropdown = document.getElementById('filterAccountType');
-    const verifiedStatusDropdown = document.getElementById('filterVerifiedStatus');
-    const searchBox = document.getElementById('searchBox');
-
-    accountTypeDropdown.addEventListener('change', filterUsers);
-    verifiedStatusDropdown.addEventListener('change', filterUsers);
-    searchBox.addEventListener('input', filterUsers);
-
-    // Filter users based on dropdown selection
-    function filterUsers() {
-        const accountType = accountTypeDropdown.value;
-        const verifiedStatus = verifiedStatusDropdown.value;
-        const searchBoxValue = searchBox.value.toLowerCase();
-
-        const filteredUsers = allUsers.filter(user => {
-            return (accountType === 'all' || user.account_type === accountType) &&
-                   (verifiedStatus === 'all' || 
-                    (verifiedStatus === 'verified' && user.verified === 1) ||
-                    (verifiedStatus === 'unverified' && user.verified === 0) ||
-                    (verifiedStatus === 'locked' && user.verified === -1)) &&
-                    (user.user_id.toString().toLowerCase().includes(searchBoxValue)||
-                     user.first_name.toLowerCase().includes(searchBoxValue) ||
-                     user.last_name.toLowerCase().includes(searchBoxValue) ||
-                     user.email_id.toLowerCase().includes(searchBoxValue) ||
-                    (user.first_name + ' ' + user.last_name).toLowerCase().includes(searchBoxValue));
-        });
-
-        renderTable(filteredUsers);
-    }
-
-    // Render user table
-    function renderTable(users) {
-        const tableBody = document.getElementById('usersTable').getElementsByTagName('tbody')[0];
-        tableBody.innerHTML = '';
-
-        if (users.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="5">No users found.</td></tr>';
-            return;
-        }
-
-        users.forEach(user => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${user.user_id}</td>
-                <td>${user.first_name} ${user.last_name}</td>
-                <td>${user.email_id}</td>
-                <td>${user.account_type}</td>
-                <td>
-                ${user.verified === 1 
-                    ? 'Verified' 
-                    : user.verified === 0 
-                    ? 'Unverified' 
-                    : 'Locked'}
-                </td>
-                <td>
-                    ${user.verified === 1 ? 
-                        `<button class="lock-btn" data-email="${user.email_id}">Lock</button>` : 
-                        `<button class="verify-btn" data-email="${user.email_id}">Verify</button>`}
-                    <button class="remove-btn" data-user_id="${user.user_id}">Remove</button>
-                </td>
-            `;
-            tableBody.appendChild(row);
-        });
-
-        // Add event listeners for actions
-        document.querySelectorAll('.verify-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const email = this.getAttribute('data-email');
-                verifyUser(email);
-            });
-        });
-
-        document.querySelectorAll('.lock-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const email = this.getAttribute('data-email');
-                lockUser(email);
-            });
-        });
-
-        document.querySelectorAll('.remove-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const userId = this.getAttribute('data-user_id');
-                if (confirm("Are you sure you want to delete this user?")) {removeUser(userId)};
-            });
-        });
-    }
-
-    // Helper functions for actions (reuse from existing script)
-    function verifyUser(email) { 
-        fetch(`https://solarportal-server.alexgs.co.uk/manage/verify`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email: email }),
-                })
-                    .then(response => response.json())
-                    .then(result => {
-                        if (result.message) {
-                            alert(`User with Email ID ${email} updated successfully.`);
-                            location.reload();
-                        } else {
-                            alert('Update failed.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error updating user status:', error);
-                        alert('Error updating user status.')});
-    }
-    
-    function lockUser(email) { 
-        fetch(`https://solarportal-server.alexgs.co.uk/manage/lock`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email: email }),
-                })
-                    .then(response => response.json())
-                    .then(result => {
-                        if (result.message) {
-                            location.reload();
-                        } else {
-                            alert('Update failed.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error updating user status:', error);
-                        alert('Error updating user status.')});
-    }
-    function removeUser(userId) { 
-        fetch(`https://solarportal-server.alexgs.co.uk/manage/removeuser`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ user_id: userId }),
-                })
-                    .then(response => response.json())
-                    .then(result => {
-                        if (result.message) {
-                            location.reload();
-                        } else {
-                            alert('Removal failed.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error removing user:', error);
-                        alert('Error removing user.')})
-    }
-});
     </script>
 </body>
 </html>
