@@ -123,6 +123,7 @@
             .catch(error => console.error('Error loading menubar:', error));
 
             function fetchNotifications() {
+                const userId = sessionStorage.getItem('user_id');
             fetch('https://solarportal-server.alexgs.co.uk/manage/notifications', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -152,6 +153,7 @@
         }
 
         function clearNotifications() {
+            const userId = sessionStorage.getItem('user_id');
             fetch('https://solarportal-server.alexgs.co.uk/clear/notifications', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

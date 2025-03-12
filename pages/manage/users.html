@@ -50,29 +50,29 @@
         fetch('/assets/html/admin/menubar.html').then(res => res.text()).then(data => document.getElementById('navbarContainer').innerHTML = data).catch(err => console.error('Error loading menubar:', err));
         document.addEventListener('DOMContentLoaded', function () {
             let allUsers = [];
-            fetch('https://solarportal-server.alexgs.co.uk/manage/logins')
+            fetch('https://solarportal-server.alexgs.co.uk/manage/logins') /* Fetch all users */
                 .then(res => res.json()).then(data => { allUsers = data.users; renderTable(allUsers); })
                 .catch(err => { console.error('Error fetching data:', err); document.getElementById('usersTable').getElementsByTagName('tbody')[0].innerHTML = '<tr><td colspan="5">Error loading data.</td></tr>'; });
             const accountTypeDropdown = document.getElementById('filterAccountType'), verifiedStatusDropdown = document.getElementById('filterVerifiedStatus'), searchBox = document.getElementById('searchBox');
-            accountTypeDropdown.addEventListener('change', filterUsers);
+            accountTypeDropdown.addEventListener('change', filterUsers); /* Add event listeners to filter dropdowns */
             verifiedStatusDropdown.addEventListener('change', filterUsers);
             searchBox.addEventListener('input', filterUsers);
-            function filterUsers() {
+            function filterUsers() { /* filter users based on dropdowns */
                 const accountType = accountTypeDropdown.value, verifiedStatus = verifiedStatusDropdown.value, searchBoxValue = searchBox.value.toLowerCase();
                 const filteredUsers = allUsers.filter(user => (accountType === 'all' || user.account_type === accountType) && (verifiedStatus === 'all' || (verifiedStatus === 'verified' && user.verified === 1) ||
                  (verifiedStatus === 'unverified' && user.verified === 0) || (verifiedStatus === 'locked' && user.verified === -1)) && (user.user_id.toString().toLowerCase().includes(searchBoxValue) || 
                  user.first_name.toLowerCase().includes(searchBoxValue) || user.last_name.toLowerCase().includes(searchBoxValue) || user.email_id.toLowerCase().includes(searchBoxValue) || (user.first_name + ' ' + user.last_name).toLowerCase().includes(searchBoxValue)));
                 renderTable(filteredUsers);
             }
-            function renderTable(users) {
+            function renderTable(users) { /* Render table with users */
                 const tableBody = document.getElementById('usersTable').getElementsByTagName('tbody')[0];
                 tableBody.innerHTML = users.length ? users.map(user => `<tr><td>${user.user_id}</td><td>${user.first_name} ${user.last_name}</td><td>${user.email_id}</td><td>${user.account_type}</td><td>${user.verified === 1 ? 'Verified' : user.verified === 0 ? 'Unverified' : 'Locked'}</td><td>${user.verified === 1 
                     ? `<button class="lock-btn" data-email="${user.email_id}">Lock</button>` : `<button class="verify-btn" data-email="${user.email_id}">Verify</button>`}<button class="remove-btn" data-user_id="${user.user_id}">Remove</button></td></tr>`).join('') : '<tr><td colspan="5">No users found.</td></tr>';
-                document.querySelectorAll('.verify-btn').forEach(btn => btn.addEventListener('click', () => updateUserStatus('verify', btn.getAttribute('data-email'))));
+                document.querySelectorAll('.verify-btn').forEach(btn => btn.addEventListener('click', () => updateUserStatus('verify', btn.getAttribute('data-email')))); /* add buttons to verify, lock and remove users */
                 document.querySelectorAll('.lock-btn').forEach(btn => btn.addEventListener('click', () => updateUserStatus('lock', btn.getAttribute('data-email'))));
                 document.querySelectorAll('.remove-btn').forEach(btn => btn.addEventListener('click', () => confirm("Are you sure you want to delete this user?") && updateUserStatus('removeuser', btn.getAttribute('data-user_id'))));
             }
-            function updateUserStatus(action, identifier) {
+            function updateUserStatus(action, identifier) { /* Update user status */
                 fetch(`https://solarportal-server.alexgs.co.uk/manage/${action}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(action === 'removeuser' ? { user_id: identifier } : { email: identifier }) })
                     .then(res => res.json()).then(result => { result.message ? location.reload() : alert('Update failed.'); })
                     .catch(err => { console.error(`Error updating user status:`, err); alert('Error updating user status.'); });

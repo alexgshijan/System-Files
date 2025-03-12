@@ -9,30 +9,11 @@
     <link rel="icon" type="image/x-icon" href="https://solarportal.alexgs.co.uk/assets/img/SolarPortalLogo.png">
 
     <style>
-        body, html {
-            min-height: 100vh; /* Ensure body and html are at least the height of the viewport */
-            overflow-y: auto;  /* Make both scrollable if content is greater */
-        }
-        h1 {
-            font-size: 48px;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
-        }
-        table {
-            margin: 20px auto;
-            border-collapse: collapse;
-            width: 90%;
-            background-color: white;
-            color: black;
-            text-align: left;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-        th {
-            background-color: #004d40;
-            color: white;
-        }
+        body, html { min-height: 100vh; overflow-y: auto; }
+        h1 { font-size: 48px; text-shadow: 0 0 20px rgba(255, 255, 255, 0.7); }
+        table { margin: 20px auto; border-collapse: collapse; width: 80%; background-color: white; color: rgb(153, 1, 1); text-align: left; }
+        th, td { padding: 10px; border: 1px solid #ddd; }
+        th { background-color: #004d40; color: white; }
         .status-dropdown {
             width: 100%;
         }
@@ -97,44 +78,44 @@
     </style>
 </head>
 <body>
-    <div id="navbarContainer"></div>
-    <h1>Application Management</h1>
+    <div id="navbarContainer"></div> <!-- Container for the navigation bar -->
+    <h1>Application Management</h1> <!-- Page heading -->
     <div class="filter-container">
         <input
             type="text"
             id="searchBox"
             placeholder="Search Name, Email, or ID"
-        />
+        /> <!-- Search box for filtering applications -->
         <select id="statusFilter">
-            <option value="">Filter by Status</option>
-            <option value="0. Application Denied">0. Application Denied</option>
-            <option value="1. Pending Approval">1. Pending Approval</option>
-            <option value="2. Approved for Development">2. Approved for Development</option>
-            <option value="3. Site Surveyed">3. Site Surveyed</option>
-            <option value="4. Awaiting Installation">4. Awaiting Installation</option>
-            <option value="5. Awaiting QoW Assessment">5. Awaiting QoW Assessment</option>
-            <option value="6. Installation Complete">6. Installation Complete</option>
-        </select>
+            <option value="">Filter by Status</option> <!-- Default option for status filter -->
+            <option value="0. Application Denied">0. Application Denied</option> <!-- Status option -->
+            <option value="1. Pending Approval">1. Pending Approval</option> <!-- Status option -->
+            <option value="2. Approved for Development">2. Approved for Development</option> <!-- Status option -->
+            <option value="3. Site Surveyed">3. Site Surveyed</option> <!-- Status option -->
+            <option value="4. Awaiting Installation">4. Awaiting Installation</option> <!-- Status option -->
+            <option value="5. Awaiting QoW Assessment">5. Awaiting QoW Assessment</option> <!-- Status option -->
+            <option value="6. Installation Complete">6. Installation Complete</option> <!-- Status option -->
+        </select> <!-- Dropdown for status filter -->
     </div>
 
     <table id="applicationsTable">
         <thead>
             <tr>
-                <th></th>
-                <th>Application ID</th>
-                <th>User ID</th>
-                <th>Status</th>
+                <th></th> <!-- Empty header for expand button -->
+                <th>Application ID</th> <!-- Header for Application ID -->
+                <th>User ID</th> <!-- Header for User ID -->
+                <th>Status</th> <!-- Header for Status -->
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td colspan="4">Loading data...</td>
+                <td colspan="4">Loading data...</td> <!-- Placeholder row while data is loading -->
             </tr>
         </tbody>
     </table>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> <!-- jQuery library -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script> <!-- Bootstrap JS bundle -->
     <script>
         fetch('/assets/html/'+ sessionStorage.getItem('account_type') +'/menubar.html')
             .then(response => response.text())

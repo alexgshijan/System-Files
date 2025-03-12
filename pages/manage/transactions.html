@@ -9,51 +9,15 @@
     <link rel="icon" type="image/x-icon" href="https://solarportal.alexgs.co.uk/assets/img/SolarPortalLogo.png">
 
     <style>
-        body, html {
-            min-height: 100vh;
-            overflow-y: auto;
-        }
-        h1 {
-            font-size: 36px;
-        }
-        table {
-            margin: 20px auto;
-            border-collapse: collapse;
-            width: 90%;
-            background-color: white;
-            color: black;
-            text-align: left;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-        th {
-            background-color: #004d40;
-            color: white;
-        }
-        .expand-btn {
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .details-row {
-            display: none;
-            background-color: #f9f9f9;
-        }
-        .filter-container {
-            justify-content: flex-end;
-            margin-right: 20px;
-        }
-        #searchBox {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-            width: 300px;
-        }
+        body, html { min-height: 100vh; overflow-y: auto; }
+        h1 { font-size: 48px; text-shadow: 0 0 20px rgba(255, 255, 255, 0.7); }
+        table { margin: 20px auto; border-collapse: collapse; width: 80%; background-color: white; color: rgb(153, 1, 1); text-align: left; }
+        th, td { padding: 10px; border: 1px solid #ddd; }
+        th { background-color: #004d40; color: white; }
+        .expand-btn {cursor: pointer;background: none;border: none;font-size: 18px;font-weight: bold;}
+        .details-row {display: none;background-color: #f9f9f9;}
+        .filter-container {justify-content: flex-end; margin-right: 20px;}
+        #searchBox {padding: 10px;border: 1px solid #ccc;border-radius: 5px;font-size: 16px;width: 300px; }
     </style>
 </head>
 <body>
@@ -66,16 +30,12 @@
 
     <table id="transactionsTable">
         <thead>
-            <tr>
-                <th></th>
-                <th>User ID</th>
-                <th>Total Due (£)</th>
-                <th>Total Paid (£)</th>
-                <th>Outstanding Balance (£)</th>
+            <tr> <!-- Table headers -->
+                <th></th><th>User ID</th><th>Total Due (£)</th><th>Total Paid (£)</th><th>Outstanding Balance (£)</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
+            <tr> <!-- This will be replaced with the fetched data once the api call is made -->
                 <td colspan="5">Loading data...</td>
             </tr>
         </tbody>
@@ -99,7 +59,7 @@
                     const tableBody = document.querySelector('#transactionsTable tbody');
                     tableBody.innerHTML = '';
 
-                    Object.values(data).forEach(user => {
+                    Object.values(data).forEach(user => { // Recursively populate the table with data from api
                         const mainRow = document.createElement('tr');
                         mainRow.innerHTML = `
                             <td><button class="expand-btn" data-id="${user.user_id}">+</button></td>
@@ -108,10 +68,10 @@
                             <td>£${user.total_paid.toFixed(2)}</td>
                             <td>£${user.outstanding_balance.toFixed(2)}</td>
                         `;
-                        tableBody.appendChild(mainRow);
+                        tableBody.appendChild(mainRow); // append to table
 
                         const detailsRow = document.createElement('tr');
-                        detailsRow.className = 'details-row';
+                        detailsRow.className = 'details-row'; // display a more detailed view of the user's transactions
                         detailsRow.innerHTML = `
                             <td colspan="5">
                                 <div style="display: flex; justify-content: space-between; gap: 20px;">
@@ -137,7 +97,7 @@
                         tableBody.appendChild(detailsRow);
                     });
 
-                    document.querySelectorAll('.expand-btn').forEach(button => {
+                    document.querySelectorAll('.expand-btn').forEach(button => { // button to expand / minimie the details
                         button.addEventListener('click', function () {
                             const detailsRow = this.closest('tr').nextElementSibling;
                             if (detailsRow.style.display === 'table-row') {
@@ -155,7 +115,7 @@
                         '<tr><td colspan="5">Error loading data</td></tr>';
                     console.error('Error fetching data:', error);
                 });
-
+                /* Filter transactions by userID */
             document.getElementById('searchBox').addEventListener('input', function () {
                 const searchTerm = this.value.toLowerCase().trim();
 

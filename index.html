@@ -133,7 +133,7 @@
                         sessionStorage.setItem('first_name', data.first_name);
                         sessionStorage.setItem('account_type', data.account_type);
                         sessionStorage.setItem('user_id', data.user_id);
-                        if (sessionStorage.getItem('account_type') === 'client') {
+    if (sessionStorage.getItem('account_type') === 'client') {
         window.location.href = '/pages/client/client-landing.html';
 
     } else if (sessionStorage.getItem('account_type') === 'employee') {

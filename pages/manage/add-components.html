@@ -115,12 +115,10 @@
 function redirectToLandingPage() {
     window.location.href = 'https://solarportal.alexgs.co.uk/pages/manage/components';
 }
-
     // Show the modal when the page loads
     $(document).ready(function() {
         $('#installationModal').modal('show');
     });
-
 
     // Navigate to next step
 function nextStep(step) {
@@ -149,11 +147,7 @@ function nextStep(step) {
             <li><strong>Price:</strong> £${price}</li>
             <li><strong>Stock:</strong> ${stock}</li>
             <li><strong>Description:</strong> ${description}</li>
-        `;
-
-    }
-}
-
+        `; }}
 
 function validateStep(step) {
     let valid = true;
@@ -189,7 +183,6 @@ function validateStep(step) {
 
     return valid;
 }
-
     // Submit application
     function submitApplication() {
         const formData = {
@@ -215,8 +208,6 @@ function validateStep(step) {
             window.location.href = 'https://solarportal.alexgs.co.uk';
         }
     </script>
-
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
