@@ -87,13 +87,13 @@ function fetchNotifications() { // fetch notifications from the server
 
         fetchNotifications();
     </script>
-
-
-
     <script type="module">
         if (sessionStorage.getItem('account_type') !== "admin") { window.location.href = 'https://solarportal.alexgs.co.uk';} 
     </script> <!-- Redirect user to home page if they are not an admin -->
     
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> <!-- Import jQuery and Bootstrap JS, needed for menubar -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         const first_name = sessionStorage.getItem('first_name');
         const userId = sessionStorage.getItem('user_id');
