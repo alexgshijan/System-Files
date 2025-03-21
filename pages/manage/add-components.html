@@ -172,7 +172,7 @@ function validateStep(step) {
         } else if (!fields.price || fields.price <= 0) {
             alert('Please enter a valid price greater than 0.');
             valid = false;
-        } else if (!fields.stock || fields.stock < 0) {
+        } else if (!fields.stock || fields.stock < 0 || Number.isInteger(fields.stock)) {
             alert('Please enter a valid stock quantity (0 or more).');
             valid = false;
         } else if (!fields.description.trim()) {
