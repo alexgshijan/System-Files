@@ -170,13 +170,20 @@ document.getElementById('register-form').addEventListener('submit', async (event
 
     const messageDiv = document.getElementById('message');
     messageDiv.innerText = ''; // Clear previous message
-
+    
+    if (!password || !confirm_password || !email_id || !first_name || !last_name) {
+        messageDiv.style.color = 'red';
+        messageDiv.innerText = "Fields cannot be left empty";
+        return;
+    }
     // Check if passwords match
     if (password !== confirm_password) {
         messageDiv.style.color = 'red';
         messageDiv.innerText = "Passwords do not match.";
         return;
     }
+
+
 
     // Simple email validation regex
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
