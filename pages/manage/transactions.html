@@ -56,7 +56,6 @@
             fetch('https://solarportal-server.alexgs.co.uk/manage/transactions/all')
                 .then(response => response.json())
                 .then(data => {
-                    console.log(response)
                     const tableBody = document.querySelector('#transactionsTable tbody');
                     tableBody.innerHTML = '';
 
