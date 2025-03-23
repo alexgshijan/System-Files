@@ -172,7 +172,7 @@ function validateStep(step) {
         } else if (!fields.price || fields.price <= 0) {
             alert('Please enter a valid price greater than 0.');
             valid = false;
-        } else if (!fields.stock || fields.stock < 0 || parseInt(fields.stock), 10) {
+        } else if (!fields.stock || fields.stock < 0) {
             alert('Please enter a valid stock quantity (0 or more).');
             valid = false;
         } else if (!fields.description.trim()) {
@@ -192,7 +192,7 @@ function validateStep(step) {
             componentType: document.getElementById('componentType').value,
             componentName: document.getElementById('componentName').value,
             price: document.getElementById('price').value * 100,
-            stock: document.getElementById('stock').value,
+            stock: parseInt(document.getElementById('stock').value, 10),
             description: document.getElementById('description').value
         };
 
