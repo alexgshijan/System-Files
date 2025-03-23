@@ -139,37 +139,7 @@ th { background-color: #004d40; color: white; }
 
                     <button type="submit" style="padding: 10px; border: none; border-radius: 5px; background-color: #00897b; color: white; cursor: pointer; width: 100%;">Add Funds</button>
                 </form>`;
-                return
-            }
-
-            // Convert balance from pence to pounds for display
-            const balance = data.data[0].outstanding_balance / 100;
-
-            document.getElementById('formContainer').innerHTML = `
-                <h2 style="text-align: center;">Outstanding Balance</h2>
-                <p style="text-align: center; font-size: 18px;">You owe: <strong>£${balance.toFixed(2)}</strong></p>
-
-                <form id="paymentForm" style="display: flex; flex-direction: column; gap: 10px; max-width: 300px; margin: 0 auto; align-items: center;">
-                    <label for="cardNumber">Card Number:</label>
-                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 100%;" required>
-
-                    <label for="expiryDate">Expiry Date:</label>
-                    <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 100%;" required>
-
-                    <label for="cvc">CVC:</label>
-                    <input type="text" id="cvc" placeholder="123" maxlength="3" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 100%;" required>
-
-                    <label for="amount_val">Amount:</label>
-                    <input type="text" id="amount_val" placeholder="100" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 100%;" required>
-
-                    <button type="submit" style="padding: 10px; border: none; border-radius: 5px; background-color: #00897b; color: white; cursor: pointer; width: 100%;">Add Funds</button>
-                </form>`;
-        });
-}}
-    </script>
-
-    <script>
-                    document.getElementById('paymentForm').addEventListener('submit', async function (e) {
+                document.getElementById('paymentForm').addEventListener('submit', async function (e) {
                 e.preventDefault();
                 try {
 
@@ -201,6 +171,69 @@ th { background-color: #004d40; color: white; }
                     alert('An error occurred. Please try again later.');
                 }
             });
+                return
+            }
+
+            // Convert balance from pence to pounds for display
+            const balance = data.data[0].outstanding_balance / 100;
+
+            document.getElementById('formContainer').innerHTML = `
+                <h2 style="text-align: center;">Outstanding Balance</h2>
+                <p style="text-align: center; font-size: 18px;">You owe: <strong>£${balance.toFixed(2)}</strong></p>
+
+                <form id="paymentForm" style="display: flex; flex-direction: column; gap: 10px; max-width: 300px; margin: 0 auto; align-items: center;">
+                    <label for="cardNumber">Card Number:</label>
+                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 100%;" required>
+
+                    <label for="expiryDate">Expiry Date:</label>
+                    <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 100%;" required>
+
+                    <label for="cvc">CVC:</label>
+                    <input type="text" id="cvc" placeholder="123" maxlength="3" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 100%;" required>
+
+                    <label for="amount_val">Amount:</label>
+                    <input type="text" id="amount_val" placeholder="100" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 100%;" required>
+
+                    <button type="submit" style="padding: 10px; border: none; border-radius: 5px; background-color: #00897b; color: white; cursor: pointer; width: 100%;">Add Funds</button>
+                </form>`;
+                document.getElementById('paymentForm').addEventListener('submit', async function (e) {
+                e.preventDefault();
+                try {
+
+                let amount = document.getElementById('amount_val').value;
+
+                // Convert amount from pounds to pence for storage
+                amount = Math.round(parseFloat(amount) * 100);
+
+                const paymentData = { user_id, amount };
+
+                
+                    const response = await fetch('https://solarportal-server.alexgs.co.uk/process/payment', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(paymentData)
+                    });
+
+                    const result = await response.json();
+                    console.log('Payment response:', result);
+
+                    if (response.ok) {
+                        alert('Payment successful.');
+       
+                    } else {
+                        alert('Payment failed. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Error processing payment:', error);
+                    alert('An error occurred. Please try again later.');
+                }
+            });
+        });
+}}
+    </script>
+
+    <script>
+
         </script>
 
     <script>
