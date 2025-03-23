@@ -167,28 +167,17 @@ th { background-color: #004d40; color: white; }
 
             document.getElementById('paymentForm').addEventListener('submit', async function (e) {
                 e.preventDefault();
+                try {
 
-                const cardNumber = document.getElementById('cardNumber').value;
-                const expiryDate = document.getElementById('expiryDate').value;
-                const cvc = document.getElementById('cvc').value;
                 let amount = document.getElementById('amount_val').value;
-
-                if (!amount || isNaN(amount) || amount <= 0) {
-                    alert("Please enter a valid amount.");
-                    return;
-                }
-
-                if (!cardNumber || !expiryDate || !cvc) {
-                    alert("Please enter all payment details.");
-                    return;
-                }
 
                 // Convert amount from pounds to pence for storage
                 amount = Math.round(parseFloat(amount) * 100);
+                user_id = sessionStorage.getItem('user_id');
 
                 const paymentData = { user_id, amount };
 
-                try {
+                
                     const response = await fetch('https://solarportal-server.alexgs.co.uk/process/payment', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
