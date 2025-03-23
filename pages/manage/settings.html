@@ -121,7 +121,7 @@ th { background-color: #004d40; color: white; }
         .then(data => {
 
             // Convert balance from pence to pounds for display
-            const balance = data.data[0].outstanding_balance / 100 || 0
+            const balance = data.outstanding_balance / 100 || 0
 
             document.getElementById('formContainer').innerHTML = `
                 <h2 style="text-align: center;">Outstanding Balance</h2>
