@@ -172,9 +172,8 @@ th { background-color: #004d40; color: white; }
 
                 // Convert amount from pounds to pence for storage
                 amount = Math.round(parseFloat(amount) * 100);
-                userid = sessionStorage.getItem('user_id');
 
-                const paymentData = { userid, amount };
+                const paymentData = { user_id, amount };
 
                 
                     const response = await fetch('https://solarportal-server.alexgs.co.uk/process/payment', {
