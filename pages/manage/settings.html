@@ -199,7 +199,8 @@ th { background-color: #004d40; color: white; }
                     console.log('Payment response:', result);
 
                     if (response.ok) {
-                        location.reload();
+                        alert('Payment successful.');
+       
                     } else {
                         alert('Payment failed. Please try again.');
                     }
