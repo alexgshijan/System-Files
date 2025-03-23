@@ -164,7 +164,12 @@ th { background-color: #004d40; color: white; }
 
                     <button type="submit" style="padding: 10px; border: none; border-radius: 5px; background-color: #00897b; color: white; cursor: pointer; width: 100%;">Add Funds</button>
                 </form>`;
-            document.getElementById('paymentForm').addEventListener('submit', async function (e) {
+        });
+}}
+    </script>
+
+    <script>
+                    document.getElementById('paymentForm').addEventListener('submit', async function (e) {
                 e.preventDefault();
                 try {
 
@@ -196,9 +201,7 @@ th { background-color: #004d40; color: white; }
                     alert('An error occurred. Please try again later.');
                 }
             });
-        });
-}}
-    </script>
+        </script>
 
     <script>
 document.addEventListener("DOMContentLoaded", function() {
