@@ -6,7 +6,7 @@ A full system code listing will be available in the final release of this system
 
 ## Current system
 
-Currently the systems have been hosted on <https://solarportal.alexgs.co.uk> with the backend <https://solarportal-server.alexgs.co.uk>. This is accessible via the WWW and my setup of the system can be used.
+Currently the systems have been hosted on <https://solarportal.alexgs.co.uk> with the backend available at <https://solarportal-server.alexgs.co.uk>. This is accessible via the WWW and my setup of the system can be used. They are currently hosted using cloudflare's free sites and serverless worker programs
 
 ## Setup
 
