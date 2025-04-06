@@ -54,4 +54,4 @@ CREATE TABLE transactions (
 );
 
 INSERT INTO users (first_name, last_name, email_id, password, account_type, verified)
-VALUES ('Alex', 'Shijan', 'alexgshijan@gmail.com', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin', 1);
+VALUES ('Admin', 'User', 'your@email.here', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin', 1);
