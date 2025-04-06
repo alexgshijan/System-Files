@@ -2,7 +2,7 @@
 
 Investigate, design, prototype, implement, test, and evaluate a computer solution to a self-chosen problem with detailed analysis of current data processes & thorough documentation to support peer and teacher discussions.
 
-A full system code listing will be available in the final release of this system.
+A full system code listing is available as part of the software development section of my final report
 
 ## Current system
 
